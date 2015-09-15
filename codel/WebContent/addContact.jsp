@@ -8,9 +8,11 @@
 </head>
 <body>
 <p>
-	<form method="post" action="LoginServlet">
-		Name: <input type="text" name="name" size="25"></br>
-		Password: <input type="password" name="password" size="25">
+	<form method="post" action="NewContact.java">
+		id: <input type="text" name="id" size="25">
+		First Name: <input type="text" name="firstName" size="25">
+		Last Name: <input type="text" name="lastName" size="25"></br>
+		Email: <input type="text" name="email" size="25">
 	<p></p>
 		<input type="submit" value="Submit">
 		<input type="reset" value="Reset">
