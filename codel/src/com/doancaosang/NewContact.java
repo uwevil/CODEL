@@ -65,7 +65,7 @@ public class NewContact extends HttpServlet {
 		
 		String email = request.getParameter("email");
 				
-		if (!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)+$"))
+		if (!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
 			response.sendRedirect("addContact.jsp");
 			return;
