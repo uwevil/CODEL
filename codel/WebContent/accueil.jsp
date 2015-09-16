@@ -23,5 +23,6 @@ Toutes les actions possibles sont:
 		<input type="submit" value="removeContact">
 	</form>
 </p>
+<a href="login.html">Retour</a>
 </body>
 </html>

@@ -4,9 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Remove Contact</title>
 </head>
 <body>
-
+<h4>Supprimez votre contact</h4>
+<p>
+	<form method="post" action="DeleteContact">
+		<input type="text" name="id" placeholder="ID Contact" size="25"></br>
+	<p></p>
+		<input type="submit" value="Submit">
+	</form>
+</p>
+<a href="accueil.jsp">Retour</a>
 </body>
 </html>

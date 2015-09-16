@@ -8,7 +8,7 @@
 </head>
 <body>
 <% 
-	String name = request.getParameter("name");
+	String name = request.getParameter("id");
 	String pass = request.getParameter("password");
 	
 	if (name.length() == 0 || pass.length() == 0)

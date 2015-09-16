@@ -29,16 +29,16 @@ public class LoginServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException 
 	{
-		String name = request.getParameter("name");
+		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
 		
-		if (name.length() == 0 || pass.length() == 0)
+		if (id.length() == 0 || pass.length() == 0)
 		{
 			response.sendRedirect("login.html");
 			return;
 		}
 		
-		if (name.equals(pass))
+		if (id.equals(pass))
 		{
 			response.sendRedirect("accueil.jsp");
 		}

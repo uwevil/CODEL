@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import domain.DAOContact;
 
 /**
- * Servlet implementation class NewContact
+ * Servlet implementation class deleteContact
  */
-@WebServlet("/NewContact")
-public class NewContact extends HttpServlet {
+@WebServlet("/deleteContact")
+public class DeleteContact extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NewContact() {
+    public DeleteContact() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,23 +30,16 @@ public class NewContact extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
+	//	response.getWriter().append("Served at: ").append(request.getContextPath());
 		long id = Long.parseLong(request.getParameter("id"));
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String email = request.getParameter("email");
-		
 		DAOContact daoContact = new DAOContact();
-		daoContact.addContact(id, firstName, lastName, email);
+		daoContact.deleteContact(id);
 		
 		response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
-				+ "<title>AddContact OK</title>"
-				+ "</head><body><h1>Contact added</h1>"
+				+ "<title>DeleteContact OK</title>"
+				+ "</head><body><h1>Contact removed</h1>"
 				+ id + "</br>"
-				+ firstName + "</br>"
-				+ lastName + "</br>"
-				+ email + "</br>"
-				+ "<a href=\"addContact.jsp\">"
-				+ "Retour</a>"
+				+ "<a href=\"removeContact.jsp\">Retour</a>"
 				+ "</body></html>");
 	}
 
@@ -56,6 +49,7 @@ public class NewContact extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
