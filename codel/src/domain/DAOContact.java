@@ -30,7 +30,12 @@ public class DAOContact {
 			if (lastName != null)
 				c.setLastName(lastName);
 			if (email != null)
-				c.setEmail(email);
+			{
+				if (email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)+$"))
+				{			
+					c.setEmail(email);
+				}
+			}
 		}
 		
 		System.out.println("Update to JDBC : " + id);

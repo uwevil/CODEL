@@ -32,7 +32,23 @@ public class UpdateContact extends HttpServlet {
 	{
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		long id = Long.parseLong(request.getParameter("id"));
+		if (request.getParameter("id").length() < 1)
+		{
+			response.sendRedirect("updateContact.jsp");
+			return;
+		}
+		
+		long id;
+		try 
+		{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch (NumberFormatException e)
+		{
+			response.sendRedirect("updateContact.jsp");
+			return;
+		}
+		
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("email");

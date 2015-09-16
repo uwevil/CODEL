@@ -32,7 +32,22 @@ public class SearchContact extends HttpServlet {
 	{
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		long id = Long.parseLong(request.getParameter("id"));
+		if (request.getParameter("id").length() < 1)
+		{
+			response.sendRedirect("searchContact.jsp");
+			return;
+		}
+		
+		long id;
+		try 
+		{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch (NumberFormatException e)
+		{
+			response.sendRedirect("searchContact.jsp");
+			return;
+		}
 		
 		DAOContact daoContact = new DAOContact();
 		daoContact.searchContact(id);

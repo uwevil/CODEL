@@ -9,10 +9,10 @@
 <body>
 <h4>Ajoutez votre contact</h4>
 <p>
-	<form method="post" action="NewContact">
-		<input type="text" name="id" placeholder="id" size="25"></br>
-		<input type="text" name="firstName" placeholder="First name" size="25"><br>	
-		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
+	<form name="form1" method="post" action="NewContact">
+		<input type="text" name="id" placeholder="id" size="25" required></br>
+		<input type="text" name="firstName" placeholder="First name" size="25" required><br>	
+		<input type="text" name="lastName" placeholder="Last Name" size="25" required><br>	
 		<input type="text" name="email" placeholder="Email" size="25"><br>	
 	<p></p>
 		<input type="submit" value="Submit">

@@ -29,13 +29,28 @@ public class DeleteContact extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
-	{
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-			long id = Long.parseLong(request.getParameter("id"));
-			DAOContact daoContact = new DAOContact();
-			daoContact.deleteContact(id);
+	{		
+		if (request.getParameter("id").length() < 1)
+		{
+			response.sendRedirect("removeContact.jsp");
+			return;
+		}
+		
+		long id;
+		try 
+		{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch (NumberFormatException e)
+		{
+			response.sendRedirect("removeContact.jsp");
+			return;
+		}
+		
+		DAOContact daoContact = new DAOContact();
+		daoContact.deleteContact(id);
 			
-			response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+		response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
 					+ "<title>DeleteContact OK</title>"
 					+ "</head><body><h1>Contact removed</h1>"
 					+ id + "</br>"

@@ -30,10 +30,46 @@ public class NewContact extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{
-		long id = Long.parseLong(request.getParameter("id"));
+		if (request.getParameter("id").length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
+		long id;
+		try 
+		{
+			id = Long.parseLong(request.getParameter("id"));
+		}
+		catch (NumberFormatException e)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
 		String firstName = request.getParameter("firstName");
+		
+		if (firstName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
 		String lastName = request.getParameter("lastName");
+		
+		if (lastName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
 		String email = request.getParameter("email");
+				
+		if (!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)+$"))
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
 		
 		DAOContact daoContact = new DAOContact();
 		daoContact.addContact(id, firstName, lastName, email);
