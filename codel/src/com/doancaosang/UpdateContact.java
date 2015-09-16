@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domain.DAOContact;
+
 /**
- * Servlet implementation class UpdataContact
+ * Servlet implementation class UpdateContact
  */
-@WebServlet("/UpdataContact")
+@WebServlet("/UpdateContact")
 public class UpdateContact extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -25,9 +27,29 @@ public class UpdateContact extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException
+	{
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		long id = Long.parseLong(request.getParameter("id"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		
+		DAOContact daoContact = new DAOContact();
+		daoContact.updateContact(id, firstName, lastName, email);
+		
+		response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+				+ "<title>UpdateContact OK</title>"
+				+ "</head><body><h1>Contact updated</h1>"
+				+ id + "</br>"
+				+ firstName + "</br>"
+				+ lastName + "</br>"
+				+ email + "</br>"
+				+ "<a href=\"updateContact.jsp\">"
+				+ "Retour</a>"
+				+ "</body></html>");
 	}
 
 	/**

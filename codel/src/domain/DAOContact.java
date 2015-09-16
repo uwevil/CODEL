@@ -19,7 +19,21 @@ public class DAOContact {
 	
 	public void updateContact(long id, String firstName, String lastName, String email)
 	{
-		System.out.println("Update to JDBC : ");
+		Contact c = this.searchContact(id);
+		
+		if (c == null)
+			this.addContact(id, firstName, lastName, email);
+		else
+		{
+			if (firstName != null)
+				c.setFirstName(firstName);
+			if (lastName != null)
+				c.setLastName(lastName);
+			if (email != null)
+				c.setEmail(email);
+		}
+		
+		System.out.println("Update to JDBC : " + id);
 	}
 	
 	public Contact searchContact(long id)

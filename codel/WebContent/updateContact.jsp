@@ -4,9 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Update Contact</title>
 </head>
 <body>
-
+<h4>Mettez à jour votre contact</h4>
+<p>
+	<form method="post" action="UpdateContact">
+		<input type="text" name="id" placeholder="id" size="25"></br>
+		<input type="text" name="firstName" placeholder="First name" size="25"><br>	
+		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
+		<input type="text" name="email" placeholder="Email" size="25"><br>	
+	<p></p>
+		<input type="submit" value="Submit">
+		<input type="reset" value="Reset">
+	</form>
+</p>
+<a href="accueil.jsp">Retour</a>
 </body>
 </html>
