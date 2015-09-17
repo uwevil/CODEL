@@ -4,9 +4,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>addContact</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="cssmenu/styles.css">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="cssmenu/script.js"></script><title>addContact</title>
 </head>
 <body>
+<div id='cssmenu'>
+<ul>
+	<li><a href='accueil.jsp'>Home</a></li>
+   <li><a href='searchContact.jsp'>Search</a></li>
+   <li class='active'><a href='addContact.jsp'>Add</a></li>
+   <li><a href='updateContact.jsp'>Update</a></li>
+   <li><a href='removeContact.jsp'>Remove</a></li>
+</ul>
+</div>
 <h4>Ajoutez votre contact</h4>
 <p>
 	<form name="form1" method="post" action="NewContact">
@@ -19,6 +32,5 @@
 		<input type="reset" value="Reset">
 	</form>
 </p>
-<a href="accueil.jsp">Retour</a>
 </body>
 </html>

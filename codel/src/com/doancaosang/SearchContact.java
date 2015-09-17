@@ -52,11 +52,27 @@ public class SearchContact extends HttpServlet {
 		DAOContact daoContact = new DAOContact();
 		daoContact.searchContact(id);
 		
-		response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
-				+ "<title>SearchContact OK</title>"
-				+ "</head><body><h1>Contact found</h1>"
+		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
+				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
+				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
+				+ "<script src=\"cssmenu/script.js\"></script>"
+				+ "<title>Search contact</title>";
+		
+		String s2 = "</head><body><div id='cssmenu'><ul>"
+				+ "<li><a href='accueil.jsp'>Home</a></li>"
+				+ "<li class='active'><a href='searchContact.jsp'>Search</a></li>"
+				+ "<li><a href='addContact.jsp'>Add</a></li>"
+				+ "<li><a href='updateContact.jsp'>Update</a></li>"
+				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+				+ "</ul>"
+				+"</div>";
+		
+		response.getWriter().append(s + s2
+				+ "<h3>Contact found</h3>"
 				+ id + "</br>"
-				+ "<a href=\"searchContact.jsp\">Retour</a>"
 				+ "</body></html>");
 	}
 

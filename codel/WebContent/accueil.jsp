@@ -4,25 +4,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="cssmenu/styles.css">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="cssmenu/script.js"></script>
 <title>Accueil</title>
 </head>
 <body>
-<h1>Login OK</h1>
-Toutes les actions possibles sont:
-<p>
-	<form method="post" action="searchContact.jsp">
-		<input type="submit" value="searchContact">
-	</form>
-	<form method="post" action="addContact.jsp">
-		<input type="submit" value="addContact">
-	</form>
-	<form method="post" action="updateContact.jsp">
-		<input type="submit" value="updateContact">
-	</form>
-	<form method="post" action="removeContact.jsp">
-		<input type="submit" value="removeContact">
-	</form>
-</p>
-<a href="login.html">Retour</a>
+<div id='cssmenu'>
+<ul>
+	<li class='active'><a href='accueil.jsp'>Home</a></li>
+   <li><a href='searchContact.jsp'>Search</a></li>
+   <li><a href='addContact.jsp'>Add</a></li>
+   <li><a href='updateContact.jsp'>Update</a></li>
+   <li><a href='removeContact.jsp'>Remove</a></li>
+</ul>
+</div>
+
+<h3>Bienvenüe au site de gestion de contacts</h3>
 </body>
 </html>

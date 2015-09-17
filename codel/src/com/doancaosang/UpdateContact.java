@@ -56,15 +56,32 @@ public class UpdateContact extends HttpServlet {
 		DAOContact daoContact = new DAOContact();
 		daoContact.updateContact(id, firstName, lastName, email);
 		
-		response.getWriter().append("<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
-				+ "<title>UpdateContact OK</title>"
-				+ "</head><body><h1>Contact updated</h1>"
+		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+				+ "<html>"
+				+ "<head>"
+				+ "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
+				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
+				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
+				+ "<script src=\"cssmenu/script.js\"></script>"
+				+ "<title></title>";
+		
+		String s2 = "</head><body><div id='cssmenu'><ul>"
+				+ "<li><a href='accueil.jsp'>Home</a></li>"
+				+ "<li><a href='searchContact.jsp'>Search</a></li>"
+				+ "<li><a href='addContact.jsp'>Add</a></li>"
+				+ "<li class='active'><a href='updateContact.jsp'>Update</a></li>"
+				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+				+ "</ul>"
+				+"</div>";
+		
+		response.getWriter().append(s + s2
+				+ "<h3>Contact updated</h3>"
 				+ id + "</br>"
 				+ firstName + "</br>"
 				+ lastName + "</br>"
 				+ email + "</br>"
-				+ "<a href=\"updateContact.jsp\">"
-				+ "Retour</a>"
 				+ "</body></html>");
 	}
 
