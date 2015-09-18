@@ -1,67 +1,143 @@
 html {
 	background: url('tree_archway-wallpaper-1920x1080.jpg');
-	font-size: 10pt;
 }
 label {
+	height: 10px;
+	width: 250px;
+	padding: 10px;
 	display: block;
 	color: black;
-}
-.cf:before,
-.cf:after {
-    content: ""; 
-    display: table;
-}
-
-.cf:after {
-    clear: both;
-}
-.cf {
-    *zoom: 1;
+	background-color: rgba(250,250,250,0.5);
+	border-radius: 0px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), 
+    			inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
+    border: 0px solid rgba(0, 0, 0, 0.3);
 }
 :focus {
 	outline: 0;
 }
-.loginform {
-	width: 410px;
-	margin: 50px auto;
-	padding: 25px;
-	background-color: rgba(250,250,250,0.5);
-	border-radius: 5px;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), 
-    			inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.3);
+.servlet{
+	position: absolute;
+	top: calc(25% - 35px);
+	left: calc(25% - 255px);
+	z-index: 2;
 }
-.loginform ul {
-	padding: 0;
-	margin: 0;
+
+.jsp{
+	position: absolute;
+	top: calc(25% - 35px);
+	left: calc(25% - 255px);
+	z-index: 2;
 }
-.loginform li {
-	display: inline;
+div{
 	float: left;
-}
-.loginform input:not([type=submit]) {
-	padding: 5px;
-	margin-right: 10px;
-	border: 1px solid rgba(0, 0, 0, 0.3);
-	border-radius: 3px;
-	box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 
-				0px 1px 0px 0px rgba(250, 250, 250, 0.5) ;
-}
-.loginform input[type=submit] {
-	border: 0px solid rgba(0, 0, 0, 0.3);
 	color: #fff;
-	padding: 5px 15px;
-	margin-right: 0;
-	margin-top: 15px;
-	border-radius: 0px;
-	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+	font-family: 'Exo', sans-serif;
+	font-size: 35px;
+	font-weight: 200;
 }
-.loginform input[type=reset] {
-	border: 0px solid rgba(0, 0, 0, 0.3);
-	color: yellow;
-	padding: 5px 15px;
-	margin-right: 0;
-	margin-top: 15px;
+div span{
+	color: #5379fa !important;
+}
+.loginform1 {
+
+    position: absolute;
+	top: calc(25% - 75px);
+	left: calc(50% - 50px);
+	height: 150px;
+	width: 350px;
+	padding: 10px;
+	z-index: 2;
+}
+.loginform2 {
+
+    position: absolute;
+	top: calc(55% - 75px);
+	left: calc(50% - 50px);
+	height: 150px;
+	width: 350px;
+	padding: 10px;
+	z-index: 2;
+}
+input[type=text]{
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid rgba(255,255,255,0.6);
 	border-radius: 0px;
-	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+	color: #fff;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+}
+input[type=password]{
+	width: 250px;
+	height: 30px;
+	background: transparent;
+	border: 1px solid rgba(255,255,255,0.6);
+	border-radius: 0px;
+	color: #fff;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+}
+input[type=submit]{
+	width: 260px;
+	height: 35px;
+	background: #fff;
+	border: 1px solid #fff;
+	cursor: pointer;
+	border-radius: 0px;
+	color: #5379fa;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 6px;
+	margin-top: 10px;
+}
+input[type=reset]{
+	width: 260px;
+	height: 35px;
+	background: #fff;
+	border: 1px solid #fff;
+	cursor: pointer;
+	border-radius: 0px;
+	color: #5379fa;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 6px;
+	margin-top: 10px;
+}
+input[type=button]:hover{
+	opacity: 0.8;
+}
+
+input[type=button]:active{
+	opacity: 0.6;
+}
+
+input[type=text]:focus{
+	outline: none;
+	border: 1px solid rgba(255,255,255,0.9);
+}
+
+input[type=password]:focus{
+	outline: none;
+	border: 1px solid rgba(255,255,255,0.9);
+}
+
+input[type=button]:focus{
+	outline: none;
+}
+
+::-webkit-input-placeholder{
+   color: rgba(255,255,255,100);
+}
+
+::-moz-input-placeholder{
+   color: rgba(255,255,255,100);
 }

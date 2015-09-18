@@ -20,3 +20,10 @@ form input[type=reset] {
 	border-radius: 0px;
 	#text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
+::-webkit-input-placeholder{
+   color: rgba(255,100,100,100);
+}
+
+::-moz-input-placeholder{
+   color: rgba(255,100,100,100);
+}
