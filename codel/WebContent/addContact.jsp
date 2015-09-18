@@ -7,6 +7,7 @@
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="cssmenu/styles.css">
+	<link rel="stylesheet" href="cssaccueil/style.css">
    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
    <script src="cssmenu/script.js"></script><title>addContact</title>
 </head>
@@ -18,11 +19,12 @@
    <li class='active'><a href='addContact.jsp'>Add</a></li>
    <li><a href='updateContact.jsp'>Update</a></li>
    <li><a href='removeContact.jsp'>Remove</a></li>
+   <li class='logout'><a href='LogoutServlet'>Log out</a></li>
 </ul>
 </div>
 <h4>Ajoutez votre contact</h4>
 <p>
-	<form name="form1" method="post" action="NewContact">
+	<form method="post" action="NewContact">
 		<input type="text" name="id" placeholder="id" size="25" required></br>
 		<input type="text" name="firstName" placeholder="First name" size="25" required><br>	
 		<input type="text" name="lastName" placeholder="Last Name" size="25" required><br>	

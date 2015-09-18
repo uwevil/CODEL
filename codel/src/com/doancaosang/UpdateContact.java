@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domain.DAOContact;
 
@@ -31,6 +32,14 @@ public class UpdateContact extends HttpServlet {
 			throws ServletException, IOException
 	{
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession(false);
+		
+		if (session.getAttribute("authenticated") == null)
+		{
+			session.invalidate();
+			response.sendRedirect("login.html");
+			return;
+		}
 		
 		if (request.getParameter("id").length() < 1)
 		{
@@ -63,6 +72,7 @@ public class UpdateContact extends HttpServlet {
 				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
 				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
+				+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
 				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
 				+ "<script src=\"cssmenu/script.js\"></script>"
 				+ "<title></title>";
@@ -73,6 +83,7 @@ public class UpdateContact extends HttpServlet {
 				+ "<li><a href='addContact.jsp'>Add</a></li>"
 				+ "<li class='active'><a href='updateContact.jsp'>Update</a></li>"
 				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+				+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
 				+ "</ul>"
 				+"</div>";
 		

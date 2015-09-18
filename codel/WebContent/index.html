@@ -2,14 +2,45 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="csslogin/normalize.css">
+<link rel="stylesheet" href="csslogin/style.css">
 <title>Login</title>
 </head>
 <body>
-<h1 style="color:blue;">BONJOUR</h1>
-<p>
-	<form method="post" action="login.html">
-		<input type="submit" value="Login">
+
+<section class="loginform cf">
+	<form name="login" method="post" action="LoginServlet" accept-charset="utf-8">
+	<ul>
+		<label>Voici un premier exemple de composant web avec une servlet</label>
+		<li>
+			<input type="text" name="id" placeholder="ID" size="25" required>
+		</li>
+		<li>
+			<input type="password" name="password" placeholder="Password" size="25" required></li>
+		<li>
+			<input type="submit" value="Login">
+			<input type="reset" value="Reset">
+		</li>
+	</ul>	
 	</form>
-</p>
+</section>
+
+<section class="loginform cf">
+	<form name="login" method="post" action="loginJSP.jsp">
+		<ul>
+		<label>Et un seconde avec une jsp</label>
+		<li>
+			<input type="text" name="id" placeholder="ID" size="25" required>
+		</li>
+		<li>
+			<input type="password" name="password" placeholder="Password" size="25" required></li>
+		<li>
+			<input type="submit" value="Login">
+			<input type="reset" value="Reset">
+		</li>
+	</ul>	
+	</form>
+</section>
+
 </body>
 </html>

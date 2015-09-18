@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class LoginServlet
@@ -32,18 +33,26 @@ public class LoginServlet extends HttpServlet
 		String id = request.getParameter("id");
 		String pass = request.getParameter("password");
 		
+		HttpSession session = request.getSession(true);
+		
 		if (id.length() == 0 || pass.length() == 0)
 		{
+			session.setAttribute("authenticated", null);
+			session.setMaxInactiveInterval(60);
 			response.sendRedirect("login.html");
 			return;
 		}
 		
 		if (id.equals(pass))
 		{
+			session.setAttribute("authenticated", "OK");
+			session.setMaxInactiveInterval(60);
 			response.sendRedirect("accueil.jsp");
 		}
 		else
 		{
+			session.setAttribute("authenticated", null);
+			session.setMaxInactiveInterval(60);
 			response.sendRedirect("login.html");
 		}
 	}

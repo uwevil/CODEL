@@ -9,7 +9,7 @@ public class DAOContact {
 	public void addContact(long id, String firstName, String lastName, String email)
 	{
 		Contact c = new Contact(firstName, lastName, email, id);
-		System.out.println("Add to JDBC : " + c.toString());
+		System.out.println("Add to JDBC : \n" + c.toString());
 	}
 	
 	public void deleteContact(long id)
