@@ -40,7 +40,7 @@ public class SearchContact extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
-		
+				
 		if (request.getParameter("id").length() < 1)
 		{
 			response.sendRedirect("searchContact.jsp");

@@ -8,20 +8,27 @@
 </head>
 <body>
 <% 
-	String name = request.getParameter("id");
+	String id = request.getParameter("id");
 	String pass = request.getParameter("password");
-	
-	if (name.length() == 0 || pass.length() == 0)
+		
+	if (id.length() == 0 || pass.length() == 0)
 	{
+		session.setAttribute("authenticated", null);
+		session.setMaxInactiveInterval(60);
 		response.sendRedirect("login.html");
 		return;
 	}
-	if (name.equals(pass))
+	
+	if (id.equals(pass))
 	{
+		session.setAttribute("authenticated", "OK");
+		session.setMaxInactiveInterval(60);
 		response.sendRedirect("accueil.jsp");
 	}
 	else
 	{
+		session.setAttribute("authenticated", null);
+		session.setMaxInactiveInterval(60);
 		response.sendRedirect("login.html");
 	}
 %>
