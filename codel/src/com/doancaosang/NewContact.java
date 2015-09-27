@@ -1,6 +1,8 @@
 package com.doancaosang;
 
 import java.io.IOException;
+import java.util.Enumeration;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,12 +68,6 @@ public class NewContact extends HttpServlet {
 		
 		String lastName = request.getParameter("lastName");
 		
-		if (lastName.length() < 1)
-		{
-			response.sendRedirect("addContact.jsp");
-			return;
-		}
-		
 		String email = request.getParameter("email");
 				
 		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
@@ -108,8 +104,26 @@ public class NewContact extends HttpServlet {
 				+ id + "</br>"
 				+ firstName + "</br>"
 				+ lastName + "</br>"
+				+ request.getParameter("newGroup").toString() + "</br>"
 				+ email + "</br>"
 				+ "</body></html>");
+		
+		Enumeration<String> test = request.getParameterNames();
+		while (test.hasMoreElements())
+		{
+			System.out.println(test.nextElement());
+		}
+		
+		String[] checkboxes = request.getParameterValues("group");
+		 
+		if (checkboxes == null) {
+		    // no checkboxes selected
+		    System.out.println (" Non Cochée ");// Non cochée 
+		} else { 
+		    for (int i = 0; i < checkboxes.length; ++i) {   
+		        System.out.println("  " + checkboxes[i]);
+		    }
+		}
 	}
 
 	/**

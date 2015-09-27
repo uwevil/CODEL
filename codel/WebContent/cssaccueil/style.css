@@ -22,8 +22,10 @@ form input[type=reset] {
 }
 ::-webkit-input-placeholder{
    color: rgba(255,100,100,100);
+   opacity: 0.8;
 }
 
 ::-moz-input-placeholder{
    color: rgba(255,100,100,100);
+   opacity: 0.8;
 }
