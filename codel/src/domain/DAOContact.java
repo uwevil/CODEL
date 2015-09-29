@@ -1,15 +1,31 @@
 package domain;
 
+import org.hibernate.Session;
+
+import com.doancaosang.HibernateUtil;
+
 public class DAOContact {
 
 	public DAOContact()
 	{
 	}
 	
-	public void addContact(long id, String firstName, String lastName, String email)
+	public void addContact(String firstName, String lastName, String email)
 	{
-		Contact c = new Contact(firstName, lastName, email, id);
-		System.out.println("Add to JDBC : \n" + c.toString());
+		Session session = HibernateUtil.getSessionFactory().openSession();	
+		
+		session.beginTransaction();
+		
+		Contact contact = new Contact();
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
+		contact.setEmail(email);
+		
+		session.save(contact);
+		
+		Contact contactCreated = (Contact) session.load(Contact.class, contact.getId());
+		session.getTransaction().commit();
+		session.close();		
 	}
 	
 	public void deleteContact(long id)
@@ -22,7 +38,7 @@ public class DAOContact {
 		Contact c = this.searchContact(id);
 		
 		if (c == null)
-			this.addContact(id, firstName, lastName, email);
+			this.addContact(firstName, lastName, email);
 		else
 		{
 			if (firstName != null)
@@ -38,12 +54,14 @@ public class DAOContact {
 			}
 		}
 		
+		
+		
 		System.out.println("Update to JDBC : " + id);
 	}
 	
 	public Contact searchContact(long id)
 	{
 		System.out.println("Search in JDBC : " + id);
-		return new Contact(null, null, null, id);
+		return new Contact(null, null, null);
 	}
 }

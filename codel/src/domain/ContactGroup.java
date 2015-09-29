@@ -8,7 +8,7 @@ public class ContactGroup
 	protected int groupId;
 	protected String groupName;
 	
-	protected ArrayList<Contact> listContacts;
+	protected ArrayList<Contact> contacts;
 	
 	public ContactGroup()
 	{
@@ -42,12 +42,12 @@ public class ContactGroup
 
 	public ArrayList<Contact> getContacts()
 	{
-		return listContacts;
+		return contacts;
 	}
 
-	public void setContacts(ArrayList<Contact> listContacts)
+	public void setContacts(ArrayList<Contact> contacts)
 	{
-		this.listContacts = listContacts;
+		this.contacts = contacts;
 	}
 
 	

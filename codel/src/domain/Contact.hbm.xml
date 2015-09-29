@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 29, 2015 5:36:11 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping package="domain">
+
+	<class name="Contact" table="CONTACT">
+		<id name="id" type="long" column="ID_CONTACT" > 
+			<generator class="native"/>
+		</id>
+		<property name="firstName" column="FIRST_NAME" type="string"></property>
+		<property name="lastName" column="LAST_NAME" type="string"></property>
+		<property name="email" column="EMAIL" type="string"></property>
+		
+	</class>
+
+
+</hibernate-mapping>

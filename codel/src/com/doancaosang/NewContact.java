@@ -40,23 +40,6 @@ public class NewContact extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
-
-		if (request.getParameter("id").length() < 1)
-		{
-			response.sendRedirect("addContact.jsp");
-			return;
-		}
-		
-		long id;
-		try 
-		{
-			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch (NumberFormatException e)
-		{
-			response.sendRedirect("addContact.jsp");
-			return;
-		}
 		
 		String firstName = request.getParameter("firstName");
 		
@@ -77,7 +60,7 @@ public class NewContact extends HttpServlet {
 		}
 		
 		DAOContact daoContact = new DAOContact();
-		daoContact.addContact(id, firstName, lastName, email);
+		daoContact.addContact(firstName, lastName, email);
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
@@ -101,9 +84,10 @@ public class NewContact extends HttpServlet {
 		
 		response.getWriter().append(s + s2
 				+ "<h3>Contact added</h3>"
-				+ id + "</br>"
+				+ "gggggg" + "</br>"
 				+ firstName + "</br>"
 				+ lastName + "</br>"
+				+ email + "</br>"
 				+ request.getParameter("newGroup").toString() + "</br>"
 				+ email + "</br>"
 				+ "</body></html>");

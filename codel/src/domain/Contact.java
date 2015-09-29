@@ -18,17 +18,26 @@ public class Contact
 	{	
 	}
 	
-	public Contact(String firstName, String lastName, String email, long id)
+	public Contact(String firstName, String lastName, String email)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.id = id;
 	}
 	
 	public ArrayList<ContactGroup> getBooks()
 	{
 		return books;
+	}
+	
+	public void setGroup(ContactGroup group)
+	{
+		this.books.add(group);
+	}
+	
+	public ContactGroup getGroup(int index)
+	{
+		return this.books.get(index);
 	}
 
 	public void setBooks(ArrayList<ContactGroup> books)
