@@ -4,18 +4,16 @@
 <!-- Generated Sep 29, 2015 5:36:11 PM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="domain.PhoneNumber" table="PHONENUMBER">
-        <id name="id" type="int">
-            <column name="ID" />
-            <generator class="assigned" />
+        <id name="id" type="long">
+            <column name="ID_PHONENUMBER" />
+            <generator class="increment" />
         </id>
-        <property name="phoneKind" type="java.lang.String">
+        <property name="phoneKind" type="string">
             <column name="PHONEKIND" />
         </property>
-        <property name="phoneNumber" type="java.lang.String">
+        <property name="phoneNumber" type="string">
             <column name="PHONENUMBER" />
         </property>
-        <many-to-one name="contact" class="domain.Contact" fetch="join">
-            <column name="CONTACT" />
-        </many-to-one>
+       
     </class>
 </hibernate-mapping>

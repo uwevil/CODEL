@@ -1,22 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Sep 29, 2015 5:36:11 PM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="domain.ContactGroup" table="CONTACTGROUP">
-        <id name="groupId" type="int">
+        <id name="groupId" type="long">
             <column name="GROUPID" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
-        <property name="groupName" type="java.lang.String">
+        <property name="groupName" type="string">
             <column name="GROUPNAME" />
         </property>
-        <list name="contacts" inverse="false" table="CONTACT" lazy="true">
-            <key>
-                <column name="GROUPID" />
-            </key>
-            <list-index></list-index>
-            <one-to-many class="domain.Contact" />
-        </list>
     </class>
 </hibernate-mapping>

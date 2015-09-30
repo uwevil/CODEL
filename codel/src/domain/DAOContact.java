@@ -2,7 +2,7 @@ package domain;
 
 import org.hibernate.Session;
 
-import com.doancaosang.HibernateUtil;
+import util.HibernateUtil;
 
 public class DAOContact {
 
@@ -12,7 +12,7 @@ public class DAOContact {
 	
 	public void addContact(String firstName, String lastName, String email)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();	
 		
 		session.beginTransaction();
 		
@@ -23,7 +23,9 @@ public class DAOContact {
 		
 		session.save(contact);
 		
+		@SuppressWarnings("unused")
 		Contact contactCreated = (Contact) session.load(Contact.class, contact.getId());
+		
 		session.getTransaction().commit();
 		session.close();		
 	}

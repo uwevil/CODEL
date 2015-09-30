@@ -1,4 +1,4 @@
-package com.doancaosang;
+package util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder; 
