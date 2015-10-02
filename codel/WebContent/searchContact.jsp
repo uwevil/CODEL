@@ -25,9 +25,36 @@
 <h4>Recherchez votre contact</h4>
 <p>
 	<form method="post" action="SearchContact">
-		<input type="text" name="id" placeholder="ID Contact" size="25"></br>
-	<p></p>
+		<input type="text" name="firstName" placeholder="First name" size="25" required>
+		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
+		<input type="text" name="numSiret" placeholder="Numero SIRET" size="25"><br>
+		<input type="text" name="mobileNumber" placeholder="Mobile" size="25">
+		<input type="text" name="homeNumber" placeholder="Telephone" size="25">	
+		<input type="text" name="faxNumber" placeholder="Fax" size="25"><br>	
+		<input type="text" name="email" placeholder="Email" size="25"><br>	
+		<input type="text" name="street" placeholder="Street" size="25"></br>
+		<input type="text" name="zip" placeholder="Zip" size="25">
+		<input type="text" name="city" placeholder="City" size="25">
+		<input type="text" name="country" placeholder="Country" size="25"><br>		
+		
+		<p>
+       	 <div class="dropdown">
+<h4>Groupe</h4>
+            <ul>
+                <li>
+                    <input type="checkbox" name="group" value="Amis" checked/>Amis</li>
+                <li>
+                    <input type="checkbox" name="group" value="Collegues" />Collègues</li>
+                <li>
+                    <input type="checkbox" name="group" value="Famille" />Famille</li>
+                <li>
+                	<input type="text" name="newGroup" placeholder="Create New Group"/></li>
+            </ul>
+        </div>
+		</p>
+	
 		<input type="submit" value="Submit">
+		<input type="reset" value="Reset">
 	</form>
 </p>
 </body>

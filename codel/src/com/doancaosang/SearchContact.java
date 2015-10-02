@@ -8,7 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.Address;
+import domain.Contact;
+import domain.ContactGroup;
 import domain.DAOContact;
+import domain.Entreprise;
+import domain.PhoneNumber;
 
 /**
  * Servlet implementation class SearchContact
@@ -41,25 +46,93 @@ public class SearchContact extends HttpServlet {
 			return;
 		}
 				
-		if (request.getParameter("id").length() < 1)
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+				
+		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
-			response.sendRedirect("searchContact.jsp");
+			response.sendRedirect("addContact.jsp");
 			return;
 		}
 		
-		long id;
-		try 
-		{
-			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch (NumberFormatException e)
-		{
-			response.sendRedirect("searchContact.jsp");
-			return;
-		}
+		String street = request.getParameter("street");
+		String city = request.getParameter("city");
+		String zip = request.getParameter("zip");
+		String country = request.getParameter("country");
 		
-		DAOContact daoContact = new DAOContact();
-		daoContact.searchContact(id);
+		String mobileNumber = request.getParameter("mobileNumber");
+		String homeNumber = request.getParameter("homeNumber");
+		String faxNumber = request.getParameter("faxNumber");
+		
+		String[] checkboxes = request.getParameterValues("group");
+
+		String numSiret = request.getParameter("numSiret");
+		
+		if (numSiret.length() >= 1)
+		{
+			Entreprise e = new Entreprise();
+			Address addr = new Address(street, city, zip, country);
+			
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			
+			mNumber.setContact(e);
+			hNumber.setContact(e);
+			fNumber.setContact(e);
+			
+			e.setFirstName(firstName);
+			e.setLastName(lastName);
+			e.setEmail(email);
+			e.setAddress(addr);
+			e.getPhoneNumbers().add(mNumber);
+			e.getPhoneNumbers().add(hNumber);
+			e.getPhoneNumbers().add(fNumber);
+						 
+			if (checkboxes != null) {
+			    for (int i = 0; i < checkboxes.length; ++i) { 
+			    	ContactGroup g = new ContactGroup(checkboxes[i]);
+			    	g.getContacts().add(e);
+			        e.getBooks().add(g);
+			    }
+			}
+			e.setNumSiret(Long.parseLong(numSiret));
+
+			DAOContact daoContact = new DAOContact();
+		}
+		else
+		{
+			Contact c = new Contact();
+			Address addr = new Address(street, city, zip, country);
+			
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			
+			mNumber.setContact(c);
+			hNumber.setContact(c);
+			fNumber.setContact(c);
+			
+			c.setFirstName(firstName);
+			c.setLastName(lastName);
+			c.setEmail(email);
+			c.setAddress(addr);
+			c.getPhoneNumbers().add(mNumber);
+			c.getPhoneNumbers().add(hNumber);
+			c.getPhoneNumbers().add(fNumber);
+						 
+			if (checkboxes != null) {
+			    for (int i = 0; i < checkboxes.length; ++i) { 
+			    	ContactGroup g = new ContactGroup(checkboxes[i]);
+			    	g.getContacts().add(c);
+			        c.getBooks().add(g);
+			    }
+			}
+
+			DAOContact daoContact = new DAOContact();
+		}
+
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
@@ -83,7 +156,6 @@ public class SearchContact extends HttpServlet {
 		
 		response.getWriter().append(s + s2
 				+ "<h3>Contact found</h3>"
-				+ id + "</br>"
 				+ "</body></html>");
 	}
 

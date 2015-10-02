@@ -79,48 +79,76 @@ public class NewContact extends HttpServlet {
 		String homeNumber = request.getParameter("homeNumber");
 		String faxNumber = request.getParameter("faxNumber");
 		
+		String[] checkboxes = request.getParameterValues("group");
+
 		String numSiret = request.getParameter("numSiret");
 		
-		Entreprise c = new Entreprise();
-		Address addr = new Address(street, city, zip, country);
-		
-		PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-		PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-		PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
-		
-		mNumber.setContact(c);
-		hNumber.setContact(c);
-		fNumber.setContact(c);
-		
-		c.setFirstName(firstName);
-		c.setLastName(lastName);
-		c.setEmail(email);
-		c.setAddress(addr);
-		c.getPhoneNumbers().add(mNumber);
-		c.getPhoneNumbers().add(hNumber);
-		c.getPhoneNumbers().add(fNumber);
-		
-		String[] checkboxes = request.getParameterValues("group");
-		 
-		if (checkboxes != null) {
-		    for (int i = 0; i < checkboxes.length; ++i) { 
-		    	ContactGroup g = new ContactGroup(checkboxes[i]);
-		    	g.getContacts().add(c);
-		        c.getBooks().add(g);
-		    }
-		}
-		
-		DAOContact daoContact = new DAOContact();
-
 		if (numSiret.length() >= 1)
 		{
-			c.setNumSiret(Long.parseLong(numSiret));
-			daoContact.addContact(c);
+			Entreprise e = new Entreprise();
+			Address addr = new Address(street, city, zip, country);
+			
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			
+			mNumber.setContact(e);
+			hNumber.setContact(e);
+			fNumber.setContact(e);
+			
+			e.setFirstName(firstName);
+			e.setLastName(lastName);
+			e.setEmail(email);
+			e.setAddress(addr);
+			e.getPhoneNumbers().add(mNumber);
+			e.getPhoneNumbers().add(hNumber);
+			e.getPhoneNumbers().add(fNumber);
+						 
+			if (checkboxes != null) {
+			    for (int i = 0; i < checkboxes.length; ++i) { 
+			    	ContactGroup g = new ContactGroup(checkboxes[i]);
+			    	g.getContacts().add(e);
+			        e.getBooks().add(g);
+			    }
+			}
+			e.setNumSiret(Long.parseLong(numSiret));
+
+			DAOContact daoContact = new DAOContact();
+			daoContact.addContact(e);
 		}
 		else
 		{
-			daoContact.addContact((Contact) c);
+			Contact c = new Contact();
+			Address addr = new Address(street, city, zip, country);
+			
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			
+			mNumber.setContact(c);
+			hNumber.setContact(c);
+			fNumber.setContact(c);
+			
+			c.setFirstName(firstName);
+			c.setLastName(lastName);
+			c.setEmail(email);
+			c.setAddress(addr);
+			c.getPhoneNumbers().add(mNumber);
+			c.getPhoneNumbers().add(hNumber);
+			c.getPhoneNumbers().add(fNumber);
+						 
+			if (checkboxes != null) {
+			    for (int i = 0; i < checkboxes.length; ++i) { 
+			    	ContactGroup g = new ContactGroup(checkboxes[i]);
+			    	g.getContacts().add(c);
+			        c.getBooks().add(g);
+			    }
+			}
+
+			DAOContact daoContact = new DAOContact();
+			daoContact.addContact(c);
 		}
+
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
