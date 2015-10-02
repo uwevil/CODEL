@@ -26,16 +26,17 @@
 <h4>Ajoutez votre contact</h4>
 <p>
 	<form method="post" action="NewContact">
-		<input type="text" name="firstName" placeholder="First name" size="25" value="AAAAAAA" required><br>	
-		<input type="text" name="lastName" placeholder="Last Name" size="25" value="BBBBB"><br>	
-		<input type="text" name="mobileNumber" placeholder="Mobile" size="25" value="1222222">
-		<input type="text" name="homeNumber" placeholder="Telephone" size="25" value="3333333333">	
-		<input type="text" name="faxNumber" placeholder="Fax" size="25" value="9993983839"><br>	
-		<input type="text" name="email" placeholder="Email" size="25" value="AAAAAAA@yahoo.c"><br>	
-		<input type="text" name="street" placeholder="Street" size="25" value="streetttttt"></br>
-		<input type="text" name="zip" placeholder="Zip" size="25" value="zip87">
-		<input type="text" name="city" placeholder="City" size="25" value="city8">
-		<input type="text" name="country" placeholder="Country" size="25" value="FR"><br>		
+		<input type="text" name="firstName" placeholder="First name" size="25" required>
+		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
+		<input type="text" name="numSiret" placeholder="Numero SIRET" size="25"><br>
+		<input type="text" name="mobileNumber" placeholder="Mobile" size="25">
+		<input type="text" name="homeNumber" placeholder="Telephone" size="25">	
+		<input type="text" name="faxNumber" placeholder="Fax" size="25"><br>	
+		<input type="text" name="email" placeholder="Email" size="25"><br>	
+		<input type="text" name="street" placeholder="Street" size="25"></br>
+		<input type="text" name="zip" placeholder="Zip" size="25">
+		<input type="text" name="city" placeholder="City" size="25">
+		<input type="text" name="country" placeholder="Country" size="25"><br>		
 		
 		<p>
        	 <div class="dropdown">

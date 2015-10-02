@@ -13,6 +13,7 @@ import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
 import domain.DAOContact;
+import domain.Entreprise;
 import domain.PhoneNumber;
 
 /**
@@ -78,8 +79,11 @@ public class NewContact extends HttpServlet {
 		String homeNumber = request.getParameter("homeNumber");
 		String faxNumber = request.getParameter("faxNumber");
 		
-		Contact c = new Contact(firstName, lastName, email);
+		String numSiret = request.getParameter("numSiret");
+		
+		Entreprise c = new Entreprise();
 		Address addr = new Address(street, city, zip, country);
+		
 		PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
 		PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
 		PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
@@ -88,6 +92,9 @@ public class NewContact extends HttpServlet {
 		hNumber.setContact(c);
 		fNumber.setContact(c);
 		
+		c.setFirstName(firstName);
+		c.setLastName(lastName);
+		c.setEmail(email);
 		c.setAddress(addr);
 		c.getPhoneNumbers().add(mNumber);
 		c.getPhoneNumbers().add(hNumber);
@@ -104,7 +111,16 @@ public class NewContact extends HttpServlet {
 		}
 		
 		DAOContact daoContact = new DAOContact();
-		daoContact.addContact(c);
+
+		if (numSiret.length() >= 1)
+		{
+			c.setNumSiret(Long.parseLong(numSiret));
+			daoContact.addContact(c);
+		}
+		else
+		{
+			daoContact.addContact((Contact) c);
+		}
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
@@ -128,13 +144,29 @@ public class NewContact extends HttpServlet {
 		
 		response.getWriter().append(s + s2
 				+ "<h3>Contact added</h3>"
-				+ "gggggg" + "</br>"
-				+ firstName + "</br>"
-				+ lastName + "</br>"
-				+ email + "</br>"
-				+ request.getParameter("newGroup").toString() + "</br>"
-				+ email + "</br>"
-				+ "</body></html>");
+				+ "<table border=\"1\">"
+				+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
+				+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
+				+ (numSiret.length() >= 1 ? "<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>" : "")
+				+ "<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
+				+ "<tr><th>Home number</th><th>" + homeNumber + "</th>" 
+				+ "<tr><th>Fax</th><th>" + faxNumber + "</th></tr>" 
+				+ "<tr><th>Email</th><th>" + email + "</th></tr>" 
+				+ "<tr><th>Street</th><th>" + street + "</th></tr>" 
+				+ "<tr><th>Zip</th><th>" + zip + "</th></tr>" 
+				+ "<tr><th>City</th><th>" + city + "</th></tr>" 
+				+ "<tr><th>Country</th><th>" + country + "</th></tr>"
+				+ "<tr><th>Group</th><th><table>");
+		
+		if (checkboxes != null) {
+		    for (int i = 0; i < checkboxes.length; ++i) { 
+		    	response.getWriter().append("<tr><th>" + checkboxes[i] + "<th></tr>");
+		    }
+		}
+		
+		response.getWriter().append("</table></th></tr></table>");
+
+		response.getWriter().append("</body></html>");
 		
 		/*
 		Enumeration<String> test = request.getParameterNames();

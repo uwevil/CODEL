@@ -3,10 +3,13 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
 
-	<class name="Contact">
+	<class name="Contact" discriminator-value="C">
 		<id name="id" type="long" column="ID_CONTACT" > 
 			<generator class="native"/>
 		</id>
+		
+		<discriminator column="subclass" type="character"></discriminator>
+		
 		<property name="firstName" column="FIRST_NAME" type="string" not-null="true"></property>
 		<property name="lastName" column="LAST_NAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
@@ -22,6 +25,11 @@
    			<key column="ID_CONTACT"></key>
    			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
    		</set>
+   		
+   		<subclass name="Entreprise" discriminator-value="E">
+			<property name="numSiret" column="NUMSIRET" type="long"></property>
+		</subclass>
+		
 	</class>
 
 
