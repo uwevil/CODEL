@@ -1,7 +1,6 @@
 package com.doancaosang;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.Address;
+import domain.Contact;
+import domain.ContactGroup;
 import domain.DAOContact;
+import domain.PhoneNumber;
 
 /**
  * Servlet implementation class NewContact
@@ -34,6 +37,13 @@ public class NewContact extends HttpServlet {
 			throws ServletException, IOException
 	{
 		HttpSession session = request.getSession(false);
+		
+		if (session == null)
+		{
+			response.sendRedirect("login.html");
+			return;
+		}
+		
 		if (session.getAttribute("authenticated") == null)
 		{
 			session.invalidate();
@@ -59,8 +69,42 @@ public class NewContact extends HttpServlet {
 			return;
 		}
 		
+		String street = request.getParameter("street");
+		String city = request.getParameter("city");
+		String zip = request.getParameter("zip");
+		String country = request.getParameter("country");
+		
+		String mobileNumber = request.getParameter("mobileNumber");
+		String homeNumber = request.getParameter("homeNumber");
+		String faxNumber = request.getParameter("faxNumber");
+		
+		Contact c = new Contact(firstName, lastName, email);
+		Address addr = new Address(street, city, zip, country);
+		PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
+		PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
+		PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+		
+		mNumber.setContact(c);
+		hNumber.setContact(c);
+		fNumber.setContact(c);
+		
+		c.setAddress(addr);
+		c.getPhoneNumbers().add(mNumber);
+		c.getPhoneNumbers().add(hNumber);
+		c.getPhoneNumbers().add(fNumber);
+		
+		String[] checkboxes = request.getParameterValues("group");
+		 
+		if (checkboxes != null) {
+		    for (int i = 0; i < checkboxes.length; ++i) { 
+		    	ContactGroup g = new ContactGroup(checkboxes[i]);
+		    	g.getContacts().add(c);
+		        c.getBooks().add(g);
+		    }
+		}
+		
 		DAOContact daoContact = new DAOContact();
-		daoContact.addContact(firstName, lastName, email);
+		daoContact.addContact(c);
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
@@ -92,6 +136,7 @@ public class NewContact extends HttpServlet {
 				+ email + "</br>"
 				+ "</body></html>");
 		
+		/*
 		Enumeration<String> test = request.getParameterNames();
 		while (test.hasMoreElements())
 		{
@@ -108,6 +153,7 @@ public class NewContact extends HttpServlet {
 		        System.out.println("  " + checkboxes[i]);
 		    }
 		}
+		*/
 	}
 
 	/**

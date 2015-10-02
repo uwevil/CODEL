@@ -3,14 +3,25 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
 
-	<class name="Contact" table="CONTACT">
+	<class name="Contact">
 		<id name="id" type="long" column="ID_CONTACT" > 
 			<generator class="native"/>
 		</id>
-		<property name="firstName" column="FIRST_NAME" type="string"></property>
+		<property name="firstName" column="FIRST_NAME" type="string" not-null="true"></property>
 		<property name="lastName" column="LAST_NAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
 		
+		<many-to-one name="address" column="ID_ADDRESS" unique="true" not-null="true" cascade="persist"/>
+		
+		<set name="phoneNumbers" inverse="true" cascade="persist">
+      	  <key column="ID_CONTACT"/>
+       	  <one-to-many class="PhoneNumber"/>
+   		</set>
+   		
+   		<set name="books" table="groupBooks" cascade="persist">
+   			<key column="ID_CONTACT"></key>
+   			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
+   		</set>
 	</class>
 
 

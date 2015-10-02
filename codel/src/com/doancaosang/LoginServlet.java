@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -44,7 +45,7 @@ public class LoginServlet extends HttpServlet
 		}
 		
 		if (id.equals(pass))
-		{
+		{	
 			session.setAttribute("authenticated", "OK");
 			session.setMaxInactiveInterval(60);
 			response.sendRedirect("accueil.jsp");

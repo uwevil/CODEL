@@ -1,6 +1,7 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Contact
 {
@@ -11,8 +12,8 @@ public class Contact
 	
 	protected Address address;
 	
-	protected ArrayList<ContactGroup> books;
-	protected ArrayList<PhoneNumber> phoneNumber;
+	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
+	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 	
 	public Contact()
 	{	
@@ -25,34 +26,24 @@ public class Contact
 		this.email = email;
 	}
 	
-	public ArrayList<ContactGroup> getBooks()
+	public Set<ContactGroup> getBooks()
 	{
-		return books;
-	}
-	
-	public void setGroup(ContactGroup group)
-	{
-		this.books.add(group);
-	}
-	
-	public ContactGroup getGroup(int index)
-	{
-		return this.books.get(index);
+		return this.books;
 	}
 
-	public void setBooks(ArrayList<ContactGroup> books)
+	public void setBooks(Set<ContactGroup> books)
 	{
 		this.books = books;
 	}
 
-	public ArrayList<PhoneNumber> getPhoneNumber()
+	public Set<PhoneNumber> getPhoneNumbers()
 	{
-		return phoneNumber;
+		return phoneNumbers;
 	}
 
-	public void setPhoneNumber(ArrayList<PhoneNumber> phoneNumber)
+	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers)
 	{
-		this.phoneNumber = phoneNumber;
+		this.phoneNumbers = phoneNumbers;
 	}
 
 	public Address getAddress()
@@ -105,13 +96,6 @@ public class Contact
 		this.id = id;
 	}
 	
-	public String toString()
-	{
-		return   "ID         : " + this.id + "\n"
-			   + "First name : " + this.firstName + "\n"
-			   + "Last name  : " + this.lastName + "\n"
-			   + "Email      : " + this.email + "\n"; 
-	}
 }
 
 

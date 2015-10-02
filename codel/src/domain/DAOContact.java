@@ -10,24 +10,19 @@ public class DAOContact {
 	{
 	}
 	
-	public void addContact(String firstName, String lastName, String email)
+	public void addContact(Contact contact)
 	{
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();	
+		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
 		session.beginTransaction();
 		
-		Contact contact = new Contact();
-		contact.setFirstName(firstName);
-		contact.setLastName(lastName);
-		contact.setEmail(email);
-		
-		session.save(contact);
+		session.persist(contact);
 		
 		@SuppressWarnings("unused")
 		Contact contactCreated = (Contact) session.load(Contact.class, contact.getId());
 		
 		session.getTransaction().commit();
-		session.close();		
+		session.close();
 	}
 	
 	public void deleteContact(long id)
@@ -35,30 +30,12 @@ public class DAOContact {
 		System.out.println("Delete in JDBC : " + id);
 	}
 	
-	public void updateContact(long id, String firstName, String lastName, String email)
+	public void updateContact(long id, Contact contact)
 	{
 		Contact c = this.searchContact(id);
 		
 		if (c == null)
-			this.addContact(firstName, lastName, email);
-		else
-		{
-			if (firstName != null)
-				c.setFirstName(firstName);
-			if (lastName != null)
-				c.setLastName(lastName);
-			if (email != null)
-			{
-				if (email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)+$"))
-				{			
-					c.setEmail(email);
-				}
-			}
-		}
-		
-		
-		
-		System.out.println("Update to JDBC : " + id);
+			this.addContact(contact);		
 	}
 	
 	public Contact searchContact(long id)

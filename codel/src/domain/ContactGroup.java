@@ -1,31 +1,31 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ContactGroup
 {
 
-	protected int groupId;
+	protected long groupId;
 	protected String groupName;
 	
-	protected ArrayList<Contact> contacts;
+	protected Set<Contact> contacts = new HashSet<Contact>();
 	
 	public ContactGroup()
 	{
 	}
 	
-	public ContactGroup(int groupId, String groupName)
+	public ContactGroup(String groupName)
 	{
-		this.groupId = groupId;
 		this.groupName = groupName;
 	}
 	
-	public int getGroupId()
+	public long getGroupId()
 	{
 		return groupId;
 	}
 
-	public void setGroupId(int groupId)
+	public void setGroupId(long groupId)
 	{
 		this.groupId = groupId;
 	}
@@ -40,12 +40,12 @@ public class ContactGroup
 		this.groupName = groupName;
 	}
 
-	public ArrayList<Contact> getContacts()
+	public Set<Contact> getContacts()
 	{
 		return contacts;
 	}
 
-	public void setContacts(ArrayList<Contact> contacts)
+	public void setContacts(Set<Contact> contacts)
 	{
 		this.contacts = contacts;
 	}

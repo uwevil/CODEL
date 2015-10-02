@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
  * Servlet implementation class LogoutServlet
  */
@@ -30,6 +31,12 @@ public class LogoutServlet extends HttpServlet {
 			throws ServletException, IOException
 	{
 		HttpSession session = request.getSession(false);
+		
+		if (session == null)
+		{
+			response.sendRedirect("login.html");
+			return;
+		}
 		
 		session.removeAttribute("authenticated");
 		session.invalidate();
