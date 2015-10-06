@@ -62,6 +62,12 @@ public class NewContact extends HttpServlet {
 		
 		String lastName = request.getParameter("lastName");
 		
+		if (lastName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
 		String email = request.getParameter("email");
 				
 		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
@@ -74,7 +80,7 @@ public class NewContact extends HttpServlet {
 		String city = request.getParameter("city");
 		String zip = request.getParameter("zip");
 		String country = request.getParameter("country");
-		
+				
 		String mobileNumber = request.getParameter("mobileNumber");
 		String homeNumber = request.getParameter("homeNumber");
 		String faxNumber = request.getParameter("faxNumber");
@@ -83,9 +89,11 @@ public class NewContact extends HttpServlet {
 
 		String numSiret = request.getParameter("numSiret");
 		
+		Entreprise e = new Entreprise();
+		Contact c = new Contact();
+
 		if (numSiret.length() >= 1)
 		{
-			Entreprise e = new Entreprise();
 			Address addr = new Address(street, city, zip, country);
 			
 			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
@@ -112,13 +120,9 @@ public class NewContact extends HttpServlet {
 			    }
 			}
 			e.setNumSiret(Long.parseLong(numSiret));
-
-			DAOContact daoContact = new DAOContact();
-			daoContact.addContact(e);
 		}
 		else
 		{
-			Contact c = new Contact();
 			Address addr = new Address(street, city, zip, country);
 			
 			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
@@ -144,57 +148,100 @@ public class NewContact extends HttpServlet {
 			        c.getBooks().add(g);
 			    }
 			}
-
-			DAOContact daoContact = new DAOContact();
-			daoContact.addContact(c);
-		}
-
-		
-		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
-				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
-				+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
-				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
-				+ "<script src=\"cssmenu/script.js\"></script>"
-				+ "<title>Add contact</title>";
-		
-		String s2 = "</head><body><div id='cssmenu'><ul>"
-				+ "<li><a href='accueil.jsp'>Home</a></li>"
-				+ "<li><a href='searchContact.jsp'>Search</a></li>"
-				+ "<li class='active'><a href='addContact.jsp'>Add</a></li>"
-				+ "<li><a href='updateContact.jsp'>Update</a></li>"
-				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
-				+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
-				+ "</ul>"
-				+"</div>";
-		
-		response.getWriter().append(s + s2
-				+ "<h3>Contact added</h3>"
-				+ "<table border=\"1\">"
-				+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
-				+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
-				+ (numSiret.length() >= 1 ? "<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>" : "")
-				+ "<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
-				+ "<tr><th>Home number</th><th>" + homeNumber + "</th>" 
-				+ "<tr><th>Fax</th><th>" + faxNumber + "</th></tr>" 
-				+ "<tr><th>Email</th><th>" + email + "</th></tr>" 
-				+ "<tr><th>Street</th><th>" + street + "</th></tr>" 
-				+ "<tr><th>Zip</th><th>" + zip + "</th></tr>" 
-				+ "<tr><th>City</th><th>" + city + "</th></tr>" 
-				+ "<tr><th>Country</th><th>" + country + "</th></tr>"
-				+ "<tr><th>Group</th><th><table>");
-		
-		if (checkboxes != null) {
-		    for (int i = 0; i < checkboxes.length; ++i) { 
-		    	response.getWriter().append("<tr><th>" + checkboxes[i] + "<th></tr>");
-		    }
 		}
 		
-		response.getWriter().append("</table></th></tr></table>");
+		DAOContact daoContact = new DAOContact();
+		boolean ok = false;
+		
+		if (numSiret.length() >= 1)
+			ok = daoContact.addContact(e);
+		else
+			ok = daoContact.addContact(c);
+		
+		System.out.println(ok);
+		
+		if (ok)
+		{
+			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+					+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+					+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
+					+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+					+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
+					+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
+					+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
+					+ "<script src=\"cssmenu/script.js\"></script>"
+					+ "<title>Add contact</title>";
+			
+			String s2 = "</head><body><div id='cssmenu'><ul>"
+					+ "<li><a href='accueil.jsp'>Home</a></li>"
+					+ "<li><a href='searchContact.jsp'>Search</a></li>"
+					+ "<li class='active'><a href='addContact.jsp'>Add</a></li>"
+					+ "<li><a href='updateContact.jsp'>Update</a></li>"
+					+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+					+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
+					+ "</ul>"
+					+"</div>";
+			
+			response.getWriter().append(s + s2
+					+ "<h3>Contact added</h3>"
+					+ "<table border=\"1\">"
+					+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
+					+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
+					+ (numSiret.length() >= 1 ? "<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>" : "")
+					+ "<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
+					+ "<tr><th>Home number</th><th>" + homeNumber + "</th>" 
+					+ "<tr><th>Fax</th><th>" + faxNumber + "</th></tr>" 
+					+ "<tr><th>Email</th><th>" + email + "</th></tr>" 
+					+ "<tr><th>Street</th><th>" + street + "</th></tr>" 
+					+ "<tr><th>Zip</th><th>" + zip + "</th></tr>" 
+					+ "<tr><th>City</th><th>" + city + "</th></tr>" 
+					+ "<tr><th>Country</th><th>" + country + "</th></tr>"
+					+ "<tr><th>Group</th><th><table>");
+			
+			if (checkboxes != null) {
+			    for (int i = 0; i < checkboxes.length; ++i) { 
+			    	response.getWriter().append("<tr><th>" + checkboxes[i] + "<th></tr>");
+			    }
+			}
+			
+			response.getWriter().append("</table></th></tr></table>");
 
-		response.getWriter().append("</body></html>");
+			response.getWriter().append("</body></html>");	
+		}
+		else
+		{
+			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+					+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
+					+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
+					+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+					+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
+					+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
+					+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
+					+ "<script src=\"cssmenu/script.js\"></script>"
+					+ "<title>Add contact</title>";
+			
+			String s2 = "</head><body><div id='cssmenu'><ul>"
+					+ "<li><a href='accueil.jsp'>Home</a></li>"
+					+ "<li><a href='searchContact.jsp'>Search</a></li>"
+					+ "<li class='active'><a href='addContact.jsp'>Add</a></li>"
+					+ "<li><a href='updateContact.jsp'>Update</a></li>"
+					+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+					+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
+					+ "</ul>"
+					+"</div>";
+			
+			response.getWriter().append(s + s2
+					+ "<h2>Contact existed</h2>"
+					+ "<h3>Do you want to update? Go to Update.<h3>"
+					+ "<table border=\"1\">"
+					+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
+					+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
+					+"<table>");
+			
+			response.getWriter().append("</body></html>");
+		}
+		
+		
 		
 		/*
 		Enumeration<String> test = request.getParameterNames();

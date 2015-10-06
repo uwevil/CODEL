@@ -27,7 +27,7 @@
 	<form method="post" action="SearchContact">
 		<input type="text" name="firstName" placeholder="First name" size="25" required>
 		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
-		<input type="text" name="numSiret" placeholder="Numero SIRET" size="25"><br>
+<!-- <input type="text" name="numSiret" placeholder="Numero SIRET" size="25"><br>
 		<input type="text" name="mobileNumber" placeholder="Mobile" size="25">
 		<input type="text" name="homeNumber" placeholder="Telephone" size="25">	
 		<input type="text" name="faxNumber" placeholder="Fax" size="25"><br>	
@@ -52,8 +52,8 @@
             </ul>
         </div>
 		</p>
-	
-		<input type="submit" value="Submit">
+	  -->		
+		<input type="submit" value="Recherche">
 		<input type="reset" value="Reset">
 	</form>
 </p>

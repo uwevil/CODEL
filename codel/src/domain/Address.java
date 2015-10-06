@@ -11,6 +11,10 @@ public class Address
 	
 	public Address()
 	{
+		street = null;
+		city = null;
+		zip = null;
+		country = null;
 	}
 
 	public Address(String street, String city, String zip, String country)
