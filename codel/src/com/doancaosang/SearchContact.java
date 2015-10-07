@@ -92,72 +92,6 @@ public class SearchContact extends HttpServlet {
 		DAOContact daoContact = new DAOContact();
 		Object c = daoContact.searchContact(contact);
 		
-		/*
-		if (numSiret.length() >= 1)
-		{
-			Entreprise e = new Entreprise();
-			Address addr = new Address(street, city, zip, country);
-			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
-			
-			mNumber.setContact(e);
-			hNumber.setContact(e);
-			fNumber.setContact(e);
-			
-			e.setFirstName(firstName);
-			e.setLastName(lastName);
-			e.setEmail(email);
-			e.setAddress(addr);
-			e.getPhoneNumbers().add(mNumber);
-			e.getPhoneNumbers().add(hNumber);
-			e.getPhoneNumbers().add(fNumber);
-						 
-			if (checkboxes != null) {
-			    for (int i = 0; i < checkboxes.length; ++i) { 
-			    	ContactGroup g = new ContactGroup(checkboxes[i]);
-			    	g.getContacts().add(e);
-			        e.getBooks().add(g);
-			    }
-			}
-			e.setNumSiret(Long.parseLong(numSiret));
-
-			DAOContact daoContact = new DAOContact();
-		}
-		else
-		{
-			Contact c = new Contact();
-			Address addr = new Address(street, city, zip, country);
-			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
-			
-			mNumber.setContact(c);
-			hNumber.setContact(c);
-			fNumber.setContact(c);
-			
-			c.setFirstName(firstName);
-			c.setLastName(lastName);
-			c.setEmail(email);
-			c.setAddress(addr);
-			c.getPhoneNumbers().add(mNumber);
-			c.getPhoneNumbers().add(hNumber);
-			c.getPhoneNumbers().add(fNumber);
-						 
-			if (checkboxes != null) {
-			    for (int i = 0; i < checkboxes.length; ++i) { 
-			    	ContactGroup g = new ContactGroup(checkboxes[i]);
-			    	g.getContacts().add(c);
-			        c.getBooks().add(g);
-			    }
-			}
-
-			DAOContact daoContact = new DAOContact();
-		}
-*/
-		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
@@ -260,7 +194,7 @@ public class SearchContact extends HttpServlet {
 						response.getWriter().append("<tr><th>Fax</th><th>" + p.getPhoneNumber() + "</th>");
 					}
 				}
-					
+				
 				response.getWriter().append("<tr><th>Email</th><th>" + e.getEmail() + "</th></tr>" 
 						+ "<tr><th>Street</th><th>" + e.getAddress().getStreet() + "</th></tr>" 
 						+ "<tr><th>Zip</th><th>" + e.getAddress().getZip() + "</th></tr>" 

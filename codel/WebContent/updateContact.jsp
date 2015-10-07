@@ -25,12 +25,10 @@
 <h4>Mettez à jour votre contact</h4>
 <p>
 	<form method="post" action="UpdateContact">
-		<input type="text" name="id" placeholder="id" size="25"></br>
-		<input type="text" name="firstName" placeholder="First name" size="25"><br>	
-		<input type="text" name="lastName" placeholder="Last Name" size="25"><br>	
-		<input type="text" name="email" placeholder="Email" size="25"><br>	
+		<input type="text" name="firstName" placeholder="First name" size="25" required><br>	
+		<input type="text" name="lastName" placeholder="Last Name" size="25" required><br>	
 	<p></p>
-		<input type="submit" value="Submit">
+		<input type="submit" value="Update">
 		<input type="reset" value="Reset">
 	</form>
 </p>

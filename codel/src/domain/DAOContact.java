@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
@@ -49,12 +52,28 @@ public class DAOContact {
 		System.out.println("Delete in JDBC : " + id);
 	}
 	
-	public void updateContact(long id, Contact contact)
+	public Object updateContact(Contact contact)
 	{
-		Object c = this.searchContact(contact);
+		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
-		if (c == null)
-			this.addContact(contact);		
+		session.beginTransaction();
+
+		String requestQuery = new String("from Contact where firstName = :f and lastName = :l");
+			
+		Object c = session.createQuery(requestQuery)
+				.setString("f", contact.getFirstName())
+				.setString("l", contact.getLastName())
+				.uniqueResult();
+
+		if (c != null)
+		{
+			
+			session.update(contact);
+		}
+
+		session.getTransaction().commit();
+		session.close();	
+		return true;		
 	}
 	
 	public Object searchContact(Contact contact)
@@ -62,14 +81,17 @@ public class DAOContact {
 		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
 		session.beginTransaction();
-		Hibernate.initialize(contact);
 
 		String requestQuery = new String("from Contact where firstName = '" + contact.getFirstName() 
-						+ "' and lastName = '" + contact.getLastName() + "'");
+						+ "' and lastName = '" + contact.getLastName() + "'"
+						);
 		
 		Object c = session.createQuery(requestQuery).uniqueResult();
+		
+		Hibernate.initialize(c);
+		Hibernate.initialize(((Contact)c).phoneNumbers);
 				
-		session.close();
+		((Contact)c).getBooks();
 		
 		return c;
 	}

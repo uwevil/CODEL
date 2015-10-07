@@ -14,14 +14,14 @@
 		<property name="lastName" column="LAST_NAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
 		
-		<many-to-one name="address" column="ID_ADDRESS" unique="true" not-null="true" cascade="persist, all-delete-orphan"/>
+		<many-to-one name="address" column="ID_ADDRESS" unique="true" not-null="true" fetch="select" cascade="persist, all-delete-orphan"/>
 		
-		<set name="phoneNumbers" inverse="true" cascade="persist">
+		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist">
       	  <key column="ID_CONTACT"/>
        	  <one-to-many class="PhoneNumber"/>
    		</set>
    		
-   		<set name="books" table="groupBooks" cascade="persist">
+   		<set name="books" table="groupBooks" fetch="subselect" cascade="persist">
    			<key column="ID_CONTACT"></key>
    			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
    		</set>

@@ -1,6 +1,9 @@
 package com.doancaosang;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.Contact;
+import domain.ContactGroup;
 import domain.DAOContact;
+import domain.Entreprise;
+import domain.PhoneNumber;
 
 /**
  * Servlet implementation class UpdateContact
@@ -40,30 +47,28 @@ public class UpdateContact extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
-		
-		if (request.getParameter("id").length() < 1)
-		{
-			response.sendRedirect("updateContact.jsp");
-			return;
-		}
-		
-		long id;
-		try 
-		{
-			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch (NumberFormatException e)
-		{
-			response.sendRedirect("updateContact.jsp");
-			return;
-		}
-		
+				
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
-		String email = request.getParameter("email");
+		
+		if (firstName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+				
+		if (lastName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+		
+		Contact contact = new Contact();
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
 		
 		DAOContact daoContact = new DAOContact();
-//		daoContact.updateContact(id, firstName, lastName, email);
+		Object c = daoContact.searchContact(contact);
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html>"
@@ -87,13 +92,108 @@ public class UpdateContact extends HttpServlet {
 				+ "</ul>"
 				+"</div>";
 		
-		response.getWriter().append(s + s2
-				+ "<h3>Contact updated</h3>"
-				+ id + "</br>"
-				+ firstName + "</br>"
-				+ lastName + "</br>"
-				+ email + "</br>"
-				+ "</body></html>");
+		if (c == null)
+		{
+			response.getWriter().append(s + s2
+					+ "<h3>Contact not found</h3>"
+					+ "</body></html>");
+		}
+		else
+		{
+			if (c.getClass().getName().contains("Entreprise"))
+			{
+				Entreprise e = (Entreprise) c;
+				response.getWriter().append(s + s2
+						+ "<h3>Contact found</h3>"
+						+ "<table border=\"1\">"
+						+ "<tr><th>First name</th><th>" + e.getFirstName() + "</th></tr>" 
+						+ "<tr><th>Last name</th><th>" + e.getLastName() + "</th></tr>" 
+						+ "<tr><th>Numero SIRET</th><th>" + e.getNumSiret() + "</th></tr>");
+				
+				Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
+				
+				for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
+				{
+					PhoneNumber p = iterator.next();
+					if (p.getPhoneKind().equals("mobileNumber"))
+					{
+						response.getWriter().append("<tr><th>Mobile number</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+					else if (p.getPhoneKind().equals("homeNumber"))
+					{
+						response.getWriter().append("<tr><th>Home number</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+					else
+					{
+						response.getWriter().append("<tr><th>Fax</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+				}
+					
+				response.getWriter().append("<tr><th>Email</th><th>" + e.getEmail() + "</th></tr>" 
+						+ "<tr><th>Street</th><th>" + e.getAddress().getStreet() + "</th></tr>" 
+						+ "<tr><th>Zip</th><th>" + e.getAddress().getZip() + "</th></tr>" 
+						+ "<tr><th>City</th><th>" + e.getAddress().getCity() + "</th></tr>" 
+						+ "<tr><th>Country</th><th>" + e.getAddress().getCountry() + "</th></tr>"
+						+ "<tr><th>Group</th><th><table>");
+				
+				Set<ContactGroup> contactGroups = e.getBooks();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+			    	response.getWriter().append("<tr><th>" + iterator.next().getGroupName() + "<th></tr>");
+				}
+				
+				response.getWriter().append("</table></th></tr></table>");
+
+				response.getWriter().append("</body></html>");	
+			}
+			else
+			{
+				Contact e = (Contact) c;
+				response.getWriter().append(s + s2
+						+ "<h3>Contact found</h3>"
+						+ "<table border=\"1\">"
+						+ "<tr><th>First name</th><th>" + e.getFirstName() + "</th></tr>" 
+						+ "<tr><th>Last name</th><th>" + e.getLastName() + "</th></tr>");
+				
+				Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
+				
+				for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
+				{
+					PhoneNumber p = iterator.next();
+					if (p.getPhoneKind().equals("mobileNumber"))
+					{
+						response.getWriter().append("<tr><th>Mobile number</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+					else if (p.getPhoneKind().equals("homeNumber"))
+					{
+						response.getWriter().append("<tr><th>Home number</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+					else
+					{
+						response.getWriter().append("<tr><th>Fax</th><th>" + p.getPhoneNumber() + "</th>");
+					}
+				}
+				
+				response.getWriter().append("<tr><th>Email</th><th>" + e.getEmail() + "</th></tr>" 
+						+ "<tr><th>Street</th><th>" + e.getAddress().getStreet() + "</th></tr>" 
+						+ "<tr><th>Zip</th><th>" + e.getAddress().getZip() + "</th></tr>" 
+						+ "<tr><th>City</th><th>" + e.getAddress().getCity() + "</th></tr>" 
+						+ "<tr><th>Country</th><th>" + e.getAddress().getCountry() + "</th></tr>"
+						+ "<tr><th>Group</th><th><table>");
+				
+				Set<ContactGroup> contactGroups = e.getBooks();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+			    	response.getWriter().append("<tr><th>" + iterator.next().getGroupName() + "<th></tr>");
+				}
+				
+				response.getWriter().append("</table></th></tr></table>");
+
+				response.getWriter().append("</body></html>");	
+			}
+		}
 	}
 
 	/**

@@ -25,9 +25,10 @@
 <h4>Supprimez votre contact</h4>
 <p>
 	<form method="post" action="DeleteContact">
-		<input type="text" name="id" placeholder="ID Contact" size="25"></br>
+		<input type="text" name="firstName" placeholder="First name" size="25" required><br>	
+		<input type="text" name="lastName" placeholder="Last Name" size="25" required><br>	
 	<p></p>
-		<input type="submit" value="Submit">
+		<input type="Remove" value="Submit">
 	</form>
 </p>
 </body>

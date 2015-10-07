@@ -54,7 +54,7 @@
         </div>
 		</p>
 	
-		<input type="submit" value="Submit">
+		<input type="submit" value="Add">
 		<input type="reset" value="Reset">
 	</form>
 </p>

@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet
 		if (id.length() == 0 || pass.length() == 0)
 		{
 			session.setAttribute("authenticated", null);
-			session.setMaxInactiveInterval(60);
+			session.setMaxInactiveInterval(120);
 			response.sendRedirect("login.html");
 			return;
 		}
@@ -47,13 +47,13 @@ public class LoginServlet extends HttpServlet
 		if (id.equals(pass))
 		{	
 			session.setAttribute("authenticated", "OK");
-			session.setMaxInactiveInterval(60);
+			session.setMaxInactiveInterval(120);
 			response.sendRedirect("accueil.jsp");
 		}
 		else
 		{
 			session.setAttribute("authenticated", null);
-			session.setMaxInactiveInterval(60);
+			session.setMaxInactiveInterval(120);
 			response.sendRedirect("login.html");
 		}
 	}
