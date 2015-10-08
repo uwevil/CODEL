@@ -5,7 +5,7 @@
 <hibernate-mapping package="domain">
     <class name="PhoneNumber">
         <id name="id" type="long">
-            <column name="ID_PHONENUMBER" />
+            <column name="PHONENUMBERID" />
             <generator class="increment" />
         </id>
         <property name="phoneKind" type="string">
@@ -15,7 +15,7 @@
             <column name="PHONENUMBER" />
         </property>
        
-       	<many-to-one name="contact" column="ID_CONTACT" not-null="true" cascade="persist"/>
+       	<many-to-one name="contact" column="CONTACTID" not-null="true" cascade="persist"/>
        
     </class>
 </hibernate-mapping>

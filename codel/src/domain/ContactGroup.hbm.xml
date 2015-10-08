@@ -12,7 +12,7 @@
         
         <set name="contacts" table="groupBooks" inverse="true" cascade="persist">
    			<key column="GROUPID"></key>
-   			<many-to-many class="Contact" column="ID_CONTACT"></many-to-many>
+   			<many-to-many class="Contact" column="CONTACTID"></many-to-many>
    		</set>
     </class>
 </hibernate-mapping>

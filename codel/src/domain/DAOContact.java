@@ -1,6 +1,5 @@
 package domain;
 
-
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -145,5 +144,24 @@ public class DAOContact {
 		
 		session.close();
 		return c;
+	}
+	
+	public List<Object> testHQL (String requestQuery)
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();	
+		
+		session.beginTransaction();
+		
+		@SuppressWarnings("unchecked")
+		List<Object> list = session.createQuery(requestQuery).list();
+		
+		if (list == null)
+		{
+			session.close();
+			return null;
+		}
+		
+		session.close();
+		return list;
 	}
 }

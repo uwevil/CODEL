@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
     <class name="Address" table="ADDRESS">
-    	<id name="id" type="long" column="ID_ADDRESS">
+    	<id name="id" type="long" column="ADDRESSID">
     		<generator class="increment"></generator>
     	</id>
     	

@@ -4,26 +4,26 @@
 <hibernate-mapping package="domain">
 
 	<class name="Contact" discriminator-value="C">
-		<id name="id" type="long" column="ID_CONTACT" > 
+		<id name="id" type="long" column="CONTACTID" > 
 			<generator class="native"/>
 		</id>
 		
 		<discriminator column="subclass" type="character"></discriminator>
 		
-		<property name="firstName" column="FIRST_NAME" type="string" not-null="true"></property>
-		<property name="lastName" column="LAST_NAME" type="string"></property>
+		<property name="firstName" column="FIRSTNAME" type="string" not-null="true"></property>
+		<property name="lastName" column="LASTNAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
 		
-		<many-to-one name="address" column="ID_ADDRESS" unique="true" not-null="true" fetch="select" 
+		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true" fetch="select" 
 			cascade="persist, all-delete-orphan"/>
 		
 		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist, all-delete-orphan">
-      	  <key column="ID_CONTACT"/>
+      	  <key column="CONTACTID"/>
        	  <one-to-many class="PhoneNumber"/>
    		</set>
    		
    		<set name="books" table="groupBooks" fetch="subselect" cascade="persist, all-delete-orphan">
-   			<key column="ID_CONTACT"></key>
+   			<key column="CONTACTID"></key>
    			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
    		</set>
    		

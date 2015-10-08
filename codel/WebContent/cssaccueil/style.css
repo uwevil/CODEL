@@ -20,6 +20,15 @@ form input[type=reset] {
 	border-radius: 0px;
 	#text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
+form input.test {
+	border: 0px solid rgba(0, 0, 0, 0.3);
+	color: #4887fe;
+	padding: 5px 15px;
+	margin-right: 0;
+	margin-top: 15px;
+	border-radius: 0px;
+	#text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
 ::-webkit-input-placeholder{
    color: rgba(255,100,100,100);
    opacity: 0.8;

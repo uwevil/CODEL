@@ -88,6 +88,7 @@ public class UpdateContact extends HttpServlet {
 				+ "<li><a href='addContact.jsp'>Add</a></li>"
 				+ "<li class='active'><a href='updateContact.jsp'>Update</a></li>"
 				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
+				+ "<li class=\"testRequest\"><a href='testRequest.jsp'>Test request</a></li>"
 				+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
 				+ "</ul>"
 				+"</div>";

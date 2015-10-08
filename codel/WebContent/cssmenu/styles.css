@@ -85,6 +85,13 @@
 #cssmenu > ul > li.logout > a {
   color: red;
 }
+
+#cssmenu > ul > li.testRequest > a {
+  color: #cdfb3e;
+  background: #f6585d;
+}
+
+
 #cssmenu > ul > li.has-sub > a {
   padding-right: 25px;
 }
