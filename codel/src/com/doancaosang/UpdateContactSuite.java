@@ -193,6 +193,11 @@ public class UpdateContactSuite extends HttpServlet {
 			        e.getBooks().add(g);
 			    }
 			}
+			else
+			{
+				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
+				e.setBooks(contactGroups);
+			}
 			
 			String newGroup = request.getParameter("newGroup");
 			if (newGroup.length() >= 1)
@@ -254,6 +259,12 @@ public class UpdateContactSuite extends HttpServlet {
 			    for (int i = 0; i < checkboxes.length; ++i) { 
 			    	response.getWriter().append("<tr><th>" + checkboxes[i] + "<th></tr>");
 			    }
+			}
+			
+			String newGroup = request.getParameter("newGroup");
+			if (newGroup.length() >= 1)
+			{
+		    	response.getWriter().append("<tr><th>" + newGroup + "<th></tr>");
 			}
 			
 			response.getWriter().append("</table></th></tr></table>");

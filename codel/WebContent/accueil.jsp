@@ -1,3 +1,5 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,8 +26,9 @@
 </ul>
 </div>
 
-<h3>Bienvenüe au site de gestion de contacts</h3>
+<h1>Bienvenüe au site de gestion de contacts</h1>
 <%@ page import="domain.DAOContact" %>
+<%@ page import="domain.Contact" %>
 <% 
 
 if (session == null)
@@ -40,10 +43,27 @@ if (session.getAttribute("authenticated") == null)
 	response.sendRedirect("login.html");
 	return;
 }
+%>
 
+<h2>Liste de vos contacts</h2>
+
+<table border="1">
+	<tr><th>Prénom</th><th>Nom</th></tr>
+
+<%
 DAOContact daoContact = new DAOContact();
+List<Object> list = daoContact.welcome();
+
+for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
+{
+	Contact c = (Contact)(iterator.next());
+	out.print("<tr><th>"+c.getFirstName() + "</th>");
+	out.print("<th>" + c.getLastName() + "</th></tr>");
+}
 
 %>
+
+</table>
 
 </body>
 </html>
