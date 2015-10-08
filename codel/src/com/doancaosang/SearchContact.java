@@ -48,8 +48,8 @@ public class SearchContact extends HttpServlet {
 			return;
 		}
 				
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
+		String firstName = request.getParameter("firstName").toUpperCase();
+		String lastName = request.getParameter("lastName").toUpperCase();
 		/*
 		String email = request.getParameter("email");
 				

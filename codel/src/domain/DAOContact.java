@@ -1,7 +1,7 @@
 package domain;
 
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -12,6 +12,28 @@ public class DAOContact {
 
 	public DAOContact()
 	{
+	}
+	
+	public List<Object> welcome()
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();	
+		
+		session.beginTransaction();
+
+		String requestQuery = new String("from Contact");
+		
+		@SuppressWarnings("unchecked")
+		List<Object> list = (List<Object>) session.createQuery(requestQuery).list();
+		
+		if (list == null)
+		{
+			session.close();
+			return null;
+		}
+		
+		session.close();
+		
+		return list;
 	}
 	
 	public boolean addContact(Contact contact)
@@ -29,7 +51,6 @@ public class DAOContact {
 
 		if (c != null)
 		{
-			System.out.println(((Contact)c).getFirstName());
 			session.close();	
 			return false;
 		}
@@ -47,12 +68,32 @@ public class DAOContact {
 		return true;
 	}
 	
-	public void deleteContact(long id)
+	public boolean deleteContact(Contact contact)
 	{
-		System.out.println("Delete in JDBC : " + id);
+		Session session = HibernateUtil.getSessionFactory().openSession();	
+		
+		session.beginTransaction();
+
+		String requestQuery = new String("from Contact where firstName = '" + contact.getFirstName() 
+						+ "' and lastName = '" + contact.getLastName() + "'"
+						);
+		
+		Object c = session.createQuery(requestQuery).uniqueResult();
+		
+		if (c == null)
+		{
+			session.close();
+			return false;
+		}
+		
+		session.delete(c);
+		
+		session.getTransaction().commit();
+		session.close();
+		return true;
 	}
 	
-	public Object updateContact(Contact contact)
+	public boolean updateContact(Contact contact)
 	{
 		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
@@ -67,8 +108,12 @@ public class DAOContact {
 
 		if (c != null)
 		{
-			
-			session.update(contact);
+			c = session.merge(contact);
+			session.saveOrUpdate(c);
+		}
+		else
+		{
+			session.persist(contact);
 		}
 
 		session.getTransaction().commit();
@@ -88,11 +133,17 @@ public class DAOContact {
 		
 		Object c = session.createQuery(requestQuery).uniqueResult();
 		
+		if (c == null)
+		{
+			session.close();
+			return null;
+		}
 		Hibernate.initialize(c);
-		Hibernate.initialize(((Contact)c).phoneNumbers);
-				
-		((Contact)c).getBooks();
+		Hibernate.initialize(((Contact)c).address);
+		Hibernate.initialize(((Contact)c).phoneNumbers);		
+		Hibernate.initialize(((Contact)c).books);
 		
+		session.close();
 		return c;
 	}
 }

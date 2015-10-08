@@ -22,10 +22,26 @@
    <li class='logout'><a href='LogoutServlet'>Log out</a></li>
 </ul>
 </div>
+<% 
+
+if (session == null)
+{
+	response.sendRedirect("login.html");
+	return;
+}
+
+if (session.getAttribute("authenticated") == null)
+{
+	session.invalidate();
+	response.sendRedirect("login.html");
+	return;
+}
+
+%>
 <h4>Mettez à jour votre contact</h4>
 <p>
 	<form method="post" action="UpdateContact">
-		<input type="text" name="firstName" placeholder="First name" size="25" required><br>	
+		<input type="text" name="firstName" placeholder="First name" size="25" required>	
 		<input type="text" name="lastName" placeholder="Last Name" size="25" required><br>	
 	<p></p>
 		<input type="submit" value="Update">

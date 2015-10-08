@@ -23,6 +23,22 @@
    <li class='logout'><a href='LogoutServlet'>Log out</a></li>
 </ul>
 </div>
+<% 
+
+if (session == null)
+{
+	response.sendRedirect("login.html");
+	return;
+}
+
+if (session.getAttribute("authenticated") == null)
+{
+	session.invalidate();
+	response.sendRedirect("login.html");
+	return;
+}
+
+%>
 <h4>Ajoutez votre contact</h4>
 <p>
 	<form method="post" action="NewContact">
@@ -54,8 +70,8 @@
         </div>
 		</p>
 	
-		<input type="submit" value="Add">
-		<input type="reset" value="Reset">
+		<input type="submit" value="Add"/>
+		<input type="reset" value="Reset"/>
 	</form>
 </p>
 </body>

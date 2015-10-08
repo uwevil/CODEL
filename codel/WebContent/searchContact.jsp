@@ -22,6 +22,22 @@
    <li class='logout'><a href='LogoutServlet'>Log out</a></li>
 </ul>
 </div>
+<% 
+
+if (session == null)
+{
+	response.sendRedirect("login.html");
+	return;
+}
+
+if (session.getAttribute("authenticated") == null)
+{
+	session.invalidate();
+	response.sendRedirect("login.html");
+	return;
+}
+
+%>
 <h4>Recherchez votre contact</h4>
 <p>
 	<form method="post" action="SearchContact">

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.Contact;
 import domain.DAOContact;
 
 /**
@@ -31,7 +32,7 @@ public class DeleteContact extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException
 	{		
-		HttpSession session = request.getSession(false);
+HttpSession session = request.getSession(false);
 		
 		if (session.getAttribute("authenticated") == null)
 		{
@@ -39,26 +40,28 @@ public class DeleteContact extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
+				
+		String firstName = request.getParameter("firstName").toUpperCase();
+		String lastName = request.getParameter("lastName").toUpperCase();
 		
-		if (request.getParameter("id").length() < 1)
+		if (firstName.length() < 1)
 		{
-			response.sendRedirect("removeContact.jsp");
+			response.sendRedirect("addContact.jsp");
+			return;
+		}
+				
+		if (lastName.length() < 1)
+		{
+			response.sendRedirect("addContact.jsp");
 			return;
 		}
 		
-		long id;
-		try 
-		{
-			id = Long.parseLong(request.getParameter("id"));
-		}
-		catch (NumberFormatException e)
-		{
-			response.sendRedirect("removeContact.jsp");
-			return;
-		}
+		Contact contact = new Contact();
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
 		
 		DAOContact daoContact = new DAOContact();
-		daoContact.deleteContact(id);
+		daoContact.deleteContact(contact);
 			
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
 				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
@@ -82,7 +85,6 @@ public class DeleteContact extends HttpServlet {
 		
 		response.getWriter().append(s + s2
 					+ "<h3>Contact deleted</h3>"
-					+ id + "</br>"
 					+ "</body></html>");
 	}
 

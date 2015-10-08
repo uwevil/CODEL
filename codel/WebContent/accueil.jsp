@@ -25,5 +25,25 @@
 </div>
 
 <h3>Bienvenüe au site de gestion de contacts</h3>
+<%@ page import="domain.DAOContact" %>
+<% 
+
+if (session == null)
+{
+	response.sendRedirect("login.html");
+	return;
+}
+
+if (session.getAttribute("authenticated") == null)
+{
+	session.invalidate();
+	response.sendRedirect("login.html");
+	return;
+}
+
+DAOContact daoContact = new DAOContact();
+
+%>
+
 </body>
 </html>

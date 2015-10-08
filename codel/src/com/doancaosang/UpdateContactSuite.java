@@ -1,7 +1,9 @@
 package com.doancaosang;
 
 import java.io.IOException;
-import java.util.Locale;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
 import domain.DAOContact;
@@ -18,26 +19,27 @@ import domain.Entreprise;
 import domain.PhoneNumber;
 
 /**
- * Servlet implementation class NewContact
+ * Servlet implementation class UpdateContactSuite
  */
-@WebServlet("/NewContact")
-public class NewContact extends HttpServlet {
+@WebServlet("/UpdateContactSuite")
+public class UpdateContactSuite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NewContact() {
+    public UpdateContactSuite() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException
-	{
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		HttpSession session = request.getSession(false);
 		
 		if (session == null)
@@ -53,27 +55,24 @@ public class NewContact extends HttpServlet {
 			return;
 		}
 		
-		String firstName = request.getParameter("firstName");
-		firstName = firstName.toUpperCase(Locale.ROOT);
-				
+		String firstName = request.getParameter("firstName").toUpperCase();
+		
 		if (firstName.length() < 1)
 		{
 			response.sendRedirect("addContact.jsp");
 			return;
 		}
 		
-		String lastName = request.getParameter("lastName");
-		lastName = lastName.toUpperCase(Locale.ROOT);
-
+		String lastName = request.getParameter("lastName").toUpperCase();
+		
 		if (lastName.length() < 1)
 		{
 			response.sendRedirect("addContact.jsp");
 			return;
 		}
 		
-		String email = request.getParameter("email");
-		email = email.toUpperCase(Locale.ROOT);
-
+		String email = request.getParameter("email").toUpperCase();
+				
 		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
 			response.sendRedirect("addContact.jsp");
@@ -90,33 +89,50 @@ public class NewContact extends HttpServlet {
 		String faxNumber = request.getParameter("faxNumber").toUpperCase();
 		
 		String[] checkboxes = request.getParameterValues("group");
+				
+		Object contact = session.getAttribute("contact");
 
-		String numSiret = request.getParameter("numSiret");
+		boolean ok = true;
 		
-		Entreprise e = new Entreprise();
-		Contact c = new Contact();
-
-		if (numSiret != null && numSiret.length() >= 1)
+		if (contact.getClass().getName().contains("Entreprise"))
 		{
-			Address addr = new Address(street, city, zip, country);
-			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
-			
-			mNumber.setContact(e);
-			hNumber.setContact(e);
-			fNumber.setContact(e);
+			String numSiret = request.getParameter("numSiret");
+
+			Entreprise e = (Entreprise)contact;
 			
 			e.setFirstName(firstName);
 			e.setLastName(lastName);
+			e.setNumSiret(Long.parseLong(numSiret));
 			e.setEmail(email);
-			e.setAddress(addr);
-			e.getPhoneNumbers().add(mNumber);
-			e.getPhoneNumbers().add(hNumber);
-			e.getPhoneNumbers().add(fNumber);
+			
+			e.getAddress().setStreet(street);
+			e.getAddress().setCity(city);
+			e.getAddress().setZip(zip);
+			e.getAddress().setCountry(country);
+			
+			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
+			
+			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
+			{
+				PhoneNumber p = iterator.next();
+				if (p.getPhoneKind().equals("mobileNumber"))
+				{
+					p.setPhoneNumber(mobileNumber);
+				}
+				else if (p.getPhoneKind().equals("homeNumber"))
+				{
+					p.setPhoneNumber(homeNumber);
+				}
+				else
+				{
+					p.setPhoneNumber(faxNumber);
+				}
+			}
 						 
 			if (checkboxes != null) {
+				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
+				e.setBooks(contactGroups);
+				
 			    for (int i = 0; i < checkboxes.length; ++i) { 
 			    	ContactGroup g = new ContactGroup(checkboxes[i]);
 			    	g.getContacts().add(e);
@@ -131,34 +147,50 @@ public class NewContact extends HttpServlet {
 				g.getContacts().add(e);
 				e.getBooks().add(g);
 			}
-			
-			e.setNumSiret(Long.parseLong(numSiret));
+
+			DAOContact daoContact = new DAOContact();
+			ok = daoContact.updateContact(e);			
 		}
 		else
 		{
-			Address addr = new Address(street, city, zip, country);
+			Contact e = (Contact)contact;
 			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			e.setFirstName(firstName);
+			e.setLastName(lastName);
+			e.setEmail(email);
 			
-			mNumber.setContact(c);
-			hNumber.setContact(c);
-			fNumber.setContact(c);
+			e.getAddress().setStreet(street);
+			e.getAddress().setCity(city);
+			e.getAddress().setZip(zip);
+			e.getAddress().setCountry(country);
 			
-			c.setFirstName(firstName);
-			c.setLastName(lastName);
-			c.setEmail(email);
-			c.setAddress(addr);
-			c.getPhoneNumbers().add(mNumber);
-			c.getPhoneNumbers().add(hNumber);
-			c.getPhoneNumbers().add(fNumber);
+			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
+			
+			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
+			{
+				PhoneNumber p = iterator.next();
+				if (p.getPhoneKind().equals("mobileNumber"))
+				{
+					p.setPhoneNumber(mobileNumber);
+				}
+				else if (p.getPhoneKind().equals("homeNumber"))
+				{
+					p.setPhoneNumber(homeNumber);
+				}
+				else
+				{
+					p.setPhoneNumber(faxNumber);
+				}
+			}
 						 
 			if (checkboxes != null) {
+				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
+				e.setBooks(contactGroups);
+				
 			    for (int i = 0; i < checkboxes.length; ++i) { 
 			    	ContactGroup g = new ContactGroup(checkboxes[i]);
-			    	g.getContacts().add(c);
-			        c.getBooks().add(g);
+			    	g.getContacts().add(e);
+			        e.getBooks().add(g);
 			    }
 			}
 			
@@ -166,19 +198,14 @@ public class NewContact extends HttpServlet {
 			if (newGroup.length() >= 1)
 			{
 				ContactGroup g = new ContactGroup(newGroup);
-				g.getContacts().add(c);
-				c.getBooks().add(g);
+				g.getContacts().add(e);
+				e.getBooks().add(g);
 			}
+
+			DAOContact daoContact = new DAOContact();
+			ok = daoContact.updateContact(e);
 		}
 		
-		DAOContact daoContact = new DAOContact();
-		boolean ok = false;
-		
-		if (numSiret.length() >= 1)
-			ok = daoContact.addContact(e);
-		else
-			ok = daoContact.addContact(c);
-				
 		if (ok)
 		{
 			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
@@ -206,8 +233,14 @@ public class NewContact extends HttpServlet {
 					+ "<table border=\"1\">"
 					+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
 					+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
-					+ (numSiret.length() >= 1 ? "<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>" : "")
-					+ "<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
+					);
+			
+			String numSiret = request.getParameter("numSiret");
+			
+			if (numSiret != null && numSiret.length() >= 1)
+				response.getWriter().append("<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>");
+			
+			response.getWriter().append("<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
 					+ "<tr><th>Home number</th><th>" + homeNumber + "</th>" 
 					+ "<tr><th>Fax</th><th>" + faxNumber + "</th></tr>" 
 					+ "<tr><th>Email</th><th>" + email + "</th></tr>" 
@@ -221,12 +254,6 @@ public class NewContact extends HttpServlet {
 			    for (int i = 0; i < checkboxes.length; ++i) { 
 			    	response.getWriter().append("<tr><th>" + checkboxes[i] + "<th></tr>");
 			    }
-			}
-			
-			String newGroup = request.getParameter("newGroup");
-			if (newGroup.length() >= 1)
-			{
-		    	response.getWriter().append("<tr><th>" + newGroup + "<th></tr>");
 			}
 			
 			response.getWriter().append("</table></th></tr></table>");
@@ -266,34 +293,13 @@ public class NewContact extends HttpServlet {
 			response.getWriter().append("</body></html>");
 		}
 		
-		
-		
-		/*
-		Enumeration<String> test = request.getParameterNames();
-		while (test.hasMoreElements())
-		{
-			System.out.println(test.nextElement());
-		}
-		
-		String[] checkboxes = request.getParameterValues("group");
-		 
-		if (checkboxes == null) {
-		    // no checkboxes selected
-		    System.out.println (" Non Cochée ");// Non cochée 
-		} else { 
-		    for (int i = 0; i < checkboxes.length; ++i) {   
-		        System.out.println("  " + checkboxes[i]);
-		    }
-		}
-		*/
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException
-	{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
