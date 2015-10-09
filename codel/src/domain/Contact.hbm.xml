@@ -14,7 +14,7 @@
 		<property name="lastName" column="LASTNAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
 		
-		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true" fetch="select" 
+		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true" lazy="false"
 			cascade="persist, all-delete-orphan"/>
 		
 		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist, all-delete-orphan">

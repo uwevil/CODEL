@@ -44,12 +44,32 @@ if (session.getAttribute("authenticated") == null)
 <p>
 	<form method="post" action="TestRequest">
 	<div>
-		<input class="test" type="submit" name="hql" value="Requête HQL"/>
-		<input class="test" type="submit" name="criteria" value="Requête avec Criteria"/>
-		<input class="test" type="submit" name="example" value="Requête avec Examples"/>
+		<p>
+			<input class="test" type="submit" name="hql" value="Requête HQL"/>
+			<input class="test" type="submit" name="hql2" value="Requête HQL 2"/>		
+			<input class="test" type="submit" name="hql3" value="Requête HQL 3"/><br>
+		</p>
+		
+		<p>
+			<input type="text" name="street" placeholder="Street" size="25">
+			<input type="text" name="zip" placeholder="Zip" size="25">
+			<input type="text" name="city" placeholder="City" size="25">
+			<input type="text" name="country" placeholder="Country" size="25">
+			<input class="test" type="submit" name="criteria" value="Requête avec Criteria"/><br>
+		</p>
+		<p>
+			<input type="text" name="email" placeholder="Email" size="25">
+			<input class="test" type="submit" name="example" value="Requête avec Examples"/><br>
+		</p>
 	</div>
 	<div>
-		<textarea name="textarea" rows="5" cols="70" placeholder="Saisir une requête HQL ici."></textarea><br>
+		<textarea name="textarea" rows="5" cols="70" 
+			placeholder="Saissir la requête HQL.">from Contact c 
+			left join fetch c.phoneNumbers
+			left join fetch c.address 
+			left join fetch c.books 
+			
+		</textarea><br>
 	</div>
 		<input type="submit" value="Run"/>
 		<input type="reset" value="Reset"/>
