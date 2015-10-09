@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
 import domain.DAOContact;
@@ -98,13 +99,14 @@ public class UpdateContactSuite extends HttpServlet {
 		{
 			String numSiret = request.getParameter("numSiret");
 
-			Entreprise e = (Entreprise)contact;
+			Entreprise e = new Entreprise();
 			
+			e.setNumSiret(Long.parseLong(numSiret));
 			e.setFirstName(firstName);
 			e.setLastName(lastName);
-			e.setNumSiret(Long.parseLong(numSiret));
 			e.setEmail(email);
 			
+			e.setAddress(new Address());
 			e.getAddress().setStreet(street);
 			e.getAddress().setCity(city);
 			e.getAddress().setZip(zip);
@@ -139,6 +141,11 @@ public class UpdateContactSuite extends HttpServlet {
 			        e.getBooks().add(g);
 			    }
 			}
+			else
+			{
+				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
+				e.setBooks(contactGroups);
+			}
 			
 			String newGroup = request.getParameter("newGroup");
 			if (newGroup.length() >= 1)
@@ -147,18 +154,104 @@ public class UpdateContactSuite extends HttpServlet {
 				g.getContacts().add(e);
 				e.getBooks().add(g);
 			}
+/*
+			e.setFirstName(firstName);
+			e.setLastName(lastName);
+			e.setNumSiret(Long.parseLong(numSiret));
+			e.setEmail(email);
+			
+			e.getAddress().setStreet(street);
+			e.getAddress().setCity(city);
+			e.getAddress().setZip(zip);
+			e.getAddress().setCountry(country);
+			
+			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
+			
+			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
+			{
+				PhoneNumber p = iterator.next();
+				if (p.getPhoneKind().equals("mobileNumber"))
+				{
+					p.setPhoneNumber(mobileNumber);
+				}
+				else if (p.getPhoneKind().equals("homeNumber"))
+				{
+					p.setPhoneNumber(homeNumber);
+				}
+				else
+				{
+					p.setPhoneNumber(faxNumber);
+				}
+			}
+						 
+			if (checkboxes != null) {
+				Set<ContactGroup> contactGroups = e.getBooks();
 
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();
+					
+					boolean ok_tmp = false;
+					for (int i = 0; i < checkboxes.length; ++i) { 
+				    	if (g.getGroupName().equals(checkboxes[i]))
+				    	{
+				    		checkboxes[i] = null;
+				    		ok_tmp = true;
+				    		break;
+				    	}
+				    }
+					
+					if (!ok_tmp)
+					{
+						g.getContacts().remove(e);
+						e.getBooks().remove(g);
+					}
+				} 
+				
+				for (int i = 0; i < checkboxes.length; ++i) { 
+					if (checkboxes[i] != null)
+					{
+						ContactGroup g = new ContactGroup(checkboxes[i]);
+						g.getContacts().add(e);
+						e.getBooks().add(g);
+					}
+			    }
+			}
+			else
+			{
+				Set<ContactGroup> contactGroups = e.getBooks();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();
+					g.getContacts().remove(e);
+					e.getBooks().remove(g);
+				} 
+				
+				e.setBooks(null);
+			}
+			
+			String newGroup = request.getParameter("newGroup");
+			if (newGroup.length() >= 1)
+			{
+				ContactGroup g = new ContactGroup(newGroup);
+				g.getContacts().add(e);
+				e.getBooks().add(g);
+			}
+*/
 			DAOContact daoContact = new DAOContact();
-			ok = daoContact.updateContact(e);			
+			ok = daoContact.updateContact(e, ((Entreprise) contact).getId());
+					
 		}
 		else
 		{
-			Contact e = (Contact)contact;
+			Contact e = new Contact();
 			
 			e.setFirstName(firstName);
 			e.setLastName(lastName);
 			e.setEmail(email);
 			
+			e.setAddress(new Address());
 			e.getAddress().setStreet(street);
 			e.getAddress().setCity(city);
 			e.getAddress().setZip(zip);
@@ -208,7 +301,7 @@ public class UpdateContactSuite extends HttpServlet {
 			}
 
 			DAOContact daoContact = new DAOContact();
-			ok = daoContact.updateContact(e);
+			ok = daoContact.updateContact(e, ((Contact) contact).getId());
 		}
 		
 		if (ok)

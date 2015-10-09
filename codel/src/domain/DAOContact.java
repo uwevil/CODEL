@@ -1,9 +1,12 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -202,14 +205,170 @@ public class DAOContact {
 		return true;
 	}
 	
-	public boolean updateContact(Contact contact)
+	public boolean updateContact(Object contact, long id)
 	{
 		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
 		session.beginTransaction();
 			
-		session.saveOrUpdate(contact);
+		if (contact.getClass().getName().contains("Entreprise"))
+		{
+			Entreprise e = (Entreprise) session.get(Entreprise.class, id);
+			
+			Entreprise e_tmp = (Entreprise) contact;
+			
+			if (e != null)
+			{
+				e.setFirstName(e_tmp.getFirstName());
+				e.setLastName(e_tmp.getLastName());
+				e.setNumSiret(e_tmp.getNumSiret());
+				
+				e.setEmail(e_tmp.getEmail());
+				e.getAddress().setStreet(e_tmp.getAddress().getStreet());
+				e.getAddress().setZip(e_tmp.getAddress().getZip());
+				e.getAddress().setCity(e_tmp.getAddress().getCity());
+				e.getAddress().setCountry(e_tmp.getAddress().getCountry());
 
+				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); iterator.hasNext();) {
+					PhoneNumber p = iterator.next();
+					
+					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); iterator2.hasNext();)
+					{
+						PhoneNumber p2 = iterator2.next();
+
+						if (p.getPhoneKind().equals(p2.getPhoneKind()))
+						{
+							p.setPhoneNumber(p2.getPhoneNumber());
+						}
+					}
+				}
+				
+				Set<ContactGroup> contactGroups = e.getBooks();
+				ArrayList<ContactGroup> groups_tmp = new ArrayList<>();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();
+					
+					boolean ok_tmp = false;
+					
+
+					for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
+				    	ContactGroup g_tmp = iterator2.next();
+				    	
+						if (g.getGroupName().equals(g_tmp.getGroupName()))
+				    	{
+				    		e_tmp.getBooks().remove(g_tmp);
+				    		ok_tmp = true;
+				    		break;
+				    	}
+				    }
+					
+					if (!ok_tmp)
+					{
+						groups_tmp.add(g);
+						g.getContacts().remove(e);
+				//		e.getBooks().remove(g);
+					}
+				} 
+				
+				for (int i = 0; i < groups_tmp.size(); i++)
+				{
+				//	groups_tmp.get(i).getContacts().remove(e);
+					e.getBooks().remove(groups_tmp.get(i));
+				}
+				
+				
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
+					ContactGroup g = iterator2.next();
+					g.getContacts().add(e);
+					e.getBooks().add(g);
+					session.persist(g);
+			    }
+				session.flush();
+			}
+			
+			session.saveOrUpdate(e);
+		}
+		else
+		{
+			Contact e = (Contact) session.get(Contact.class, id);
+			
+			Contact e_tmp = (Contact) contact;
+			
+			if (e != null)
+			{
+				e.setFirstName(e_tmp.getFirstName());
+				e.setLastName(e_tmp.getLastName());
+				
+				e.setEmail(e_tmp.getEmail());
+				e.getAddress().setStreet(e_tmp.getAddress().getStreet());
+				e.getAddress().setZip(e_tmp.getAddress().getZip());
+				e.getAddress().setCity(e_tmp.getAddress().getCity());
+				e.getAddress().setCountry(e_tmp.getAddress().getCountry());
+
+				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); iterator.hasNext();) {
+					PhoneNumber p = iterator.next();
+					
+					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); iterator2.hasNext();)
+					{
+						PhoneNumber p2 = iterator2.next();
+
+						if (p.getPhoneKind().equals(p2.getPhoneKind()))
+						{
+							p.setPhoneNumber(p2.getPhoneNumber());
+						}
+					}
+				}
+				
+				Set<ContactGroup> contactGroups = e.getBooks();
+				ArrayList<ContactGroup> groups_tmp = new ArrayList<>();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();
+					
+					boolean ok_tmp = false;
+					
+
+					for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
+				    	ContactGroup g_tmp = iterator2.next();
+				    	
+						if (g.getGroupName().equals(g_tmp.getGroupName()))
+				    	{
+				    		e_tmp.getBooks().remove(g_tmp);
+				    		ok_tmp = true;
+				    		break;
+				    	}
+				    }
+					
+					if (!ok_tmp)
+					{
+						groups_tmp.add(g);
+						g.getContacts().remove(e);
+				//		e.getBooks().remove(g);
+					}
+				} 
+				
+				for (int i = 0; i < groups_tmp.size(); i++)
+				{
+				//	groups_tmp.get(i).getContacts().remove(e);
+					e.getBooks().remove(groups_tmp.get(i));
+				}
+				
+				
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
+					ContactGroup g = iterator2.next();
+					g.getContacts().add(e);
+					e.getBooks().add(g);
+					session.persist(g);
+			    }
+				session.flush();
+			}
+			
+			session.saveOrUpdate(e);
+		}
+		
 		session.getTransaction().commit();
 		session.close();	
 		return true;		
@@ -232,13 +391,49 @@ public class DAOContact {
 			session.close();
 			return null;
 		}
+				
 		Hibernate.initialize(c);
 		Hibernate.initialize(((Contact)c).address);
+		Hibernate.initialize(((Contact)c).phoneNumbers);
 		Hibernate.initialize(((Contact)c).phoneNumbers);		
 		Hibernate.initialize(((Contact)c).books);
 		
 		session.close();
 		return c;
+	}
+	
+	public List<Object> testHQL2 (String requestQuery)
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();	
+		
+		session.beginTransaction();
+		
+		@SuppressWarnings("unchecked")
+		List<Object> list = session.createQuery(requestQuery).list();
+		
+		if (list == null)
+		{
+			session.close();
+			return null;
+		}
+		
+		for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
+		{
+			Object[] contacts = (Object[])(iterator.next());
+							
+			if (contacts.length > 0)
+			{	
+				for (int i = 0; i < contacts.length; i++)
+				{
+					Contact c_tmp = (Contact)contacts[i];
+					c_tmp.getAddress().getStreet();
+				}
+			}
+		}
+		
+		
+		session.close();
+		return list;
 	}
 	
 	public List<Object> testHQL (String requestQuery)
@@ -255,6 +450,7 @@ public class DAOContact {
 			session.close();
 			return null;
 		}
+		
 		
 		session.close();
 		return list;

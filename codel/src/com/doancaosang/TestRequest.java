@@ -115,14 +115,14 @@ public class TestRequest extends HttpServlet {
 			response.getWriter().append("<table>");
 			response.getWriter().append("<tr><th>STREET</th><th>FIRST NAME</th><th>LAST NAME</th></tr>");
 			
-			list = daoContact.testHQL(requestQuery);	
+			list = daoContact.testHQL2(requestQuery);	
 
 			Hashtable<String, ArrayList<Contact>> list_tmp = new Hashtable<>();
 			
 			for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
 			{
 				Object[] contacts = (Object[])(iterator.next());
-				
+								
 				if (contacts.length > 0)
 				{
 					if (!list_tmp.containsKey(((Contact)contacts[0]).getAddress().getStreet()))
@@ -188,7 +188,7 @@ public class TestRequest extends HttpServlet {
 			String city = request.getParameter("city");
 			String country = request.getParameter("country");
 			
-			requestQuery = new String("from Contact as c"
+			requestQuery = new String("from Contact as c "
 					+ "where street = '" + street 
 					+ "' and zip = '" + zip 
 					+ "' and city = '" + city 
