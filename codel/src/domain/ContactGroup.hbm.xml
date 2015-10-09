@@ -10,7 +10,7 @@
             <column name="GROUPNAME" />
         </property>
         
-        <set name="contacts" table="groupBooks" inverse="true" cascade="persist">
+        <set name="contacts" table="groupBooks" inverse="true">
    			<key column="GROUPID"></key>
    			<many-to-many class="Contact" column="CONTACTID"></many-to-many>
    		</set>

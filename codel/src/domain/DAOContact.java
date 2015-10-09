@@ -43,7 +43,7 @@ public class DAOContact {
 		return list;
 	}
 	
-	public boolean addContact(Contact contact)
+	public boolean addContact(Object contact)
 	{
 		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
@@ -51,52 +51,114 @@ public class DAOContact {
 
 		String requestQuery = new String("from Contact where firstName = :f and lastName = :l");
 			
-		Object c = session.createQuery(requestQuery)
-				.setString("f", contact.getFirstName())
-				.setString("l", contact.getLastName())
-				.uniqueResult();
-
-		if (c != null)
+		if (contact.getClass().getName().contains("Entreprise"))
 		{
-			session.close();	
-			return false;
+			Entreprise e = (Entreprise) contact;
+			Object c = session.createQuery(requestQuery)
+					.setString("f", e.getFirstName())
+					.setString("l", e.getLastName())
+					.uniqueResult();
+
+			if (c != null)
+			{
+				session.close();	
+				return false;
+			}
+			else
+			{					
+				Set<ContactGroup> books = e.getBooks();
+				Set<ContactGroup> newBooks = new HashSet<>();
+				
+				Iterator<ContactGroup> iterator = books.iterator();
+				
+				while (iterator.hasNext())
+				{
+					ContactGroup group = iterator.next();
+					requestQuery = new String("from ContactGroup where groupName = :g");
+					
+					System.out.println(group.getGroupName());
+					
+					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
+							.setString("g", group.getGroupName())
+							.uniqueResult();
+					
+					System.out.println("hereee");
+					
+					if (groupExisted != null)
+					{
+						newBooks.add(groupExisted);
+						(groupExisted).getContacts().add(e);
+					}
+					else
+					{
+						newBooks.add(group);
+						group.getContacts().add(e);
+					}
+				}
+				
+				e.setBooks(newBooks);
+				
+				session.persist(e);
+				
+				@SuppressWarnings("unused")
+				Contact contactCreated = (Contact) session.load(Contact.class, e.getId());
+
+			}
+
 		}
 		else
-		{		
-			Set<ContactGroup> books = contact.getBooks();
-			Set<ContactGroup> newBooks = new HashSet<>();
-			Iterator<ContactGroup> iterator = books.iterator();
-			
-			while (iterator.hasNext())
+		{
+			Contact e = (Contact) contact;
+
+			Object c = session.createQuery(requestQuery)
+					.setString("f", e.getFirstName())
+					.setString("l", e.getLastName())
+					.uniqueResult();
+
+			if (c != null)
 			{
-				ContactGroup group = iterator.next();
-				requestQuery = new String("from ContactGroup where groupName = :g");
-				
-				ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-						.setString("g", group.getGroupName())
-						.uniqueResult();
-				
-				if (groupExisted != null)
-				{
-					newBooks.add(groupExisted);
-					(groupExisted).getContacts().add(contact);
-				}
-				else
-				{
-					newBooks.add(group);
-					group.getContacts().add(contact);
-				}
+				session.close();	
+				return false;
 			}
-			
-			contact.setBooks(newBooks);
-			
-			session.persist(contact);
-			
-			@SuppressWarnings("unused")
-			Contact contactCreated = (Contact) session.load(Contact.class, contact.getId());
+			else
+			{					
+				Set<ContactGroup> books = e.getBooks();
+				Set<ContactGroup> newBooks = new HashSet<>();
+				Iterator<ContactGroup> iterator = books.iterator();
+				
+				while (iterator.hasNext())
+				{
+					ContactGroup group = iterator.next();
+					requestQuery = new String("from ContactGroup where groupName = :g");
+					
+					System.out.println(group.getGroupName());
+					
+					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
+							.setString("g", group.getGroupName())
+							.uniqueResult();
+					
+					if (groupExisted != null)
+					{
+						newBooks.add(groupExisted);
+						(groupExisted).getContacts().add(e);
+					}
+					else
+					{
+						newBooks.add(group);
+						group.getContacts().add(e);
+					}
+				}
+				
+				e.setBooks(newBooks);
+				
+				session.persist(e);
+				
+				@SuppressWarnings("unused")
+				Contact contactCreated = (Contact) session.load(Contact.class, e.getId());
+
+			}
 
 		}
-
 		session.getTransaction().commit();
 		session.close();	
 		return true;
@@ -119,9 +181,22 @@ public class DAOContact {
 			session.close();
 			return false;
 		}
+				
+		Set<PhoneNumber> numbers = ((Contact)c).getPhoneNumbers();
 		
+		for (Iterator<PhoneNumber> iterator = numbers.iterator(); iterator.hasNext();)
+			session.delete(iterator.next());		
+				
+		((Contact)c).setPhoneNumbers(null);
+		
+		Set<ContactGroup> groups = ((Contact)c).getBooks();
+		
+		for (Iterator<ContactGroup> iterator = groups.iterator(); iterator.hasNext();)
+			iterator.next().getContacts().remove(c);
+				
 		session.delete(c);
-		
+		session.delete(((Contact)c).getAddress());
+
 		session.getTransaction().commit();
 		session.close();
 		return true;
@@ -132,51 +207,8 @@ public class DAOContact {
 		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
 		session.beginTransaction();
-
-		String requestQuery = new String("from Contact where firstName = :f and lastName = :l");
 			
-		Object c = session.createQuery(requestQuery)
-				.setString("f", contact.getFirstName())
-				.setString("l", contact.getLastName())
-				.uniqueResult();
-
-		if (c != null)
-		{
-			Set<ContactGroup> books = contact.getBooks();
-			Set<ContactGroup> newBooks = new HashSet<>();
-			Iterator<ContactGroup> iterator = books.iterator();
-			
-			while (iterator.hasNext())
-			{
-				ContactGroup group = iterator.next();
-				requestQuery = new String("from ContactGroup where groupName = :g");
-				
-				ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-						.setString("g", group.getGroupName())
-						.uniqueResult();
-				
-				if (groupExisted != null)
-				{
-					newBooks.add(groupExisted);
-					(groupExisted).getContacts().add(contact);
-				}
-				else
-				{
-					newBooks.add(group);
-					group.getContacts().add(contact);
-				}
-			}
-			
-			contact.setBooks(newBooks);
-			
-			c = session.merge(contact);
-			
-			session.saveOrUpdate(c);
-		}
-		else
-		{
-			session.persist(contact);
-		}
+		session.saveOrUpdate(contact);
 
 		session.getTransaction().commit();
 		session.close();	

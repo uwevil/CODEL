@@ -15,7 +15,7 @@
             <column name="PHONENUMBER" />
         </property>
        
-       	<many-to-one name="contact" column="CONTACTID" not-null="true" fetch="join" cascade="persist"/>
+       	<many-to-one name="contact" column="CONTACTID" not-null="true" fetch="join"/>
        
     </class>
 </hibernate-mapping>

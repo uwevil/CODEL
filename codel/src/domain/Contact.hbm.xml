@@ -5,7 +5,7 @@
 
 	<class name="Contact" discriminator-value="C">
 		<id name="id" type="long" column="CONTACTID" > 
-			<generator class="native"/>
+			<generator class="increment"/>
 		</id>
 		
 		<discriminator column="subclass" type="character"></discriminator>
@@ -14,15 +14,15 @@
 		<property name="lastName" column="LASTNAME" type="string"></property>
 		<property name="email" column="EMAIL" type="string"></property>
 		
-		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true" lazy="false"
-			cascade="persist, all-delete-orphan"/>
+		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true"
+			cascade="persist"/>
 		
-		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist, all-delete-orphan">
+		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist">
       	  <key column="CONTACTID"/>
        	  <one-to-many class="PhoneNumber"/>
    		</set>
    		
-   		<set name="books" table="groupBooks" fetch="subselect" cascade="persist, all-delete-orphan">
+   		<set name="books" table="groupBooks" fetch="subselect" cascade="persist">
    			<key column="CONTACTID"></key>
    			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
    		</set>

@@ -408,8 +408,6 @@ public class TestRequest extends HttpServlet {
 		}
 		
 		response.getWriter().append("</body></html>");
-
-
 		
 	}
 
