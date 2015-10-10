@@ -45,7 +45,11 @@ if (session.getAttribute("authenticated") == null)
 	<form method="post" action="TestRequest">
 	<div>
 		<p>
-			<input class="test" type="submit" name="hql" value="Requête HQL"/>
+			<input type="text" name="firstName" placeholder="firstName" size="25">
+			<input type="text" name="lastName" placeholder="lastName" size="25"><br>
+			<input class="test" type="submit" name="hql" value="Requête HQL"/><br>
+		</p>
+		<p>
 			<input class="test" type="submit" name="hql2" value="Requête HQL 2"/>		
 			<input class="test" type="submit" name="hql3" value="Requête HQL 3"/><br>
 		</p>
@@ -54,11 +58,11 @@ if (session.getAttribute("authenticated") == null)
 			<input type="text" name="street" placeholder="Street" size="25">
 			<input type="text" name="zip" placeholder="Zip" size="25">
 			<input type="text" name="city" placeholder="City" size="25">
-			<input type="text" name="country" placeholder="Country" size="25">
+			<input type="text" name="country" placeholder="Country" size="25"><br>
 			<input class="test" type="submit" name="criteria" value="Requête avec Criteria"/><br>
 		</p>
 		<p>
-			<input type="text" name="email" placeholder="Email" size="25">
+			<input type="text" name="email" placeholder="Email" size="25"><br>
 			<input class="test" type="submit" name="example" value="Requête avec Examples"/><br>
 		</p>
 	</div>
@@ -74,6 +78,7 @@ if (session.getAttribute("authenticated") == null)
 		<input type="submit" value="Run"/>
 		<input type="reset" value="Reset"/>
 	</form>
+	
 </p>
 </body>
 </html>

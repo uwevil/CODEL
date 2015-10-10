@@ -7,6 +7,8 @@
     		<generator class="increment"></generator>
     	</id>
     	
+		<version name="version" access="field" column="VERSION" type="long"/>
+    	
     	<property name="street" type="string" column="STREET"></property>
     	<property name="city" type="string" column="CITY"></property>
      	<property name="zip" type="string" column="ZIP"></property>

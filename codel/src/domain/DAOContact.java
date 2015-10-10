@@ -1,6 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.StaleObjectStateException;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -220,6 +220,12 @@ public class DAOContact {
 			
 			Entreprise e_tmp = (Entreprise) contact;
 			
+			if ( e.getVersion() != e_tmp.getVersion() ) 
+			{
+				session.close();
+				return false;
+			}
+			
 			if (e != null)
 			{
 				Set<ContactGroup> contactGroups = e.getBooks();
@@ -290,6 +296,9 @@ public class DAOContact {
 			Contact e = (Contact) session.get(Contact.class, id);
 			
 			Contact e_tmp = (Contact) contact;
+			
+			if ( e.getVersion() != e_tmp.getVersion() ) 
+				throw new StaleObjectStateException("Contact", session);
 			
 			if (e != null)
 			{

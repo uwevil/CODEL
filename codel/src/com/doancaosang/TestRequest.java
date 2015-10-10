@@ -89,7 +89,8 @@ public class TestRequest extends HttpServlet {
 		{
 			response.getWriter().append(s + s2 + "<h3>HQL</h3>");
 			requestQuery = new String("from Contact as c "
-					+ "where c.firstName = 'a'"
+					+ "where c.firstName = '" + request.getParameter("firstName") + "' "
+					+ "and c.lastName = '" + request.getParameter("lastName") + "'"
 					);
 			response.getWriter().append("<h4>" + requestQuery + "</h4>");
 			response.getWriter().append("<table>");
@@ -407,6 +408,7 @@ public class TestRequest extends HttpServlet {
 			response.getWriter().append("</table>");
 		}
 		
+		response.getWriter().append("<p><a class=\"back\" href='testRequest.jsp'>BACK</a></p>");
 		response.getWriter().append("</body></html>");
 		
 	}

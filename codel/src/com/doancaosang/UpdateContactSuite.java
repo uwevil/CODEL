@@ -37,7 +37,8 @@ public class UpdateContactSuite extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
@@ -74,7 +75,8 @@ public class UpdateContactSuite extends HttpServlet {
 		
 		String email = request.getParameter("email").toUpperCase();
 				
-		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
+		if (email.length() > 1 && 
+				!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
 			response.sendRedirect("addContact.jsp");
 			return;
@@ -100,6 +102,8 @@ public class UpdateContactSuite extends HttpServlet {
 			String numSiret = request.getParameter("numSiret");
 
 			Entreprise e = new Entreprise();
+			
+			e.setVersion(((Entreprise) contact).getVersion());
 			
 			e.setNumSiret(Long.parseLong(numSiret));
 			e.setFirstName(firstName);
@@ -154,91 +158,7 @@ public class UpdateContactSuite extends HttpServlet {
 				g.getContacts().add(e);
 				e.getBooks().add(g);
 			}
-/*
-			e.setFirstName(firstName);
-			e.setLastName(lastName);
-			e.setNumSiret(Long.parseLong(numSiret));
-			e.setEmail(email);
-			
-			e.getAddress().setStreet(street);
-			e.getAddress().setCity(city);
-			e.getAddress().setZip(zip);
-			e.getAddress().setCountry(country);
-			
-			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
-			
-			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
-			{
-				PhoneNumber p = iterator.next();
-				if (p.getPhoneKind().equals("mobileNumber"))
-				{
-					p.setPhoneNumber(mobileNumber);
-				}
-				else if (p.getPhoneKind().equals("homeNumber"))
-				{
-					p.setPhoneNumber(homeNumber);
-				}
-				else
-				{
-					p.setPhoneNumber(faxNumber);
-				}
-			}
-						 
-			if (checkboxes != null) {
-				Set<ContactGroup> contactGroups = e.getBooks();
 
-				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
-				{
-					ContactGroup g = iterator.next();
-					
-					boolean ok_tmp = false;
-					for (int i = 0; i < checkboxes.length; ++i) { 
-				    	if (g.getGroupName().equals(checkboxes[i]))
-				    	{
-				    		checkboxes[i] = null;
-				    		ok_tmp = true;
-				    		break;
-				    	}
-				    }
-					
-					if (!ok_tmp)
-					{
-						g.getContacts().remove(e);
-						e.getBooks().remove(g);
-					}
-				} 
-				
-				for (int i = 0; i < checkboxes.length; ++i) { 
-					if (checkboxes[i] != null)
-					{
-						ContactGroup g = new ContactGroup(checkboxes[i]);
-						g.getContacts().add(e);
-						e.getBooks().add(g);
-					}
-			    }
-			}
-			else
-			{
-				Set<ContactGroup> contactGroups = e.getBooks();
-
-				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
-				{
-					ContactGroup g = iterator.next();
-					g.getContacts().remove(e);
-					e.getBooks().remove(g);
-				} 
-				
-				e.setBooks(null);
-			}
-			
-			String newGroup = request.getParameter("newGroup");
-			if (newGroup.length() >= 1)
-			{
-				ContactGroup g = new ContactGroup(newGroup);
-				g.getContacts().add(e);
-				e.getBooks().add(g);
-			}
-*/
 			DAOContact daoContact = new DAOContact();
 			ok = daoContact.updateContact(e, ((Entreprise) contact).getId());
 					
@@ -246,6 +166,8 @@ public class UpdateContactSuite extends HttpServlet {
 		else
 		{
 			Contact e = new Contact();
+			
+			e.setVersion(((Contact) contact).getVersion());
 			
 			e.setFirstName(firstName);
 			e.setLastName(lastName);
@@ -306,7 +228,8 @@ public class UpdateContactSuite extends HttpServlet {
 		
 		if (ok)
 		{
-			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" "
+					+ "\"http://www.w3.org/TR/html4/loose.dtd\">"
 					+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 					+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
 					+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
@@ -367,7 +290,8 @@ public class UpdateContactSuite extends HttpServlet {
 		}
 		else
 		{
-			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\""
+					+ " \"http://www.w3.org/TR/html4/loose.dtd\">"
 					+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 					+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
 					+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
@@ -389,8 +313,8 @@ public class UpdateContactSuite extends HttpServlet {
 					+"</div>";
 			
 			response.getWriter().append(s + s2
-					+ "<h2>Contact existed</h2>"
-					+ "<h3>Do you want to update? Go to Update.<h3>"
+					+ "<h2>Contact erreur</h2>"
+					+ "<h3>Erreur VERSION<h3>"
 					+ "<table border=\"1\">"
 					+ "<tr><th>First name</th><th>" + firstName + "</th></tr>" 
 					+ "<tr><th>Last name</th><th>" + lastName + "</th></tr>" 
@@ -404,7 +328,8 @@ public class UpdateContactSuite extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

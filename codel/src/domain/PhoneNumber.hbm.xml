@@ -8,6 +8,9 @@
             <column name="PHONENUMBERID" />
             <generator class="increment" />
         </id>
+        
+		<version name="version" access="field" column="VERSION" type="long"/>
+        
         <property name="phoneKind" type="string">
             <column name="PHONEKIND" />
         </property>

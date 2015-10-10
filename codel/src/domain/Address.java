@@ -8,7 +8,17 @@ public class Address
 	protected String city;
 	protected String zip;
 	protected String country;
-	
+
+	private long version;
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+
 	public Address()
 	{
 		street = null;

@@ -4,11 +4,14 @@
 <hibernate-mapping package="domain">
 
 	<class name="Contact" discriminator-value="C">
+		<!-- 		<cache usage="read-only"/>
+		 -->
 		<id name="id" type="long" column="CONTACTID" > 
 			<generator class="increment"/>
 		</id>
-		
 		<discriminator column="subclass" type="character"></discriminator>
+		
+		<version name="version" access="field" column="VERSION" type="long"/>
 		
 		<property name="firstName" column="FIRSTNAME" type="string" not-null="true"></property>
 		<property name="lastName" column="LASTNAME" type="string"></property>

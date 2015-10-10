@@ -15,6 +15,16 @@ public class Contact
 	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
 	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 	
+	private long version;
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+	
 	public Contact()
 	{	
 	}

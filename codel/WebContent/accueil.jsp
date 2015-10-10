@@ -48,23 +48,26 @@ if (session.getAttribute("authenticated") == null)
 
 <h2>Liste de vos contacts</h2>
 
-<table border="1">
-	<tr><th>Prénom</th><th>Nom</th></tr>
-
 <%
 DAOContact daoContact = new DAOContact();
 List<Object> list = daoContact.welcome();
 
-for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
+if (list.size() > 0)
 {
-	Contact c = (Contact)(iterator.next());
-	out.print("<tr><th>"+c.getFirstName() + "</th>");
-	out.print("<th>" + c.getLastName() + "</th></tr>");
+	out.print("<table border=\"1\">");
+	out.print("<tr><th>Prénom</th><th>Nom</th></tr>");	
+	
+	for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
+	{
+		Contact c = (Contact)(iterator.next());
+		out.print("<tr><th>"+c.getFirstName() + "</th>");
+		out.print("<th>" + c.getLastName() + "</th></tr>");
+	}
+	
+	out.print("</table>");
 }
 
 %>
-
-</table>
 
 </body>
 </html>
