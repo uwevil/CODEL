@@ -109,9 +109,9 @@ public class UpdateContact extends HttpServlet {
 						+ "<form method=\"post\" action=\"UpdateContactSuite\">"
 						+ "<table border=\"0\">"
 						+ "<tr><th>First name</th><th>" + "<input type=\"text\" name=\"firstName\" value=\""
-						+ e.getFirstName() + "\" size=\"25\" readonly=\"readonly\"></th></tr>"
+						+ e.getFirstName() + "\" size=\"25\" ></th></tr>"
 						+ "<tr><th>Last name</th><th>" + "<input type=\"text\" name=\"lastName\" value=\""
-						+ e.getLastName() + "\" size=\"25\" readonly=\"readonly\">" + "</th></tr>" 
+						+ e.getLastName() + "\" size=\"25\">" + "</th></tr>" 
 						+ "<tr><th>Numero SIRET</th><th>" + "<input type=\"text\" name=\"numSiret\" value=\""
 						+ e.getNumSiret() + "\" size=\"25\">" + "</th></tr>");
 				
@@ -209,11 +209,11 @@ public class UpdateContact extends HttpServlet {
 						+ "<form method=\"post\" action=\"UpdateContactSuite\">"
 						+ "<table border=\"0\">"
 						+ "<tr><th>First name</th><th>" + "<input type=\"text\" name=\"firstName\" value=\""
-						+ e.getFirstName() + "\" size=\"25\" readonly=\"readonly\"></th></tr>"
+						+ e.getFirstName() + "\" size=\"25\"></th></tr>"
 						+ "<tr><th>Last name</th><th>" + "<input type=\"text\" name=\"lastName\" value=\""
-						+ e.getLastName() + "\" size=\"25\" readonly=\"readonly\">" + "</th></tr>" 
+						+ e.getLastName() + "\" size=\"25\">" + "</th></tr>" 
 						);
-				
+				//  readonly=\"readonly\"
 				Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
 				
 				for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)

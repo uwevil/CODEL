@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
@@ -84,9 +82,7 @@ public class DAOContact {
 					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
 							.setString("g", group.getGroupName())
 							.uniqueResult();
-					
-					System.out.println("hereee");
-					
+										
 					if (groupExisted != null)
 					{
 						newBooks.add(groupExisted);
@@ -133,9 +129,7 @@ public class DAOContact {
 				{
 					ContactGroup group = iterator.next();
 					requestQuery = new String("from ContactGroup where groupName = :g");
-					
-					System.out.println(group.getGroupName());
-					
+										
 					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
 							.setString("g", group.getGroupName())
 							.uniqueResult();
@@ -193,10 +187,19 @@ public class DAOContact {
 		((Contact)c).setPhoneNumbers(null);
 		
 		Set<ContactGroup> groups = ((Contact)c).getBooks();
-		
-		for (Iterator<ContactGroup> iterator = groups.iterator(); iterator.hasNext();)
-			iterator.next().getContacts().remove(c);
 				
+		for (Iterator<ContactGroup> iterator = groups.iterator(); iterator.hasNext();)
+		{
+			ContactGroup g = iterator.next();
+			g.getContacts().remove(c);
+			
+			if (g.getContacts().size() < 1)
+				session.delete(g);
+		}
+			
+		((Contact)c).getBooks().clear();
+
+		
 		session.delete(c);
 		session.delete(((Contact)c).getAddress());
 
@@ -219,9 +222,43 @@ public class DAOContact {
 			
 			if (e != null)
 			{
+				Set<ContactGroup> contactGroups = e.getBooks();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();					
+					g.getContacts().remove(e);	
+					
+					if (g.getContacts().size() < 1)
+						session.delete(g);
+				} 
+				
+				contactGroups.clear();
+				
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 					
+					ContactGroup group = iterator2.next();
+					
+					String requestQuery = new String("from ContactGroup where groupName = :g");
+										
+					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
+							.setString("g", group.getGroupName())
+							.uniqueResult();
+					
+					if (groupExisted != null)
+					{
+						e.getBooks().add(groupExisted);
+						(groupExisted).getContacts().add(e);
+					}
+					else
+					{
+						e.getBooks().add(group);
+						group.getContacts().add(e);
+						session.persist(group);
+					}					
+			    }
+				
 				e.setFirstName(e_tmp.getFirstName());
 				e.setLastName(e_tmp.getLastName());
-				e.setNumSiret(e_tmp.getNumSiret());
 				
 				e.setEmail(e_tmp.getEmail());
 				e.getAddress().setStreet(e_tmp.getAddress().getStreet());
@@ -243,48 +280,6 @@ public class DAOContact {
 					}
 				}
 				
-				Set<ContactGroup> contactGroups = e.getBooks();
-				ArrayList<ContactGroup> groups_tmp = new ArrayList<>();
-
-				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
-				{
-					ContactGroup g = iterator.next();
-					
-					boolean ok_tmp = false;
-					
-
-					for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
-				    	ContactGroup g_tmp = iterator2.next();
-				    	
-						if (g.getGroupName().equals(g_tmp.getGroupName()))
-				    	{
-				    		e_tmp.getBooks().remove(g_tmp);
-				    		ok_tmp = true;
-				    		break;
-				    	}
-				    }
-					
-					if (!ok_tmp)
-					{
-						groups_tmp.add(g);
-						g.getContacts().remove(e);
-				//		e.getBooks().remove(g);
-					}
-				} 
-				
-				for (int i = 0; i < groups_tmp.size(); i++)
-				{
-				//	groups_tmp.get(i).getContacts().remove(e);
-					e.getBooks().remove(groups_tmp.get(i));
-				}
-				
-				
-				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
-					ContactGroup g = iterator2.next();
-					g.getContacts().add(e);
-					e.getBooks().add(g);
-					session.persist(g);
-			    }
 				session.flush();
 			}
 			
@@ -298,6 +293,41 @@ public class DAOContact {
 			
 			if (e != null)
 			{
+				Set<ContactGroup> contactGroups = e.getBooks();
+
+				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
+				{
+					ContactGroup g = iterator.next();					
+					g.getContacts().remove(e);	
+
+					if (g.getContacts().size() < 1)
+						session.delete(g);
+				} 
+				
+				contactGroups.clear();
+				
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 					
+					ContactGroup group = iterator2.next();
+					
+					String requestQuery = new String("from ContactGroup where groupName = :g");
+										
+					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
+							.setString("g", group.getGroupName())
+							.uniqueResult();
+					
+					if (groupExisted != null)
+					{
+						e.getBooks().add(groupExisted);
+						(groupExisted).getContacts().add(e);
+					}
+					else
+					{
+						e.getBooks().add(group);
+						group.getContacts().add(e);
+						session.persist(group);
+					}					
+			    }
+				
 				e.setFirstName(e_tmp.getFirstName());
 				e.setLastName(e_tmp.getLastName());
 				
@@ -321,48 +351,6 @@ public class DAOContact {
 					}
 				}
 				
-				Set<ContactGroup> contactGroups = e.getBooks();
-				ArrayList<ContactGroup> groups_tmp = new ArrayList<>();
-
-				for (Iterator<ContactGroup> iterator = contactGroups.iterator(); iterator.hasNext();)
-				{
-					ContactGroup g = iterator.next();
-					
-					boolean ok_tmp = false;
-					
-
-					for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
-				    	ContactGroup g_tmp = iterator2.next();
-				    	
-						if (g.getGroupName().equals(g_tmp.getGroupName()))
-				    	{
-				    		e_tmp.getBooks().remove(g_tmp);
-				    		ok_tmp = true;
-				    		break;
-				    	}
-				    }
-					
-					if (!ok_tmp)
-					{
-						groups_tmp.add(g);
-						g.getContacts().remove(e);
-				//		e.getBooks().remove(g);
-					}
-				} 
-				
-				for (int i = 0; i < groups_tmp.size(); i++)
-				{
-				//	groups_tmp.get(i).getContacts().remove(e);
-					e.getBooks().remove(groups_tmp.get(i));
-				}
-				
-				
-				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 
-					ContactGroup g = iterator2.next();
-					g.getContacts().add(e);
-					e.getBooks().add(g);
-					session.persist(g);
-			    }
 				session.flush();
 			}
 			
