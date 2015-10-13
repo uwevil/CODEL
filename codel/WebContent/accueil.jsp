@@ -14,6 +14,7 @@
    <script src="cssmenu/script.js"></script>
 <title>Accueil</title>
 </head>
+
 <body>
 <div id='cssmenu'>
 <ul>
