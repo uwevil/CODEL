@@ -17,7 +17,7 @@ public class TestSpring {
 		
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext(
-						"applicationContext.xml");
+						"applicationContextTest.xml");
 		
 		for (int i = 0; i < 2; i++){
 			String name = "springContactID" + i;
@@ -70,5 +70,5 @@ public class TestSpring {
 		}
 		System.out.println();
 	}
-
+	
 }

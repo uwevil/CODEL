@@ -20,17 +20,6 @@
     <session-timeout>1</session-timeout>
   </session-config>
   
-  <listener>
-  	<listener-class>
-  		org.springframework.web.context.ContextLoaderListener
-  	</listener-class>
-  </listener>
-  <listener>
-  	<listener-class>
-  		org.springframework.web.context.request.RequestContextListener
-  	</listener-class>
-  </listener>
-  
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.doancaosang.LoginServlet</servlet-class>
@@ -96,5 +85,18 @@
     <servlet-name>UpdateContactSuite</servlet-name>
     <url-pattern>/UpdateContactSuite</url-pattern>
   </servlet-mapping>
+ 
+ <!--  
+   <listener>
+  	<listener-class>
+  		org.springframework.web.context.ContextLoaderListener
+  	</listener-class>
+  </listener>
+  <listener>
+  	<listener-class>
+  		org.springframework.web.context.request.RequestContextListener
+  	</listener-class>
+  </listener>
+   -->
   
 </web-app>

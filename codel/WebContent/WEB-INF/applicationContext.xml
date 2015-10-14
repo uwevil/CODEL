@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation=
-	"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!--
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost/codel"></property>
 		<property name="username" value="root"></property>
@@ -26,19 +30,40 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="current_session_context_class">thread</prop>
+				<prop key="connection.pool_size">50</prop>
+				<prop key="hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
 			</props>
 		</property>
+	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref ="sessionFactory"></property>
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-
+	</bean> 
 	 -->
 
 	<bean id="springDAOContactID" class="domain.DAOContact" scope="singleton">
-	
+	<!--  <property name="hibernateTemplate" ref="hibernateTemplate"></property>-->
 	</bean>
+
+	<aop:config>
+		<aop:aspect id="springAspectEmailLogger" ref="springEmailLogger">
+			<aop:before
+				pointcut="execution(* domain.Contact.setEmail(String))
+						and args(email)"
+				method="log" arg-names="email"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
+	<bean id="springEmailLogger" class="domain.EmailLogger">
+	</bean>
+
 
 	<bean id="springContactID0" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>

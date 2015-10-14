@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation=
-	"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -40,6 +43,17 @@
 	
 	</bean>
 
+	<aop:config>
+		<aop:aspect id="springAspectEmailLogger" ref="springEmailLogger">
+			<aop:before
+				pointcut="execution(* setEmail(String))
+						and args(email)"
+				method="log" arg-names="email"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<bean id="springEmailLogger" class="domain.EmailLogger"></bean>
+
 	<bean id="springContactID0" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>
 		<property name="lastName" value="B"/>
@@ -49,12 +63,12 @@
 			<set>
 				<ref bean="springPhoneNumberID"/>
 				
-				<bean class="domain.PhoneNumber">
+				<bean class="domain.PhoneNumber" scope="prototype">
 					<property name="phoneKind" value="home"></property>
 					<property name="phoneNumber" value="0178987898"></property>	
 				</bean>
 				
-				<bean class="domain.PhoneNumber">
+				<bean class="domain.PhoneNumber" scope="prototype">
 					<property name="phoneKind" value="fax"></property>
 					<property name="phoneNumber" value="0178987898"></property>	
 				</bean>
@@ -128,12 +142,12 @@
 			<set>
 				<ref bean="springPhoneNumberID1"/>
 				
-				<bean class="domain.PhoneNumber">
+				<bean class="domain.PhoneNumber" scope="prototype">
 					<property name="phoneKind" value="home"></property>
 					<property name="phoneNumber" value="01111111"></property>	
 				</bean>
 				
-				<bean class="domain.PhoneNumber">
+				<bean class="domain.PhoneNumber" scope="prototype">
 					<property name="phoneKind" value="fax"></property>
 					<property name="phoneNumber" value="09999999"></property>	
 				</bean>

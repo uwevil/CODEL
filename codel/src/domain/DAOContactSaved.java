@@ -16,9 +16,9 @@ import org.hibernate.criterion.Restrictions;
 
 import util.HibernateUtil;
 
-public class DAOContact { //extends HibernateDaoSupport{
-		
-	public DAOContact()
+public class DAOContactSaved {
+
+	public DAOContactSaved()
 	{
 	}
 	
@@ -30,9 +30,7 @@ public class DAOContact { //extends HibernateDaoSupport{
 		
 		@SuppressWarnings("unchecked")
 		List<Object> list = (List<Object>) session.createQuery(requestQuery).list();
-		
-	//	List<Object> list = ((SharedSessionContract) getHibernateTemplate()).createQuery(requestQuery).list();
-		
+				
 		if (list == null)
 		{
 			session.close();
