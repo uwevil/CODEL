@@ -174,11 +174,12 @@ public class NewContact extends HttpServlet {
 		DAOContact daoContact = new DAOContact();
 		boolean ok = false;
 		
-		if (numSiret.length() >= 1)
+		if (numSiret.length() >= 1){
 			ok = daoContact.addContact(e);
-		else
+		}else{
 			ok = daoContact.addContact(c);
-				
+		}
+		
 		if (ok)
 		{
 			String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 "

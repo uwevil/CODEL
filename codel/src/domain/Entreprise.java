@@ -10,6 +10,12 @@ public class Entreprise extends Contact
 		super();
 	}
 	
+	public Entreprise(long numSiret)
+	{
+		super();
+		this.numSiret = numSiret;
+	}
+	
 	public long getNumSiret()
 	{
 		return numSiret;

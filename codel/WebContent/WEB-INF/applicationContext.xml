@@ -8,8 +8,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost/codel"></property>
 		<property name="username" value="root"></property>
-		<property name="password" value=""></property>
-		
+		<property name="password" value=""></property>	
 	</bean>
 
 	<bean id="sessionFactory" 
@@ -35,15 +34,46 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
-	<bean id="springContactID" class="domain.Contact" scope="prototype">
+
+
+
+	<bean id="springContactID" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>
 		<property name="lastName" value="B"/>
 		<property name="email" value="a@c.co"/>
 		<property name="address"><ref bean="springAddressID"/></property>
-		
-		
-		
-		
+		<property name="phoneNumbers">
+			<set>
+				<ref bean="springPhoneNumberID"/>
+				
+				<bean class="domain.PhoneNumber">
+					<property name="phoneKind" value="home"></property>
+					<property name="phoneNumber" value="0178987898"></property>	
+				</bean>
+				
+				<bean class="domain.PhoneNumber">
+					<property name="phoneKind" value="fax"></property>
+					<property name="phoneNumber" value="0178987898"></property>	
+				</bean>
+			</set>
+		</property>
+		<property name="books">
+			<set>
+				<ref bean="springContactGroupID"/>
+				<bean class="domain.ContactGroup">
+					<property name="groupName" value="Famille"></property>
+				</bean>
+				<bean class="domain.ContactGroup">
+					<property name="groupName" value="Collegue"></property>
+				</bean>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="springEntrepriseID" parent="springContactID" class="domain.Entreprise">
+		<constructor-arg type="long">
+			<value>1234567654</value>
+		</constructor-arg>
 	</bean>
 	
 	<bean id="springAddressID" class="domain.Address" scope="prototype">
@@ -55,9 +85,20 @@
 	
 	<bean id="springPhoneNumberID" class="domain.PhoneNumber" scope="prototype">
 		<property name="phoneKind" value="mobile"></property>
-		<property name="phoneNumber" value="0798776211"></property>		
+		<property name="phoneNumber" value="0798776211"></property>	
+		<property name="contact">
+			<ref bean="springContactID"/>
+		</property>	
 	</bean>
 	
+	<bean id="springContactGroupID" class="domain.ContactGroup" scope="singleton">
+		<property name="groupName" value="Amis"></property>
+		<property name="contacts">
+			<set>
+				<ref bean="springContactID"/>
+			</set>
+		</property>
+	</bean>
 	
 	
 	
