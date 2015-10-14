@@ -1,1 +1,7 @@
+/.DS_Store
+/applicationContextTest.xml
 /com/
+/domain/
+/ehcache.xml
+/hibernate.cfg.xml
+/util/

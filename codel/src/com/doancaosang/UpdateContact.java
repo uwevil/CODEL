@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import domain.Contact;
 import domain.ContactGroup;
 import domain.DAOContact;
@@ -67,7 +70,11 @@ public class UpdateContact extends HttpServlet {
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		
-		DAOContact daoContact = new DAOContact();
+	//	DAOContact daoContact = new DAOContact();
+		
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+		
 		Object c = daoContact.searchContact(contact);
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
@@ -120,13 +127,13 @@ public class UpdateContact extends HttpServlet {
 				for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
 				{
 					PhoneNumber p = iterator.next();
-					if (p.getPhoneKind().equals("mobileNumber"))
+					if (p.getPhoneKind().equals("mobileNumber".toUpperCase()))
 					{
 						response.getWriter().append("<tr><th>Mobile number</th><th>" 
 								+ "<input type=\"text\" name=\"mobileNumber\" value=\""
 								+ p.getPhoneNumber() + "\" size=\"25\">" + "</th></tr>");
 					}
-					else if (p.getPhoneKind().equals("homeNumber"))
+					else if (p.getPhoneKind().equals("homeNumber".toUpperCase()))
 					{
 						response.getWriter().append("<tr><th>Home number</th><th>" 
 								+ "<input type=\"text\" name=\"homeNumber\" value=\""
@@ -219,13 +226,13 @@ public class UpdateContact extends HttpServlet {
 				for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
 				{
 					PhoneNumber p = iterator.next();
-					if (p.getPhoneKind().equals("mobileNumber"))
+					if (p.getPhoneKind().equals("mobileNumber".toUpperCase()))
 					{
 						response.getWriter().append("<tr><th>Mobile number</th><th>" 
 								+ "<input type=\"text\" name=\"mobileNumber\" value=\""
 								+ p.getPhoneNumber() + "\" size=\"25\">" + "</th></tr>");
 					}
-					else if (p.getPhoneKind().equals("homeNumber"))
+					else if (p.getPhoneKind().equals("homeNumber".toUpperCase()))
 					{
 						response.getWriter().append("<tr><th>Home number</th><th>" 
 								+ "<input type=\"text\" name=\"homeNumber\" value=\""

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import domain.Contact;
 import domain.ContactGroup;
@@ -81,7 +83,11 @@ public class TestRequest extends HttpServlet {
 				+ "</ul>"
 				+"</div>";
 				
-		DAOContact daoContact = new DAOContact();
+	//	DAOContact daoContact = new DAOContact();
+		
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+		
 		List<Object> list = new ArrayList<Object>();
 		String requestQuery = "";
 		

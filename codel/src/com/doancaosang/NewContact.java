@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
@@ -100,9 +103,9 @@ public class NewContact extends HttpServlet {
 		{
 			Address addr = new Address(street, city, zip, country);
 			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber".toUpperCase(), mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber".toUpperCase(), homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber".toUpperCase(), faxNumber);
 			
 			mNumber.setContact(e);
 			hNumber.setContact(e);
@@ -138,9 +141,9 @@ public class NewContact extends HttpServlet {
 		{
 			Address addr = new Address(street, city, zip, country);
 			
-			PhoneNumber mNumber = new PhoneNumber("mobileNumber", mobileNumber);
-			PhoneNumber hNumber = new PhoneNumber("homeNumber", homeNumber);
-			PhoneNumber fNumber = new PhoneNumber("faxNumber", faxNumber);
+			PhoneNumber mNumber = new PhoneNumber("mobileNumber".toUpperCase(), mobileNumber);
+			PhoneNumber hNumber = new PhoneNumber("homeNumber".toUpperCase(), homeNumber);
+			PhoneNumber fNumber = new PhoneNumber("faxNumber".toUpperCase(), faxNumber);
 			
 			mNumber.setContact(c);
 			hNumber.setContact(c);
@@ -171,7 +174,11 @@ public class NewContact extends HttpServlet {
 			}
 		}
 		
-		DAOContact daoContact = new DAOContact();
+	//	DAOContact daoContact = new DAOContact();
+		
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+		
 		boolean ok = false;
 		
 		if (numSiret.length() >= 1){

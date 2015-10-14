@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import domain.Contact;
 import domain.DAOContact;
 
@@ -60,7 +63,14 @@ HttpSession session = request.getSession(false);
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		
+		/*
 		DAOContact daoContact = new DAOContact();
+		*/
+		
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+		
+		
 		daoContact.deleteContact(contact);
 			
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"

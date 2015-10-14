@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import domain.Contact;
 import domain.ContactGroup;
 import domain.DAOContact;
@@ -89,7 +92,11 @@ public class SearchContact extends HttpServlet {
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		
-		DAOContact daoContact = new DAOContact();
+	//	DAOContact daoContact = new DAOContact();
+		
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+		
 		Object c = daoContact.searchContact(contact);
 		
 		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"

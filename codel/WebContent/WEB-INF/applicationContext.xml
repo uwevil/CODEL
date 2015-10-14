@@ -4,7 +4,7 @@
 	xsi:schemaLocation=
 	"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost/codel"></property>
 		<property name="username" value="root"></property>
@@ -34,10 +34,13 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
+	 -->
 
+	<bean id="springDAOContactID" class="domain.DAOContact" scope="singleton">
+	
+	</bean>
 
-
-	<bean id="springContactID" class="domain.Contact" scope="singleton">
+	<bean id="springContactID0" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>
 		<property name="lastName" value="B"/>
 		<property name="email" value="a@c.co"/>
@@ -59,18 +62,14 @@
 		</property>
 		<property name="books">
 			<set>
-				<ref bean="springContactGroupID"/>
-				<bean class="domain.ContactGroup">
-					<property name="groupName" value="Famille"></property>
-				</bean>
-				<bean class="domain.ContactGroup">
-					<property name="groupName" value="Collegue"></property>
-				</bean>
+				<ref bean="springContactGroupID0"/>
+				<ref bean="springContactGroupID1"/>
+				<ref bean="springContactGroupID2"/>
 			</set>
 		</property>
 	</bean>
 	
-	<bean id="springEntrepriseID" parent="springContactID" class="domain.Entreprise">
+	<bean id="springEntrepriseID" parent="springContactID0" class="domain.Entreprise" scope="prototype">
 		<constructor-arg type="long">
 			<value>1234567654</value>
 		</constructor-arg>
@@ -87,19 +86,87 @@
 		<property name="phoneKind" value="mobile"></property>
 		<property name="phoneNumber" value="0798776211"></property>	
 		<property name="contact">
-			<ref bean="springContactID"/>
+			<ref bean="springContactID0"/>
 		</property>	
 	</bean>
 	
-	<bean id="springContactGroupID" class="domain.ContactGroup" scope="singleton">
+	<bean id="springContactGroupID0" class="domain.ContactGroup" scope="singleton">
 		<property name="groupName" value="Amis"></property>
 		<property name="contacts">
 			<set>
-				<ref bean="springContactID"/>
+				<ref bean="springContactID0"/>
+				<ref bean="springContactID1"/>
+			</set>
+		</property>
+	</bean>
+	<bean id="springContactGroupID1" class="domain.ContactGroup" scope="singleton">
+		<property name="groupName" value="Amis"></property>
+		<property name="contacts">
+			<set>
+				<ref bean="springContactID0"/>
+				<ref bean="springContactID1"/>
+			</set>
+		</property>
+	</bean>
+	<bean id="springContactGroupID2" class="domain.ContactGroup" scope="singleton">
+		<property name="groupName" value="Amis"></property>
+		<property name="contacts">
+			<set>
+				<ref bean="springContactID0"/>
+				<ref bean="springContactID1"/>
 			</set>
 		</property>
 	</bean>
 	
 	
+	<bean id="springContactID1" class="domain.Contact" scope="singleton">
+		<property name="firstName" value="B"/>
+		<property name="lastName" value="C"/>
+		<property name="email" value="bc@c.co"/>
+		<property name="address"><ref bean="springAddressID1"/></property>
+		<property name="phoneNumbers">
+			<set>
+				<ref bean="springPhoneNumberID1"/>
+				
+				<bean class="domain.PhoneNumber">
+					<property name="phoneKind" value="home"></property>
+					<property name="phoneNumber" value="01111111"></property>	
+				</bean>
+				
+				<bean class="domain.PhoneNumber">
+					<property name="phoneKind" value="fax"></property>
+					<property name="phoneNumber" value="09999999"></property>	
+				</bean>
+			</set>
+		</property>
+		<property name="books">
+			<set>
+				<ref bean="springContactGroupID0"/>
+				<ref bean="springContactGroupID1"/>
+				<ref bean="springContactGroupID2"/>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="springEntrepriseID1" parent="springContactID1" class="domain.Entreprise" scope="prototype">
+		<constructor-arg type="long">
+			<value>1234567654</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="springAddressID1" class="domain.Address" scope="prototype">
+		<property name="street" value="Chopin"/>
+		<property name="city" value="Paris"/>
+		<property name="zip" value="75000"/>
+		<property name="country" value="France"/>	
+	</bean>
+	
+	<bean id="springPhoneNumberID1" class="domain.PhoneNumber" scope="prototype">
+		<property name="phoneKind" value="mobile"></property>
+		<property name="phoneNumber" value="071111111"></property>	
+		<property name="contact">
+			<ref bean="springContactID1"/>
+		</property>	
+	</bean>
 	
 </beans>

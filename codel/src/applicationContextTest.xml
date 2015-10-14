@@ -36,6 +36,9 @@
 
 	 -->
 
+	<bean id="springDAOContactID0" class="domain.DAOContact" scope="singleton">
+	
+	</bean>
 
 	<bean id="springContactID0" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>

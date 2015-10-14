@@ -241,7 +241,8 @@ public class DAOContact {
 				
 				contactGroups.clear();
 				
-				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 					
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); 
+						iterator2.hasNext();) { 					
 					ContactGroup group = iterator2.next();
 					
 					String requestQuery = new String("from ContactGroup where groupName = :g");
@@ -272,10 +273,12 @@ public class DAOContact {
 				e.getAddress().setCity(e_tmp.getAddress().getCity());
 				e.getAddress().setCountry(e_tmp.getAddress().getCountry());
 
-				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); iterator.hasNext();) {
+				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); 
+						iterator.hasNext();) {
 					PhoneNumber p = iterator.next();
 					
-					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); iterator2.hasNext();)
+					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); 
+							iterator2.hasNext();)
 					{
 						PhoneNumber p2 = iterator2.next();
 
@@ -315,7 +318,8 @@ public class DAOContact {
 				
 				contactGroups.clear();
 				
-				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); iterator2.hasNext();) { 					
+				for (Iterator<ContactGroup> iterator2 = e_tmp.getBooks().iterator(); 
+						iterator2.hasNext();) { 					
 					ContactGroup group = iterator2.next();
 					
 					String requestQuery = new String("from ContactGroup where groupName = :g");
@@ -344,15 +348,20 @@ public class DAOContact {
 				e.getAddress().setStreet(e_tmp.getAddress().getStreet());
 				e.getAddress().setZip(e_tmp.getAddress().getZip());
 				e.getAddress().setCity(e_tmp.getAddress().getCity());
-				e.getAddress().setCountry(e_tmp.getAddress().getCountry());
-
-				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); iterator.hasNext();) {
+				e.getAddress().setCountry(e_tmp.getAddress().getCountry());				
+				
+				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); 
+						iterator.hasNext();) {
 					PhoneNumber p = iterator.next();
 					
-					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); iterator2.hasNext();)
+					for (Iterator<PhoneNumber> iterator2 = e_tmp.getPhoneNumbers().iterator(); 
+							iterator2.hasNext();)
 					{
 						PhoneNumber p2 = iterator2.next();
 
+			//			System.out.println("-" + p.getPhoneKind() + "-" + p2.getPhoneKind() + "-");
+
+						
 						if (p.getPhoneKind().equals(p2.getPhoneKind()))
 						{
 							p.setPhoneNumber(p2.getPhoneNumber());

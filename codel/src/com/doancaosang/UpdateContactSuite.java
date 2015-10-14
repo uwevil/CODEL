@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
@@ -95,7 +98,7 @@ public class UpdateContactSuite extends HttpServlet {
 				
 		Object contact = session.getAttribute("contact");
 
-		boolean ok = true;
+		boolean ok = true;		
 		
 		if (contact.getClass().getName().contains("Entreprise"))
 		{
@@ -116,25 +119,10 @@ public class UpdateContactSuite extends HttpServlet {
 			e.getAddress().setZip(zip);
 			e.getAddress().setCountry(country);
 			
-			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
-			
-			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
-			{
-				PhoneNumber p = iterator.next();
-				if (p.getPhoneKind().equals("mobileNumber"))
-				{
-					p.setPhoneNumber(mobileNumber);
-				}
-				else if (p.getPhoneKind().equals("homeNumber"))
-				{
-					p.setPhoneNumber(homeNumber);
-				}
-				else
-				{
-					p.setPhoneNumber(faxNumber);
-				}
-			}
-						 
+			e.getPhoneNumbers().add(new PhoneNumber("MOBILENUMBER", mobileNumber));
+			e.getPhoneNumbers().add(new PhoneNumber("HOMENUMBER", homeNumber));
+			e.getPhoneNumbers().add(new PhoneNumber("FAXNUMBER", faxNumber));
+
 			if (checkboxes != null) {
 				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
 				e.setBooks(contactGroups);
@@ -159,7 +147,12 @@ public class UpdateContactSuite extends HttpServlet {
 				e.getBooks().add(g);
 			}
 
-			DAOContact daoContact = new DAOContact();
+	//		DAOContact daoContact = new DAOContact();
+			
+			ApplicationContext context = 
+					WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+			DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+			
 			ok = daoContact.updateContact(e, ((Entreprise) contact).getId());
 					
 		}
@@ -179,24 +172,9 @@ public class UpdateContactSuite extends HttpServlet {
 			e.getAddress().setZip(zip);
 			e.getAddress().setCountry(country);
 			
-			Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
-			
-			for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();)
-			{
-				PhoneNumber p = iterator.next();
-				if (p.getPhoneKind().equals("mobileNumber"))
-				{
-					p.setPhoneNumber(mobileNumber);
-				}
-				else if (p.getPhoneKind().equals("homeNumber"))
-				{
-					p.setPhoneNumber(homeNumber);
-				}
-				else
-				{
-					p.setPhoneNumber(faxNumber);
-				}
-			}
+			e.getPhoneNumbers().add(new PhoneNumber("MOBILENUMBER", mobileNumber));
+			e.getPhoneNumbers().add(new PhoneNumber("HOMENUMBER", homeNumber));
+			e.getPhoneNumbers().add(new PhoneNumber("FAXNUMBER", faxNumber));
 						 
 			if (checkboxes != null) {
 				Set<ContactGroup> contactGroups = new HashSet<ContactGroup>();
@@ -222,7 +200,12 @@ public class UpdateContactSuite extends HttpServlet {
 				e.getBooks().add(g);
 			}
 
-			DAOContact daoContact = new DAOContact();
+	//		DAOContact daoContact = new DAOContact();
+		
+			ApplicationContext context = 
+					WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+			DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+			
 			ok = daoContact.updateContact(e, ((Contact) contact).getId());
 		}
 		
