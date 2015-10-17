@@ -16,6 +16,17 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>LoginServlet</welcome-file>
   </welcome-file-list>
+ <listener>
+  	<listener-class>
+  		org.springframework.web.context.ContextLoaderListener
+  	</listener-class>
+  </listener>
+  
+  <listener>
+  	<listener-class>
+  		org.springframework.web.context.request.RequestContextListener
+  	</listener-class>
+  </listener>
   <session-config>
     <session-timeout>1</session-timeout>
   </session-config>
@@ -52,7 +63,7 @@
     <servlet-name>UpdateContactSuite</servlet-name>
     <servlet-class>com.doancaosang.UpdateContactSuite</servlet-class>
   </servlet>
-   
+  
    <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
@@ -85,18 +96,5 @@
     <servlet-name>UpdateContactSuite</servlet-name>
     <url-pattern>/UpdateContactSuite</url-pattern>
   </servlet-mapping>
- 
- <!--  
-   <listener>
-  	<listener-class>
-  		org.springframework.web.context.ContextLoaderListener
-  	</listener-class>
-  </listener>
-  <listener>
-  	<listener-class>
-  		org.springframework.web.context.request.RequestContextListener
-  	</listener-class>
-  </listener>
-   -->
   
 </web-app>

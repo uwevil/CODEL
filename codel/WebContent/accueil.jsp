@@ -48,11 +48,17 @@ if (session.getAttribute("authenticated") == null)
 %>
 
 <h2>Liste de vos contacts</h2>
-
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%
-DAOContact daoContact = new DAOContact();
-List<Object> list = daoContact.welcome();
+//DAOContact daoContact = new DAOContact();
+//List<Object> list = daoContact.welcome();
 
+DAOContact daoContact = (DAOContact) request.getSession().getAttribute("sprindDAOContactID");
+if (daoContact != null){
+
+List<Object> list = daoContact.welcome();
 if (list.size() > 0)
 {
 	out.print("<table border=\"1\">");
@@ -66,6 +72,8 @@ if (list.size() > 0)
 	}
 	
 	out.print("</table>");
+}
+
 }
 
 %>

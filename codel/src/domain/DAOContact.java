@@ -13,33 +13,31 @@ import org.hibernate.StaleObjectStateException;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate4.support.*;
 
 import util.HibernateUtil;
 
-public class DAOContact { //extends HibernateDaoSupport{
+public class DAOContact extends HibernateDaoSupport{
 		
 	public DAOContact()
-	{
-	}
-	
+	{}
+		
 	public List<Object> welcome()
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
+	//	Session session = HibernateUtil.getSessionFactory().openSession();	
 		
 		String requestQuery = new String("from Contact");
 		
 		@SuppressWarnings("unchecked")
-		List<Object> list = (List<Object>) session.createQuery(requestQuery).list();
-		
-	//	List<Object> list = ((SharedSessionContract) getHibernateTemplate()).createQuery(requestQuery).list();
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
 		
 		if (list == null)
 		{
-			session.close();
+	//		session.close();
 			return null;
 		}
 		
-		session.close();
+	//	session.close();
 		
 		return list;
 	}

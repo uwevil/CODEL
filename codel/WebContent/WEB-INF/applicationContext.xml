@@ -6,17 +6,22 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop.xsd">
-
+	
 	<!--
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSource" class="org.apache.comm" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost/codel"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value=""></property>	
 	</bean>
+	-->
 
 	<bean id="sessionFactory" 
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="configLocation">
+        <value>classpath:hibernate.cfg.xml</value>
+    	</property>
+	<!--
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mappingResources">
 			<list>
@@ -37,20 +42,22 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				<prop key="hibernate.format_sql">true</prop>
 			</props>
 		</property>
+		-->
 	</bean>
-	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory" ref ="sessionFactory"></property>
 	</bean>
-	
+
+	<!--  
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean> 
-	 -->
+	</bean> 	
+	-->
 
-	<bean id="springDAOContactID" class="domain.DAOContact" scope="singleton">
-	<!--  <property name="hibernateTemplate" ref="hibernateTemplate"></property>-->
+	<bean id="springDAOContactID" class="domain.DAOContact">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
 	</bean>
-
+	<!--
 	<aop:config>
 		<aop:aspect id="springAspectEmailLogger" ref="springEmailLogger">
 			<aop:before
@@ -59,7 +66,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				method="log" arg-names="email"/>
 		</aop:aspect>
 	</aop:config>
-	
+	-->
 	
 	<bean id="springEmailLogger" class="domain.EmailLogger">
 	</bean>
