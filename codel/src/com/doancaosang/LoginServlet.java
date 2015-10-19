@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet
 			ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 			DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
 			
-			session.setAttribute("sprindDAOContactID", daoContact);
+			session.setAttribute("list", daoContact.welcome());
 			response.sendRedirect("accueil.jsp");
 		}
 		else

@@ -9,23 +9,31 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.StaleObjectStateException;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.support.*;
 
 import util.HibernateUtil;
 
 public class DAOContact extends HibernateDaoSupport{
 		
+	@SuppressWarnings("unused")
+	private HibernateTemplate hibernateTemplate;
+	
 	public DAOContact()
 	{}
+	
+	public void setHibernateTemplate(SessionFactory sessionFactory){
+		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+		
+	}
 		
 	public List<Object> welcome()
-	{
-	//	Session session = HibernateUtil.getSessionFactory().openSession();	
-		
+	{		
 		String requestQuery = new String("from Contact");
 		
 		@SuppressWarnings("unchecked")
@@ -33,34 +41,27 @@ public class DAOContact extends HibernateDaoSupport{
 		
 		if (list == null)
 		{
-	//		session.close();
 			return null;
 		}
-		
-	//	session.close();
-		
+				
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean addContact(Object contact)
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-
-		String requestQuery = new String("from Contact where firstName = :f and lastName = :l");
-			
+	{			
 		if (contact.getClass().getName().contains("Entreprise"))
 		{
 			Entreprise e = (Entreprise) contact;
-			Object c = session.createQuery(requestQuery)
-					.setString("f", e.getFirstName())
-					.setString("l", e.getLastName())
-					.uniqueResult();
+			
+			String requestQuery = new String("from Contact "
+					+ "where firstName = '" + e.getFirstName() + "'" 
+					+ " and lastName = '" + e.getLastName() + "'");
 
-			if (c != null)
+			List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+			if (list != null && list.size() > 0)
 			{
-				session.close();	
 				return false;
 			}
 			else
@@ -73,18 +74,14 @@ public class DAOContact extends HibernateDaoSupport{
 				while (iterator.hasNext())
 				{
 					ContactGroup group = iterator.next();
-					requestQuery = new String("from ContactGroup where groupName = :g");
-					
-					System.out.println(group.getGroupName());
-					
-					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-							.setString("g", group.getGroupName())
-							.uniqueResult();
+					requestQuery = new String("from ContactGroup where groupName = '" + group.getGroupName() + "'");
 										
-					if (groupExisted != null)
+					List<ContactGroup> groupExisted = (List<ContactGroup>) getHibernateTemplate().find(requestQuery);
+										
+					if (groupExisted != null && groupExisted.size() > 0)
 					{
-						newBooks.add(groupExisted);
-						(groupExisted).getContacts().add(e);
+						newBooks.add(groupExisted.get(0));
+						groupExisted.get(0).getContacts().add(e);
 					}
 					else
 					{
@@ -95,26 +92,21 @@ public class DAOContact extends HibernateDaoSupport{
 				
 				e.setBooks(newBooks);
 				
-				session.persist(e);
-				
-				@SuppressWarnings("unused")
-				Contact contactCreated = (Contact) session.load(Contact.class, e.getId());
-
+				getHibernateTemplate().persist(e);
 			}
-
 		}
 		else
 		{
 			Contact e = (Contact) contact;
 
-			Object c = session.createQuery(requestQuery)
-					.setString("f", e.getFirstName())
-					.setString("l", e.getLastName())
-					.uniqueResult();
+			String requestQuery = new String("from Contact "
+					+ "where firstName = '" + e.getFirstName() + "'" 
+					+ " and lastName = '" + e.getLastName() + "'");
 
-			if (c != null)
+			List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+			if (list != null && list.size() > 0)
 			{
-				session.close();	
 				return false;
 			}
 			else
@@ -126,16 +118,14 @@ public class DAOContact extends HibernateDaoSupport{
 				while (iterator.hasNext())
 				{
 					ContactGroup group = iterator.next();
-					requestQuery = new String("from ContactGroup where groupName = :g");
+					requestQuery = new String("from ContactGroup where groupName = '" + group.getGroupName() + "'");
 										
-					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-							.setString("g", group.getGroupName())
-							.uniqueResult();
-					
-					if (groupExisted != null)
+					List<ContactGroup> groupExisted = (List<ContactGroup>) getHibernateTemplate().find(requestQuery);
+										
+					if (groupExisted != null && groupExisted.size() > 0)
 					{
-						newBooks.add(groupExisted);
-						(groupExisted).getContacts().add(e);
+						newBooks.add(groupExisted.get(0));
+						groupExisted.get(0).getContacts().add(e);
 					}
 					else
 					{
@@ -146,41 +136,34 @@ public class DAOContact extends HibernateDaoSupport{
 				
 				e.setBooks(newBooks);
 				
-				session.persist(e);
-				
-				@SuppressWarnings("unused")
-				Contact contactCreated = (Contact) session.load(Contact.class, e.getId());
-
+				getHibernateTemplate().persist(e);
 			}
 
 		}
-		session.getTransaction().commit();
-		session.close();	
+			
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean deleteContact(Contact contact)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-
 		String requestQuery = new String("from Contact where firstName = '" + contact.getFirstName() 
 						+ "' and lastName = '" + contact.getLastName() + "'"
 						);
 		
-		Object c = session.createQuery(requestQuery).uniqueResult();
+		List<Contact> list = (List<Contact>) getHibernateTemplate().find(requestQuery);
 		
-		if (c == null)
+		if (list == null || list.size() == 0)
 		{
-			session.close();
 			return false;
 		}
+		
+		Contact c = list.get(0);
 				
 		Set<PhoneNumber> numbers = ((Contact)c).getPhoneNumbers();
 		
 		for (Iterator<PhoneNumber> iterator = numbers.iterator(); iterator.hasNext();)
-			session.delete(iterator.next());		
+			getHibernateTemplate().delete(iterator.next());		
 				
 		((Contact)c).setPhoneNumbers(null);
 		
@@ -192,35 +175,29 @@ public class DAOContact extends HibernateDaoSupport{
 			g.getContacts().remove(c);
 			
 			if (g.getContacts().size() < 1)
-				session.delete(g);
+				getHibernateTemplate().delete(g);
 		}
 			
 		((Contact)c).getBooks().clear();
 
 		
-		session.delete(c);
-		session.delete(((Contact)c).getAddress());
+		getHibernateTemplate().delete(c);
+		getHibernateTemplate().delete(((Contact)c).getAddress());
 
-		session.getTransaction().commit();
-		session.close();
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean updateContact(Object contact, long id)
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-			
+	{			
 		if (contact.getClass().getName().contains("Entreprise"))
 		{
-			Entreprise e = (Entreprise) session.get(Entreprise.class, id);
+			Entreprise e = (Entreprise) getHibernateTemplate().get(Entreprise.class, id);
 			
 			Entreprise e_tmp = (Entreprise) contact;
 			
 			if ( e.getVersion() != e_tmp.getVersion() ) 
 			{
-				session.close();
 				return false;
 			}
 			
@@ -234,7 +211,7 @@ public class DAOContact extends HibernateDaoSupport{
 					g.getContacts().remove(e);	
 					
 					if (g.getContacts().size() < 1)
-						session.delete(g);
+						getHibernateTemplate().delete(g);
 				} 
 				
 				contactGroups.clear();
@@ -243,14 +220,15 @@ public class DAOContact extends HibernateDaoSupport{
 						iterator2.hasNext();) { 					
 					ContactGroup group = iterator2.next();
 					
-					String requestQuery = new String("from ContactGroup where groupName = :g");
+					String requestQuery = new String("from ContactGroup "
+							+ "where groupName = '" + group.getGroupName() + "'");
+								
+					List<ContactGroup> list = (List<ContactGroup>) getHibernateTemplate().find(requestQuery);
 										
-					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-							.setString("g", group.getGroupName())
-							.uniqueResult();
-					
-					if (groupExisted != null)
+					if (list != null && list.size() > 0)
 					{
+						ContactGroup groupExisted = list.get(0);
+
 						e.getBooks().add(groupExisted);
 						(groupExisted).getContacts().add(e);
 					}
@@ -258,7 +236,7 @@ public class DAOContact extends HibernateDaoSupport{
 					{
 						e.getBooks().add(group);
 						group.getContacts().add(e);
-						session.persist(group);
+						getHibernateTemplate().persist(group);
 					}					
 			    }
 				
@@ -287,19 +265,21 @@ public class DAOContact extends HibernateDaoSupport{
 					}
 				}
 				
-				session.flush();
+				getHibernateTemplate().flush();
 			}
 			
-			session.saveOrUpdate(e);
+			getHibernateTemplate().saveOrUpdate(e);
 		}
 		else
 		{
-			Contact e = (Contact) session.get(Contact.class, id);
-			
+			Contact e = (Contact) getHibernateTemplate().get(Contact.class, id);
+						
 			Contact e_tmp = (Contact) contact;
 			
 			if ( e.getVersion() != e_tmp.getVersion() ) 
-				throw new StaleObjectStateException("Contact", session);
+			{
+				return false;
+			}
 			
 			if (e != null)
 			{
@@ -309,9 +289,9 @@ public class DAOContact extends HibernateDaoSupport{
 				{
 					ContactGroup g = iterator.next();					
 					g.getContacts().remove(e);	
-
+					
 					if (g.getContacts().size() < 1)
-						session.delete(g);
+						getHibernateTemplate().delete(g);
 				} 
 				
 				contactGroups.clear();
@@ -320,14 +300,15 @@ public class DAOContact extends HibernateDaoSupport{
 						iterator2.hasNext();) { 					
 					ContactGroup group = iterator2.next();
 					
-					String requestQuery = new String("from ContactGroup where groupName = :g");
+					String requestQuery = new String("from ContactGroup "
+							+ "where groupName = '" + group.getGroupName() + "'");
+								
+					List<ContactGroup> list = (List<ContactGroup>) getHibernateTemplate().find(requestQuery);
 										
-					ContactGroup groupExisted = (ContactGroup) session.createQuery(requestQuery)
-							.setString("g", group.getGroupName())
-							.uniqueResult();
-					
-					if (groupExisted != null)
+					if (list != null && list.size() > 0)
 					{
+						ContactGroup groupExisted = list.get(0);
+
 						e.getBooks().add(groupExisted);
 						(groupExisted).getContacts().add(e);
 					}
@@ -335,7 +316,7 @@ public class DAOContact extends HibernateDaoSupport{
 					{
 						e.getBooks().add(group);
 						group.getContacts().add(e);
-						session.persist(group);
+						getHibernateTemplate().persist(group);
 					}					
 			    }
 				
@@ -346,8 +327,8 @@ public class DAOContact extends HibernateDaoSupport{
 				e.getAddress().setStreet(e_tmp.getAddress().getStreet());
 				e.getAddress().setZip(e_tmp.getAddress().getZip());
 				e.getAddress().setCity(e_tmp.getAddress().getCity());
-				e.getAddress().setCountry(e_tmp.getAddress().getCountry());				
-				
+				e.getAddress().setCountry(e_tmp.getAddress().getCountry());
+
 				for (Iterator<PhoneNumber> iterator = e.getPhoneNumbers().iterator(); 
 						iterator.hasNext();) {
 					PhoneNumber p = iterator.next();
@@ -357,9 +338,6 @@ public class DAOContact extends HibernateDaoSupport{
 					{
 						PhoneNumber p2 = iterator2.next();
 
-			//			System.out.println("-" + p.getPhoneKind() + "-" + p2.getPhoneKind() + "-");
-
-						
 						if (p.getPhoneKind().equals(p2.getPhoneKind()))
 						{
 							p.setPhoneNumber(p2.getPhoneNumber());
@@ -367,14 +345,12 @@ public class DAOContact extends HibernateDaoSupport{
 					}
 				}
 				
-				session.flush();
+				getHibernateTemplate().flush();
 			}
 			
-			session.saveOrUpdate(e);
+			getHibernateTemplate().saveOrUpdate(e);
 		}
 		
-		session.getTransaction().commit();
-		session.close();	
 		return true;		
 	}
 	

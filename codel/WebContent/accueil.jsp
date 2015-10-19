@@ -55,15 +55,13 @@ if (session.getAttribute("authenticated") == null)
 //DAOContact daoContact = new DAOContact();
 //List<Object> list = daoContact.welcome();
 
-DAOContact daoContact = (DAOContact) request.getSession().getAttribute("sprindDAOContactID");
-if (daoContact != null){
+List<Object> list = (List<Object>)request.getSession().getAttribute("list");
 
-List<Object> list = daoContact.welcome();
 if (list.size() > 0)
 {
 	out.print("<table border=\"1\">");
 	out.print("<tr><th>Prénom</th><th>Nom</th></tr>");	
-	
+
 	for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();)
 	{
 		Contact c = (Contact)(iterator.next());
@@ -72,8 +70,6 @@ if (list.size() > 0)
 	}
 	
 	out.print("</table>");
-}
-
 }
 
 %>
