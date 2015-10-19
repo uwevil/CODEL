@@ -55,7 +55,10 @@ if (session.getAttribute("authenticated") == null)
 //DAOContact daoContact = new DAOContact();
 //List<Object> list = daoContact.welcome();
 
-List<Object> list = (List<Object>)request.getSession().getAttribute("list");
+ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+			DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+
+List<Object> list = daoContact.welcome();
 
 if (list.size() > 0)
 {

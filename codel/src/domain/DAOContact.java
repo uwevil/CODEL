@@ -5,19 +5,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.StaleObjectStateException;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.support.*;
-
-import util.HibernateUtil;
 
 public class DAOContact extends HibernateDaoSupport{
 		
@@ -29,7 +25,6 @@ public class DAOContact extends HibernateDaoSupport{
 	
 	public void setHibernateTemplate(SessionFactory sessionFactory){
 		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
-		
 	}
 		
 	public List<Object> welcome()
@@ -191,9 +186,9 @@ public class DAOContact extends HibernateDaoSupport{
 	public boolean updateContact(Object contact, long id)
 	{			
 		if (contact.getClass().getName().contains("Entreprise"))
-		{
-			Entreprise e = (Entreprise) getHibernateTemplate().get(Entreprise.class, id);
-			
+		{			
+			Entreprise e = (Entreprise) getHibernateTemplate().load(Entreprise.class, id);
+	
 			Entreprise e_tmp = (Entreprise) contact;
 			
 			if ( e.getVersion() != e_tmp.getVersion() ) 
@@ -271,8 +266,8 @@ public class DAOContact extends HibernateDaoSupport{
 			getHibernateTemplate().saveOrUpdate(e);
 		}
 		else
-		{
-			Contact e = (Contact) getHibernateTemplate().get(Contact.class, id);
+		{			
+			Contact e = (Contact) getHibernateTemplate().load(Contact.class, id);
 						
 			Contact e_tmp = (Contact) contact;
 			
@@ -354,46 +349,37 @@ public class DAOContact extends HibernateDaoSupport{
 		return true;		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Object searchContact(Contact contact)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-
 		String requestQuery = new String("from Contact where firstName = '" + contact.getFirstName() 
 						+ "' and lastName = '" + contact.getLastName() + "'"
 						);
 		
-		Object c = session.createQuery(requestQuery).uniqueResult();
+		List<Contact> list = (List<Contact>) getHibernateTemplate().find(requestQuery);
 		
-		if (c == null)
+		if (list == null || list.size() < 1)
 		{
-			session.close();
 			return null;
 		}
-				
-		Hibernate.initialize(c);
-		Hibernate.initialize(((Contact)c).address);
-		Hibernate.initialize(((Contact)c).phoneNumbers);
-		Hibernate.initialize(((Contact)c).phoneNumbers);		
-		Hibernate.initialize(((Contact)c).books);
 		
-		session.close();
+		Contact c = list.get(0);
+		
+		Hibernate.initialize(c);
+		Hibernate.initialize(c.address);
+		Hibernate.initialize(c.phoneNumbers);		
+		Hibernate.initialize(c.books);
+		
 		return c;
 	}
 	
 	public List<Object> testHQL2 (String requestQuery)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-		
 		@SuppressWarnings("unchecked")
-		List<Object> list = session.createQuery(requestQuery).list();
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
 		
 		if (list == null)
 		{
-			session.close();
 			return null;
 		}
 		
@@ -410,39 +396,28 @@ public class DAOContact extends HibernateDaoSupport{
 				}
 			}
 		}
-		
-		
-		session.close();
+				
 		return list;
 	}
 	
 	public List<Object> testHQL (String requestQuery)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-		
 		@SuppressWarnings("unchecked")
-		List<Object> list = session.createQuery(requestQuery).list();
+		List<Object> list =(List<Object>) getHibernateTemplate().find(requestQuery);
 		
 		if (list == null)
 		{
-			session.close();
 			return null;
 		}
 		
 		
-		session.close();
 		return list;
 	}
 	
 	public List<Object> testCriteria (String street, String zip, String city, String country)
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
 		
-		session.beginTransaction();
-		
-		Criteria criteria = session.createCriteria(Contact.class)
+		DetachedCriteria criteria = DetachedCriteria.forClass(Contact.class)
 				.addOrder(Order.asc("id"))
 				.createCriteria("address");
 		
@@ -461,41 +436,34 @@ public class DAOContact extends HibernateDaoSupport{
 		criteria.setFetchMode("address", FetchMode.JOIN);
 		
 		@SuppressWarnings("unchecked")
-		List<Object> list = criteria.list();
+		List<Object> list = (List<Object>) getHibernateTemplate().findByCriteria(criteria);
 		
 		if (list == null)
 		{
-			session.close();
 			return null;
 		}
 		
-		session.close();
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Object> testCriteriaExample ()
 	{
-		Session session = HibernateUtil.getSessionFactory().openSession();	
-		
-		session.beginTransaction();
-		
 		Contact c = new Contact();
 		c.setEmail("");
 		
-		@SuppressWarnings("unchecked")
-		List<Object> list = session.createCriteria(Contact.class)
+		DetachedCriteria criteria = DetachedCriteria.forClass(Contact.class)
 			.add(Restrictions.eqProperty("street", "street"))
 			.add(Example.create(c))
-			.addOrder(Order.asc("id"))
-			.list();
+			.addOrder(Order.asc("id"));
+		
+		List<Object> list = (List<Object>) getHibernateTemplate().findByCriteria(criteria);
 		
 		if (list == null)
 		{
-			session.close();
 			return null;
 		}
 		
-		session.close();
 		return list;
 	}
 	

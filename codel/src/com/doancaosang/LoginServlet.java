@@ -54,10 +54,8 @@ public class LoginServlet extends HttpServlet
 			session.setAttribute("authenticated", "OK");
 			session.setMaxInactiveInterval(120);
 			
-			ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-			DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
+	//		session.setAttribute("list", daoContact.welcome());
 			
-			session.setAttribute("list", daoContact.welcome());
 			response.sendRedirect("accueil.jsp");
 		}
 		else
