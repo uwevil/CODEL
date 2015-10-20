@@ -19,16 +19,12 @@ public class TestSpring {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext(
 						"applicationContextTest.xml");
-		
-		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
-		
+				
 		for (int i = 0; i < 2; i++){
 			String name = "springContactID" + i;
 			System.out.print(name + " ");
 			Contact c = (Contact) context.getBean(name);
-			
-			daoContact.addContact(c);
-			
+						
 			System.out.println(c);
 			System.out.println("First name : " + c.getFirstName());
 			System.out.println("Last name : " + c.getLastName());
@@ -59,9 +55,7 @@ public class TestSpring {
 		String name = "springEntrepriseID";
 		System.out.print(name + " ");
 		Entreprise c = (Entreprise) context.getBean(name);
-		
-		daoContact.addContact(c);
-		
+				
 		System.out.println(c);
 		System.out.println("First name : " + c.getFirstName());
 		System.out.println("Last name : " + c.getLastName());

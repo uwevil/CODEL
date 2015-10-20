@@ -60,7 +60,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<aop:config>
 		<aop:aspect id="springAspectEmailLogger" ref="springLogger">
 			<aop:pointcut id="welcomePointcut"
-				expression="execution(* domain.DAOContact.welcome())"/>
+				expression="execution(* domain.DAOContact.*(..))"/>
 			<aop:after pointcut-ref="welcomePointcut" method="log"/>			
 		</aop:aspect>
 	</aop:config>
