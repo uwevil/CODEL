@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head><title>JSF 2.0: Projet Start</title>
+</h:head>
+<h:body>
+<div align="center">
+<h1>JSF 2.0: Projet Start</h1>
+<p>
+<b>Ceci est la Page A.</b> Le lien vers cette page se fait par "page-a.jsf",
+et non pas "page-a.xhtml". Clickez sur le bouton pour aller vers la Page B, si ça marche c'est que tout est installé correctement, 
+sinon vérifiez l'emplacement de vos .jar JSF, le fichier Web XML ou bien le fichier faces-config.xml
+</p>
+<fieldset>
+<legend>JSF Test </legend>
+<h:form>
+ 	Texte 1: <h:inputText/><br/>  <!-- Textfield ignoré -->
+  	Texte 2: <h:inputText/><br/>   <!-- Textfield ignoré -->
+  <h:commandButton value="Go to Page B" 
+                   action="page-b"/>     <!-- aller vers page-b.jsf -->
+</h:form>
+</fieldset>
+<p>
+
+</p>
+
+<hr/>
+<br/><br/><br/>
+
+</div></h:body></html>
