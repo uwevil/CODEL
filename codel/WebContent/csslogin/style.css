@@ -29,6 +29,13 @@ label {
 	left: calc(25% - 255px);
 	z-index: 2;
 }
+
+.jsf{
+	position: absolute;
+	top: calc(25% - 35px);
+	left: calc(25% - 255px);
+	z-index: 2;
+}
 div{
 	float: left;
 	color: #fff;
@@ -53,6 +60,16 @@ div span{
 
     position: absolute;
 	top: calc(55% - 75px);
+	left: calc(50% - 50px);
+	height: 150px;
+	width: 350px;
+	padding: 10px;
+	z-index: 2;
+}
+.loginform3 {
+
+    position: absolute;
+	top: calc(90% - 75px);
 	left: calc(50% - 50px);
 	height: 150px;
 	width: 350px;
@@ -98,6 +115,22 @@ input[type=submit]{
 	padding: 6px;
 	margin-top: 10px;
 }
+
+.loginform3Button{
+	width: 260px;
+	height: 35px;
+	background: #fff;
+	border: 1px solid #fff;
+	cursor: pointer;
+	border-radius: 0px;
+	color: #5379fa;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+}
+
 input[type=reset]{
 	width: 260px;
 	height: 35px;

@@ -68,19 +68,19 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<bean id="springContactID0" class="domain.Contact" scope="singleton">
 		<property name="firstName" value="A"/>
 		<property name="lastName" value="B"/>
-		<property name="email" value="a@c.co"/>
+		<property name="email" value="A@B.CO"/>
 		<property name="address"><ref bean="springAddressID"/></property>
 		<property name="phoneNumbers">
 			<set>
 				<ref bean="springPhoneNumberID"/>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="home"></property>
-					<property name="phoneNumber" value="0178987898"></property>	
+					<property name="phoneKind" value="HOMENUMBER"></property>
+					<property name="phoneNumber" value="0173337898"></property>	
 				</bean>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="fax"></property>
+					<property name="phoneKind" value="FAXNUMBER"></property>
 					<property name="phoneNumber" value="0178987898"></property>	
 				</bean>
 			</set>
@@ -101,14 +101,14 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springAddressID" class="domain.Address" scope="prototype">
-		<property name="street" value="Alesia"/>
-		<property name="city" value="Paris"/>
+		<property name="street" value="ALESIA"/>
+		<property name="city" value="PARIS"/>
 		<property name="zip" value="75000"/>
-		<property name="country" value="France"/>	
+		<property name="country" value="FRANCE"/>	
 	</bean>
 	
 	<bean id="springPhoneNumberID" class="domain.PhoneNumber" scope="prototype">
-		<property name="phoneKind" value="mobile"></property>
+		<property name="phoneKind" value="MOBILENUMBER"></property>
 		<property name="phoneNumber" value="0798776211"></property>	
 		<property name="contact">
 			<ref bean="springContactID0"/>
@@ -125,7 +125,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 		</property>
 	</bean>
 	<bean id="springContactGroupID1" class="domain.ContactGroup" scope="singleton">
-		<property name="groupName" value="Collègue"></property>
+		<property name="groupName" value="Collegues"></property>
 		<property name="contacts">
 			<set>
 				<ref bean="springContactID0"/>
@@ -145,21 +145,21 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
 	
 	<bean id="springContactID1" class="domain.Contact" scope="singleton">
-		<property name="firstName" value="Athur"/>
-		<property name="lastName" value="Chou"/>
-		<property name="email" value="a.chou@c.co"/>
+		<property name="firstName" value="ATHUR"/>
+		<property name="lastName" value="CHOIX"/>
+		<property name="email" value="ATHUR@CHOIX.COM"/>
 		<property name="address"><ref bean="springAddressID1"/></property>
 		<property name="phoneNumbers">
 			<set>
 				<ref bean="springPhoneNumberID1"/>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="home"></property>
+					<property name="phoneKind" value="HOMENUMBER"></property>
 					<property name="phoneNumber" value="01111111"></property>	
 				</bean>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="fax"></property>
+					<property name="phoneKind" value="FAXNUMBER"></property>
 					<property name="phoneNumber" value="09999999"></property>	
 				</bean>
 			</set>
@@ -180,14 +180,14 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springAddressID1" class="domain.Address" scope="prototype">
-		<property name="street" value="Rue des Rancy"/>
-		<property name="city" value="Paris"/>
+		<property name="street" value="RUE DES RANCY"/>
+		<property name="city" value="PARIS"/>
 		<property name="zip" value="75000"/>
-		<property name="country" value="France"/>	
+		<property name="country" value="FRANCE"/>	
 	</bean>
 	
 	<bean id="springPhoneNumberID1" class="domain.PhoneNumber" scope="prototype">
-		<property name="phoneKind" value="mobile"></property>
+		<property name="phoneKind" value="MOBILENUMBER"></property>
 		<property name="phoneNumber" value="071111111"></property>	
 		<property name="contact">
 			<ref bean="springContactID1"/>
@@ -195,21 +195,21 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springContactID2" class="domain.Contact" scope="singleton">
-		<property name="firstName" value="java"/>
-		<property name="lastName" value="inc"/>
-		<property name="email" value="java@inc.co"/>
+		<property name="firstName" value="JAVA"/>
+		<property name="lastName" value="INC"/>
+		<property name="email" value="JAVA@INC.FR"/>
 		<property name="address"><ref bean="springAddressID2"/></property>
 		<property name="phoneNumbers">
 			<set>
 				<ref bean="springPhoneNumberID2"/>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="home"></property>
+					<property name="phoneKind" value="HOMENUMBER"></property>
 					<property name="phoneNumber" value="01111111"></property>	
 				</bean>
 				
 				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="fax"></property>
+					<property name="phoneKind" value="FAXNUMBER"></property>
 					<property name="phoneNumber" value="09999999"></property>	
 				</bean>
 			</set>
@@ -228,14 +228,14 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springAddressID2" class="domain.Address" scope="prototype">
-		<property name="street" value="Barault"/>
-		<property name="city" value="Paris"/>
+		<property name="street" value="BARAULT"/>
+		<property name="city" value="PARIS"/>
 		<property name="zip" value="75013"/>
-		<property name="country" value="France"/>	
+		<property name="country" value="FRANCE"/>	
 	</bean>
 	
 	<bean id="springPhoneNumberID2" class="domain.PhoneNumber" scope="prototype">
-		<property name="phoneKind" value="mobile"></property>
+		<property name="phoneKind" value="MOBILENUMBER"></property>
 		<property name="phoneNumber" value="071111111"></property>	
 		<property name="contact">
 			<ref bean="springContactID2"/>
