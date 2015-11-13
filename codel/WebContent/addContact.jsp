@@ -20,7 +20,8 @@
    <li class='active'><a href='addContact.jsp'>Add</a></li>
    <li><a href='updateContact.jsp'>Update</a></li>
    <li><a href='removeContact.jsp'>Remove</a></li>
-   <li class="testRequest"><a href='testRequest.jsp'>Test request</a></li>
+   <li class="test"><a href='testRequest.jsp'>Test request</a></li>
+   <li class="test"><a href='testSpring.jsp'>Test Spring</a></li>
    <li class='logout'><a href='LogoutServlet'>Log out</a></li>
 </ul>
 </div>

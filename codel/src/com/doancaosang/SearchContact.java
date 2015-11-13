@@ -99,30 +99,11 @@ public class SearchContact extends HttpServlet {
 		
 		Object c = daoContact.searchContact(contact);
 		
-		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
-				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
-				+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
-				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
-				+ "<script src=\"cssmenu/script.js\"></script>"
-				+ "<title>Search contact</title>";
-		
-		String s2 = "</head><body><div id='cssmenu'><ul>"
-				+ "<li><a href='accueil.jsp'>Home</a></li>"
-				+ "<li class='active'><a href='searchContact.jsp'>Search</a></li>"
-				+ "<li><a href='addContact.jsp'>Add</a></li>"
-				+ "<li><a href='updateContact.jsp'>Update</a></li>"
-				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
-				+ "<li class=\"testRequest\"><a href='testRequest.jsp'>Test request</a></li>"
-				+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
-				+ "</ul>"
-				+"</div>";
-		
 		if (c == null)
 		{
-			response.getWriter().append(s + s2
+			response.getWriter().append(Header.header
+					+ "<title>Search contact</title>"
+					+ Header.menu_searchContact
 					+ "<h3>Contact not found</h3>"
 					+ "</body></html>");
 		}
@@ -131,7 +112,9 @@ public class SearchContact extends HttpServlet {
 			if (c.getClass().getName().contains("Entreprise"))
 			{
 				Entreprise e = (Entreprise) c;
-				response.getWriter().append(s + s2
+				response.getWriter().append(Header.header					
+						+ "<title>Search contact</title>"
+						+ Header.menu_searchContact
 						+ "<h3>Contact found</h3>"
 						+ "<table border=\"1\">"
 						+ "<tr><th>First name</th><th>" + e.getFirstName() + "</th></tr>" 
@@ -178,7 +161,9 @@ public class SearchContact extends HttpServlet {
 			else
 			{
 				Contact e = (Contact) c;
-				response.getWriter().append(s + s2
+				response.getWriter().append(Header.header					
+						+ "<title>Search contact</title>"
+						+ Header.menu_searchContact
 						+ "<h3>Contact found</h3>"
 						+ "<table border=\"1\">"
 						+ "<tr><th>First name</th><th>" + e.getFirstName() + "</th></tr>" 

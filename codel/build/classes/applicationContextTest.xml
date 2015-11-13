@@ -60,7 +60,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<aop:config>
 		<aop:aspect id="springAspectEmailLogger" ref="springLogger">
 			<aop:pointcut id="welcomePointcut"
-				expression="execution(* domain.DAOContact.*(..))"/>
+				expression="execution(* domain.DAOContact.welcome())"/>
 			<aop:after pointcut-ref="welcomePointcut" method="log"/>			
 		</aop:aspect>
 	</aop:config>
@@ -101,7 +101,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springAddressID" class="domain.Address" scope="prototype">
-		<property name="street" value="Alesia"/>
+		<property name="street" value="Chopin"/>
 		<property name="city" value="Paris"/>
 		<property name="zip" value="75000"/>
 		<property name="country" value="France"/>	
@@ -121,6 +121,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 			<set>
 				<ref bean="springContactID0"/>
 				<ref bean="springContactID1"/>
+				<ref bean="springEntrepriseID1"/>
 			</set>
 		</property>
 	</bean>
@@ -130,6 +131,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 			<set>
 				<ref bean="springContactID0"/>
 				<ref bean="springContactID1"/>
+				<ref bean="springEntrepriseID1"/>
 			</set>
 		</property>
 	</bean>
@@ -145,9 +147,9 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
 	
 	<bean id="springContactID1" class="domain.Contact" scope="singleton">
-		<property name="firstName" value="Athur"/>
-		<property name="lastName" value="Chou"/>
-		<property name="email" value="a.chou@c.co"/>
+		<property name="firstName" value="B"/>
+		<property name="lastName" value="C"/>
+		<property name="email" value="bc@c.co"/>
 		<property name="address"><ref bean="springAddressID1"/></property>
 		<property name="phoneNumbers">
 			<set>
@@ -180,7 +182,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	</bean>
 	
 	<bean id="springAddressID1" class="domain.Address" scope="prototype">
-		<property name="street" value="Rue des Rancy"/>
+		<property name="street" value="Chopin"/>
 		<property name="city" value="Paris"/>
 		<property name="zip" value="75000"/>
 		<property name="country" value="France"/>	
@@ -193,62 +195,5 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 			<ref bean="springContactID1"/>
 		</property>	
 	</bean>
-	
-	<bean id="springContactID2" class="domain.Contact" scope="singleton">
-		<property name="firstName" value="java"/>
-		<property name="lastName" value="inc"/>
-		<property name="email" value="java@inc.co"/>
-		<property name="address"><ref bean="springAddressID2"/></property>
-		<property name="phoneNumbers">
-			<set>
-				<ref bean="springPhoneNumberID2"/>
-				
-				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="home"></property>
-					<property name="phoneNumber" value="01111111"></property>	
-				</bean>
-				
-				<bean class="domain.PhoneNumber">
-					<property name="phoneKind" value="fax"></property>
-					<property name="phoneNumber" value="09999999"></property>	
-				</bean>
-			</set>
-		</property>
-		<property name="books">
-			<set>
-				<ref bean="springContactGroupID3"/>
-			</set>
-		</property>
-	</bean>
-	
-	<bean id="springEntrepriseID2" parent="springContactID2" class="domain.Entreprise" scope="singleton">
-		<constructor-arg type="long">
-			<value>1234567654</value>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="springAddressID2" class="domain.Address" scope="prototype">
-		<property name="street" value="Barault"/>
-		<property name="city" value="Paris"/>
-		<property name="zip" value="75013"/>
-		<property name="country" value="France"/>	
-	</bean>
-	
-	<bean id="springPhoneNumberID2" class="domain.PhoneNumber" scope="prototype">
-		<property name="phoneKind" value="mobile"></property>
-		<property name="phoneNumber" value="071111111"></property>	
-		<property name="contact">
-			<ref bean="springContactID2"/>
-		</property>	
-	</bean>
-	<bean id="springContactGroupID3" class="domain.ContactGroup" scope="singleton">
-		<property name="groupName" value="Famille"></property>
-		<property name="contacts">
-			<set>
-				<ref bean="springContactID2"/>
-			</set>
-		</property>
-	</bean>
-	
 	
 </beans>

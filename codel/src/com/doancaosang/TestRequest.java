@@ -59,29 +59,6 @@ public class TestRequest extends HttpServlet {
 			response.sendRedirect("login.html");
 			return;
 		}
-		
-		String s = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" "
-				+ "\"http://www.w3.org/TR/html4/loose.dtd\">"
-				+ "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-				+ "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">"
-				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-				+ "<link rel=\"stylesheet\" href=\"cssmenu/styles.css\">"
-				+ "	<link rel=\"stylesheet\" href=\"cssaccueil/style.css\">"
-				+ "	<link rel=\"stylesheet\" href=\"cssAddContact/addContact.css\">"
-				+ "<script src=\"http://code.jquery.com/jquery-latest.min.js\" type=\"text/javascript\"></script>"
-				+ "<script src=\"cssmenu/script.js\"></script>"
-				+ "<title>Add contact</title>";
-		
-		String s2 = "</head><body><div id='cssmenu'><ul>"
-				+ "<li><a href='accueil.jsp'>Home</a></li>"
-				+ "<li><a href='searchContact.jsp'>Search</a></li>"
-				+ "<li><a href='addContact.jsp'>Add</a></li>"
-				+ "<li><a href='updateContact.jsp'>Update</a></li>"
-				+ "<li><a href='removeContact.jsp'>Remove</a></li>"
-				+ "<li class='active' class=\"testRequest\"><a href='testRequest.jsp'>Test request</a></li>"
-				+ "<li class='logout'><a href='LogoutServlet'>Log out</a></li>"
-				+ "</ul>"
-				+"</div>";
 				
 	//	DAOContact daoContact = new DAOContact();
 		
@@ -93,7 +70,9 @@ public class TestRequest extends HttpServlet {
 		
 		if (request.getParameter("hql") != null)
 		{
-			response.getWriter().append(s + s2 + "<h3>HQL</h3>");
+			response.getWriter().append(Header.header
+					+ "<title>Test request</title>" 
+					+ Header.menu_testRequest + "<h3>HQL</h3>");
 			requestQuery = new String("from Contact as c "
 					+ "where c.firstName = '" + request.getParameter("firstName") + "' "
 					+ "and c.lastName = '" + request.getParameter("lastName") + "'"
@@ -114,7 +93,9 @@ public class TestRequest extends HttpServlet {
 		}
 		else if (request.getParameter("hql2") != null)
 		{
-			response.getWriter().append(s + s2 + "<h3>HQL 2</h3>");
+			response.getWriter().append(Header.header
+					+ "<title>Test request</title>"
+					+ Header.menu_testRequest + "<h3>HQL 2</h3>");
 			requestQuery = new String("from Contact as c1, Contact as c2 "
 					+ "where c1.address.street = c2.address.street and c1.id < c2.id"
 					);
@@ -185,10 +166,14 @@ public class TestRequest extends HttpServlet {
 				
 				response.getWriter().append("</tr>");
 			}
+			
+			response.getWriter().append("</table>");
 		}
 		else if (request.getParameter("criteria") != null)
 		{
-			response.getWriter().append(s + s2 + "<h3>Criteria</h3>");
+			response.getWriter().append(Header.header
+					+ "<title>Test request</title>"
+					+ Header.menu_testRequest + "<h3>Criteria</h3>");
 			
 			String street = request.getParameter("street");
 			String zip = request.getParameter("zip");
@@ -237,7 +222,11 @@ public class TestRequest extends HttpServlet {
 		}
 		else if (request.getParameter("example") != null)
 		{
-			response.getWriter().append(s + s2 + "<h3>Request by the Example</h3>");
+			response.getWriter().append(Header.header
+					+ "<title>Test request</title>"
+					+ Header.menu_testRequest 
+					+ "<h3>Request by the Example</h3>");
+			
 			String email = request.getParameter("email");
 			requestQuery = new String("from Contact as c "
 					+ "where c.email = '" + email + "'"
@@ -258,7 +247,10 @@ public class TestRequest extends HttpServlet {
 		}
 		else if (request.getParameter("hql3") != null)
 		{
-			response.getWriter().append(s + s2 + "<h3>HQL 3</h3>");
+			response.getWriter().append(Header.header 
+					+ "<title>Test request</title>"
+					+ Header.menu_testRequest 
+					+ "<h3>HQL 3</h3>");
 			requestQuery = "from Contact c "
 					+ "left join fetch c.phoneNumbers "
 					+ "left join fetch c.address "
@@ -373,15 +365,16 @@ public class TestRequest extends HttpServlet {
 					}		
 					response.getWriter().append("</table>");
 					response.getWriter().append("</th></tr>");
-					response.getWriter().append("</table>");
-
 				}				
 			}
 			
+			response.getWriter().append("</table>");
 		}
 		else
 		{
-			response.getWriter().append(s + s2 + "<h3>Custom HQL</h3>");
+			response.getWriter().append(Header.header 
+					+ "<title>Test request</title>"
+					+ Header.menu_testRequest + "<h3>Custom HQL</h3>");
 			requestQuery = request.getParameter("textarea");
 			
 			response.getWriter().append("<h4>" + requestQuery + "</h4>");

@@ -11,20 +11,19 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import domain.Contact;
 import domain.DAOContact;
 
 /**
  * Servlet implementation class DeleteContact
  */
 @WebServlet("/DeleteContact")
-public class DeleteContact extends HttpServlet {
+public class DeleteContactAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteContact() {
+    public DeleteContactAll() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,39 +43,16 @@ HttpSession session = request.getSession(false);
 			return;
 		}
 				
-		String firstName = request.getParameter("firstName").toUpperCase();
-		String lastName = request.getParameter("lastName").toUpperCase();
-		
-		if (firstName.length() < 1)
-		{
-			response.sendRedirect("addContact.jsp");
-			return;
-		}
-				
-		if (lastName.length() < 1)
-		{
-			response.sendRedirect("addContact.jsp");
-			return;
-		}
-		
-		Contact contact = new Contact();
-		contact.setFirstName(firstName);
-		contact.setLastName(lastName);
-		
-		/*
-		DAOContact daoContact = new DAOContact();
-		*/
-		
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 		DAOContact daoContact = (DAOContact) context.getBean("springDAOContactID");
 		
 		System.out.println(request.getParameter("submit"));
-		daoContact.deleteContact(contact);
+		daoContact.deleteContactAll();
 			
 		response.getWriter().append(Header.header 
-				+ "<title>Delete Contact</title>"
+				+ "<title>Delete All Contact</title>"
 				+ Header.menu_deleteContact
-					+ "<h3>Contact deleted</h3>"
+					+ "<h3>All Contacts deleted</h3>"
 					+ "</body></html>");
 	}
 

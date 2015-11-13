@@ -44,7 +44,7 @@ public class DAOContact extends HibernateDaoSupport{
 	
 	@SuppressWarnings("unchecked")
 	public boolean addContact(Object contact)
-	{			
+	{					
 		if (contact.getClass().getName().contains("Entreprise"))
 		{
 			Entreprise e = (Entreprise) contact;
@@ -105,7 +105,7 @@ public class DAOContact extends HibernateDaoSupport{
 				return false;
 			}
 			else
-			{					
+			{	
 				Set<ContactGroup> books = e.getBooks();
 				Set<ContactGroup> newBooks = new HashSet<>();
 				Iterator<ContactGroup> iterator = books.iterator();
@@ -116,7 +116,7 @@ public class DAOContact extends HibernateDaoSupport{
 					requestQuery = new String("from ContactGroup where groupName = '" + group.getGroupName() + "'");
 										
 					List<ContactGroup> groupExisted = (List<ContactGroup>) getHibernateTemplate().find(requestQuery);
-										
+			
 					if (groupExisted != null && groupExisted.size() > 0)
 					{
 						newBooks.add(groupExisted.get(0));
@@ -130,7 +130,7 @@ public class DAOContact extends HibernateDaoSupport{
 				}
 				
 				e.setBooks(newBooks);
-				
+
 				getHibernateTemplate().persist(e);
 			}
 
@@ -178,6 +178,48 @@ public class DAOContact extends HibernateDaoSupport{
 		
 		getHibernateTemplate().delete(c);
 		getHibernateTemplate().delete(((Contact)c).getAddress());
+
+		return true;
+	}
+	
+	public boolean deleteContactAll()
+	{
+		String requestQuery = new String("from Contact");
+		
+		List<Contact> list = (List<Contact>) getHibernateTemplate().find(requestQuery);
+		
+		if (list == null || list.size() == 0)
+		{
+			return false;
+		}
+		
+		for (int i = 0; i < list.size(); i++){
+			Contact c = list.get(i);
+			
+			Set<PhoneNumber> numbers = ((Contact)c).getPhoneNumbers();
+			
+			for (Iterator<PhoneNumber> iterator = numbers.iterator(); iterator.hasNext();)
+				getHibernateTemplate().delete(iterator.next());		
+					
+			((Contact)c).setPhoneNumbers(null);
+			
+			Set<ContactGroup> groups = ((Contact)c).getBooks();
+					
+			for (Iterator<ContactGroup> iterator = groups.iterator(); iterator.hasNext();)
+			{
+				ContactGroup g = iterator.next();
+				g.getContacts().remove(c);
+				
+				if (g.getContacts().size() < 1)
+					getHibernateTemplate().delete(g);
+			}
+				
+			((Contact)c).getBooks().clear();
+
+			
+			getHibernateTemplate().delete(c);
+			getHibernateTemplate().delete(((Contact)c).getAddress());
+		}
 
 		return true;
 	}
