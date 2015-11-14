@@ -5,31 +5,39 @@
 <h:head><title>JSF TEST</title>
 </h:head>
 <h:body>
+
+<f:view locale="#{facesContext.externalContext.requestLocale}">
+
 <div align="center">
 <h1>LOGIN</h1>
 
 <fieldset>
+
 <h:form>
- 	Login : <h:inputText value="#{control.login}" 
+ 	<h:outputFormat value="#{loginForm.login}"></h:outputFormat>
+ 	<h:inputText value="#{control.login}" 
  	required="true" 
  	requiredMessage="Login required" 
  	id="login"/>
  	<h:message for="login" styleClass="error"/><br/>
  	
-  	Password : <h:inputText value="#{control.password}" 
+  	<h:outputFormat value="#{loginForm.password}"></h:outputFormat>
+  	<h:inputText value="#{control.password}" 
   	required="true" 
   	requiredMessage="Password required" 
   	id="pass"/>
  	<h:message for="pass" styleClass="error"/><br/>
  	
-  	<h:commandButton value="Login" action="#{control.checkAccess}"/> 
+  	<h:commandButton value="#{loginForm.submit}" action="#{control.checkAccess}"/> 
 </h:form>
 </fieldset>
 <p>
-
 </p>
-
 <hr/>
 <br/><br/><br/>
 
-</div></h:body></html>
+</div>
+
+</f:view>
+
+</h:body></html>
