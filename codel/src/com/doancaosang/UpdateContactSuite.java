@@ -63,7 +63,7 @@ public class UpdateContactSuite extends HttpServlet {
 		
 		if (firstName.length() < 1)
 		{
-			response.sendRedirect("addContact.jsp");
+			response.sendRedirect("updateContact.jsp");
 			return;
 		}
 		
@@ -71,7 +71,7 @@ public class UpdateContactSuite extends HttpServlet {
 		
 		if (lastName.length() < 1)
 		{
-			response.sendRedirect("addContact.jsp");
+			response.sendRedirect("updateContact.jsp");
 			return;
 		}
 		
@@ -80,7 +80,7 @@ public class UpdateContactSuite extends HttpServlet {
 		if (email.length() > 1 && 
 				!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
-			response.sendRedirect("addContact.jsp");
+			response.sendRedirect("updateContact.jsp");
 			return;
 		}
 		

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 public class ControlAccess implements Serializable{
 	
-	private String login = "Enter your login";
+	private String login;
 	private String password;
 	
 	public String getLogin() {
@@ -46,7 +46,7 @@ public class ControlAccess implements Serializable{
 			session.setAttribute("authenticated", "OK");
 			session.setMaxInactiveInterval(60);
 			
-			return "welcome-pageJSF";
+			return "accueil.jsp";
 		}
 	}
 
