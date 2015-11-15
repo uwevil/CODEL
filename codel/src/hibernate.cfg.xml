@@ -30,9 +30,10 @@
 <property name="hibernate.cache.use_second_level_cache">false</property>
 <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
  -->
-
+<!--
 <property name="cache.use_second_level_cache">true</property>  
 <property name="cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</property>
+-->
 
 <mapping resource="domain/Contact.hbm.xml"/>
 <mapping resource="domain/Address.hbm.xml"/>

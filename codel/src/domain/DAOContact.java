@@ -182,6 +182,7 @@ public class DAOContact extends HibernateDaoSupport{
 		return true;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean deleteContactAll()
 	{
 		String requestQuery = new String("from Contact");

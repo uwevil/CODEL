@@ -19,14 +19,14 @@
  	<h:outputFormat value="#{loginForm.login}"></h:outputFormat>
  	<h:inputText value="#{control.login}" 
  	required="true" 
- 	requiredMessage="Login required" 
+ 	requiredMessage="#{loginForm.requiredLogin}" 
  	id="login"/>
  	<h:message for="login" styleClass="error"/><br/>
  	
   	<h:outputFormat value="#{loginForm.password}"></h:outputFormat>
-  	<h:inputText value="#{control.password}" 
+  	<h:inputSecret value="#{control.password}" 
   	required="true" 
-  	requiredMessage="Password required" 
+  	requiredMessage="#{loginForm.requiredPassword}" 
   	id="pass"/>
  	<h:message for="pass" styleClass="error"/><br/>
  	

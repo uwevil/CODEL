@@ -67,14 +67,14 @@ public class TestSpring extends HttpServlet {
 		
 		for (int i = 0; i < 2; i++){
 			String name = "springContactID" + i;
-			System.out.print(name + " ");
+	//		System.out.print(name + " ");
 			Contact c = (Contact) context.getBean(name);
 			Contact c_tmp = new Contact(c.getFirstName(), c.getLastName(), c.getEmail());
 			
-			System.out.println(c);
-			System.out.println("First name : " + c.getFirstName());
-			System.out.println("Last name : " + c.getLastName());
-			System.out.println("Email : " + c.getEmail());
+	//		System.out.println(c);
+	//		System.out.println("First name : " + c.getFirstName());
+	//		System.out.println("Last name : " + c.getLastName());
+	//		System.out.println("Email : " + c.getEmail());
 			
 			for (Iterator<PhoneNumber> iterator = c.getPhoneNumbers().iterator(); iterator.hasNext();){
 				PhoneNumber p = iterator.next();
@@ -82,36 +82,36 @@ public class TestSpring extends HttpServlet {
 				p_tmp.setContact(c_tmp);
 				c_tmp.getPhoneNumbers().add(p_tmp);
 				
-				System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
+	//			System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
 			}
 			
-			System.out.println("Street : " + c.getAddress().getStreet());
-			System.out.println("Zip : " + c.getAddress().getZip());
-			System.out.println("City : " + c.getAddress().getCity());
-			System.out.println("Country : " + c.getAddress().getCountry());
+	//		System.out.println("Street : " + c.getAddress().getStreet());
+	//		System.out.println("Zip : " + c.getAddress().getZip());
+	//		System.out.println("City : " + c.getAddress().getCity());
+	//		System.out.println("Country : " + c.getAddress().getCountry());
 			c_tmp.setAddress(new Address(c.getAddress().getStreet(), c.getAddress().getCity(), 
 					c.getAddress().getZip(), c.getAddress().getCountry()));
 			
-			System.out.println("Group : ");
+	//		System.out.println("Group : ");
 			for (Iterator<ContactGroup> iterator = c.getBooks().iterator(); iterator.hasNext();){
 				ContactGroup g = iterator.next();
 				ContactGroup g_tmp = new ContactGroup(g.getGroupName());
 				g_tmp.getContacts().add(c_tmp);
 				c_tmp.getBooks().add(g_tmp);
-				System.out.println("  " + g.getGroupName() + " " + g);
+	//			System.out.println("  " + g.getGroupName() + " " + g);
 				
-				for (Iterator<Contact> iterator2 = g.getContacts().iterator(); iterator2.hasNext();){
-					Contact c1 = iterator2.next();
-					System.out.println("   Contact:     " + c1);
-				}
+	//			for (Iterator<Contact> iterator2 = g.getContacts().iterator(); iterator2.hasNext();){
+	//				Contact c1 = iterator2.next();
+	//				System.out.println("   Contact:     " + c1);
+	//			}
 			}
-			System.out.println();
+	//		System.out.println();
 			daoContact.addContact(c_tmp);
 
 		}
 		
 		String name = "springEntrepriseID2";
-		System.out.print(name + " ");
+	//	System.out.print(name + " ");
 		Entreprise c = (Entreprise) context.getBean(name);
 		
 		Entreprise c_tmp = new Entreprise(c.getNumSiret());
@@ -119,11 +119,11 @@ public class TestSpring extends HttpServlet {
 		c_tmp.setLastName(c.getLastName());
 		c_tmp.setEmail(c.getEmail());
 
-		System.out.println(c);
-		System.out.println("First name : " + c.getFirstName());
-		System.out.println("Last name : " + c.getLastName());
-		System.out.println("SIRET : " + c.getNumSiret());
-		System.out.println("Email : " + c.getEmail());
+	//	System.out.println(c);
+	//	System.out.println("First name : " + c.getFirstName());
+	//	System.out.println("Last name : " + c.getLastName());
+	//	System.out.println("SIRET : " + c.getNumSiret());
+	//	System.out.println("Email : " + c.getEmail());
 		
 		for (Iterator<PhoneNumber> iterator = c.getPhoneNumbers().iterator(); iterator.hasNext();){
 			PhoneNumber p = iterator.next();
@@ -131,31 +131,31 @@ public class TestSpring extends HttpServlet {
 			p_tmp.setContact(c_tmp);
 			c_tmp.getPhoneNumbers().add(p_tmp);
 			
-			System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
+	//		System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
 		}
 		
-		System.out.println("Street : " + c.getAddress().getStreet());
-		System.out.println("Zip : " + c.getAddress().getZip());
-		System.out.println("City : " + c.getAddress().getCity());
-		System.out.println("Country : " + c.getAddress().getCountry());
+	//	System.out.println("Street : " + c.getAddress().getStreet());
+	//	System.out.println("Zip : " + c.getAddress().getZip());
+	//	System.out.println("City : " + c.getAddress().getCity());
+	//	System.out.println("Country : " + c.getAddress().getCountry());
 		c_tmp.setAddress(new Address(c.getAddress().getStreet(), c.getAddress().getCity(), 
 				c.getAddress().getZip(), c.getAddress().getCountry()));
 		
-		System.out.println("Group : ");
+	//	System.out.println("Group : ");
 		for (Iterator<ContactGroup> iterator = c.getBooks().iterator(); iterator.hasNext();){
 			ContactGroup g = iterator.next();
 			ContactGroup g_tmp = new ContactGroup(g.getGroupName());
 			g_tmp.getContacts().add(c_tmp);
 			c_tmp.getBooks().add(g_tmp);
 			
-			System.out.println("  " + g.getGroupName() + " " + g);
+	//		System.out.println("  " + g.getGroupName() + " " + g);
 			
-			for (Iterator<Contact> iterator2 = g.getContacts().iterator(); iterator2.hasNext();){
-				Contact c1 = iterator2.next();
-				System.out.println("   Contact:     " + c1);
-			}
+	//		for (Iterator<Contact> iterator2 = g.getContacts().iterator(); iterator2.hasNext();){
+	//			Contact c1 = iterator2.next();
+	//			System.out.println("   Contact:     " + c1);
+	//		}
 		}
-		System.out.println();
+	//	System.out.println();
 		daoContact.addContact(c_tmp);
 	}
 
