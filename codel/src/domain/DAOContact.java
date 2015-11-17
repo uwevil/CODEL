@@ -17,14 +17,13 @@ import org.springframework.orm.hibernate4.support.*;
 
 public class DAOContact extends HibernateDaoSupport{
 		
-	@SuppressWarnings("unused")
-	private HibernateTemplate hibernateTemplate;
+	public static HibernateTemplate hibernateTemplate;
 	
 	public DAOContact()
 	{}
 	
-	public void setHibernateTemplate(SessionFactory sessionFactory){
-		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+	public static void setHibernateTemplate(SessionFactory sessionFactory){
+		hibernateTemplate = new HibernateTemplate(sessionFactory);
 	}
 		
 	public List<Object> welcome()

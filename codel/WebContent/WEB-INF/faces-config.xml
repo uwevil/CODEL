@@ -5,14 +5,66 @@
       http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
    version="2.0">
 
+<managed-bean>
+	<managed-bean-name>control</managed-bean-name>
+	<managed-bean-class>jsf.ControlAccess</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+        <property-name>login</property-name>
+            <value>#{login}</value>
+    </managed-property>
+    <managed-property>
+        <property-name>password</property-name>
+            <value>#{password}</value>
+    </managed-property>
+</managed-bean>
+
+<managed-bean>
+	<managed-bean-name>service</managed-bean-name>
+	<managed-bean-class>jsf.Service</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+            <property-name>daoContact</property-name>
+            <value>#{daoContact}</value>
+        </managed-property>
+</managed-bean>
+<managed-bean>
+	<managed-bean-name>addContact</managed-bean-name>
+	<managed-bean-class>jsf.AddContactJSF</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+		<property-name>service</property-name>
+		<value>#{service}</value>
+	</managed-property>
+</managed-bean>
+
+<managed-bean>
+	<managed-bean-name>viewContact</managed-bean-name>
+	<managed-bean-class>jsf.ViewContact</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+            <property-name>contact</property-name>
+            <value>#{contact}</value>
+        </managed-property>
+</managed-bean>
+
 <application>
+	<el-resolver>
+		org.springframework.web.jsf.el.SpringBeanFacesELResolver
+    </el-resolver>
+    
 	<resource-bundle>
 		<base-name>loginForm</base-name>
 		<var>loginForm</var>
 	</resource-bundle>
-
 </application>
 
-
+<navigation-rule>
+	<from-view-id>/accueilJSF.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>login.html</from-outcome>
+		<to-view-id>/index.jsp</to-view-id>
+	</navigation-case>
+</navigation-rule>
 
 </faces-config>

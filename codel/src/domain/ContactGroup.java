@@ -1,9 +1,11 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ContactGroup
+@SuppressWarnings("serial")
+public class ContactGroup implements Serializable
 {
 
 	protected long groupId;

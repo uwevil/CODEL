@@ -3,9 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
 
-	<class name="Contact" discriminator-value="C">
-		<!-- 		<cache usage="read-only"/>
-		 -->
+	<class name="Contact" discriminator-value="C" lazy="false">
 		<id name="id" type="long" column="CONTACTID" > 
 			<generator class="increment"/>
 		</id>
@@ -20,12 +18,12 @@
 		<many-to-one name="address" column="ADDRESS" unique="true" not-null="true"
 			cascade="persist"/>
 		
-		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist">
+		<set name="phoneNumbers" inverse="true" fetch="join" cascade="persist" lazy="false">
       	  <key column="CONTACTID"/>
        	  <one-to-many class="PhoneNumber"/>
    		</set>
    		
-   		<set name="books" table="groupBooks" fetch="subselect" cascade="persist">
+   		<set name="books" table="groupBooks" fetch="subselect" cascade="persist" lazy="false">
    			<key column="CONTACTID"></key>
    			<many-to-many class="ContactGroup" column="GROUPID"></many-to-many>
    		</set>

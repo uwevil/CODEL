@@ -1,21 +1,25 @@
 package jsf;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
-@ManagedBean(name="control")
-@SessionScoped
 
 public class ControlAccess implements Serializable{
 	
 	private String login;
 	private String password;
+	
+	private static boolean ok = false;
+	
+	public static boolean getOK(){
+		return ok;
+	}
 	
 	public String getLogin() {
 		return login;
@@ -46,12 +50,20 @@ public class ControlAccess implements Serializable{
 			session.setAttribute("authenticated", "OK");
 			session.setMaxInactiveInterval(60);
 			
-			return "accueil.jsp";
+			ok = true;
+			
+			return "accueilJSF";
 		}
+	}
+	
+	public String logout(){
+		ok = false;
+		return "login.html";
 	}
 
 	private boolean isMissing(String value) {
 		// TODO Auto-generated method stub
 		return (value == null) || (value.trim().isEmpty());
 	}
+	
 }

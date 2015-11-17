@@ -1,6 +1,9 @@
 package domain;
 
-public class PhoneNumber
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class PhoneNumber implements Serializable
 {
 	protected long id;
 	protected String phoneKind;

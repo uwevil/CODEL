@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
-    <class name="Address" table="ADDRESS">
+    <class name="Address" table="ADDRESS" lazy="false">
     	<id name="id" type="long" column="ADDRESSID">
     		<generator class="increment"></generator>
     	</id>

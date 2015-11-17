@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<f:view locale="#{facesContext.externalContext.requestLocale}">
+      
+<h:head>
+<title>JSF ACCUEIL</title>
+<h:outputStylesheet library="css" name="table-style.css"  />
+</h:head>
+<h:body>
+
+<div>
+<h1>Add Contact</h1>
+</div>
+<div>
+<h:form>
+	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
+	<h:commandButton value="ADD" action="addContactJSF.jsf" />
+	<h:commandButton value="Logout" action="#{control.logout()}" />
+</h:form>
+<fieldset>
+<h:form>
+	<h:message for="firstName" styleClass="error"/><br/>
+  	<h:message for="lastName" styleClass="error"/><br/>
+    	
+    <h:panelGrid columns="2">
+        <h:outputText value="#{loginForm.firstName}" />
+    	<h:inputText 
+    		value="#{addContact.firstName}"  				
+ 			required="true" 
+ 			requiredMessage="#{loginForm.requiredFirstName}" 
+ 			id="firstName"/>
+ 	
+		<h:outputText value="#{loginForm.lastName}" />
+    	<h:inputText value="#{addContact.lastName}"
+    		required="true" 
+  			requiredMessage="#{loginForm.requiredLastName}" 
+  			id="lastName"/>
+  		
+  		<h:outputText value="#{loginForm.numSiret}" />
+    	<h:inputText 
+    		value="#{addContact.numSiret}"/> 
+    		
+    	<h:outputText value="#{loginForm.email}" />
+    	<h:inputText 
+    		value="#{addContact.email}"/> 
+    
+    	<h:outputText value="#{loginForm.mobile}" />
+    	<h:inputText value="#{addContact.mobile}"/> 
+   
+   		<h:outputText value="#{loginForm.home}" />
+    	<h:inputText 
+    		value="#{addContact.home}"/> 
+  
+   		<h:outputText value="#{loginForm.fax}" />
+    	<h:inputText 
+    		value="#{addContact.fax}"/> 
+ 
+   		<h:outputText value="#{loginForm.street}" />
+    	<h:inputText 
+    		value="#{addContact.street}"/> 
+
+   		<h:outputText value="#{loginForm.zip}" />
+    	<h:inputText 
+    		value="#{addContact.zip}"/> 
+    	
+    	<h:outputText value="#{loginForm.city}" />
+    	<h:inputText 
+    		value="#{addContact.city}"/> 
+       
+       	<h:outputText value="#{loginForm.country}" />
+    	<h:inputText 
+    		value="#{addContact.country}"/> 
+    		
+    	<h:outputText value="#{loginForm.group}" />
+    	<h:panelGrid columns="1">
+    		<h:selectManyCheckbox value="#{addContact.books}">
+   			<f:selectItem itemValue="Amis" itemLabel="Amis" />
+   			<f:selectItem itemValue="Famille" itemLabel="Famille" />
+   			<f:selectItem itemValue="Collegues" itemLabel="Collegues" />
+			</h:selectManyCheckbox>
+			<h:inputText value="#{addContact.newGroup}"/>
+    	</h:panelGrid>
+    	
+    </h:panelGrid>
+   
+    <h:commandButton value="#{loginForm.done}" action="#{addContact.add()}" />
+   	<h:commandButton value="Reset" action="#{addContact.reset()}" />
+</h:form>
+</fieldset>
+</div>
+</h:body>
+
+</f:view>
+
+</html>

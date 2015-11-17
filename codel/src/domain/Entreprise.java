@@ -1,6 +1,9 @@
 package domain;
 
-public class Entreprise extends Contact
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Entreprise extends Contact implements Serializable
 {
 	
 	protected long numSiret;

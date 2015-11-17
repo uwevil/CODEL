@@ -1,9 +1,11 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Contact
+@SuppressWarnings("serial")
+public class Contact implements Serializable
 {
 	protected String firstName;
 	protected String lastName;
