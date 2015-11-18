@@ -632,6 +632,19 @@ public class DAOContact extends HibernateDaoSupport{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Object> searchNumber(String number){
+		String requestQuery = new String("from PhoneNumber as p where p.phoneNumber = '" + number + "'");
+		
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1){
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Object> searchGroups(List<String> groups){
 		String requestQuery = new String("from ContactGroup as g where ");
 
