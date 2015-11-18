@@ -1,6 +1,7 @@
 package jsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -32,9 +33,15 @@ public class AddContactJSF implements Serializable{
 	
 	private ServiceJSF service;
 	
-	private String[] books = {"Amis", "Famille", "Collegues"};
+	private ArrayList<String> books = new ArrayList<String>();
 	
 	private String newGroup;
+	
+	public AddContactJSF(){
+		books.add("Amis");
+		books.add("Famille");
+		books.add("Collegues");
+	}
 
 	public String getNewGroup() {
 		return newGroup;
@@ -132,11 +139,11 @@ public class AddContactJSF implements Serializable{
 		this.country = country;
 	}
 
-	public String[] getBooks() {
+	public ArrayList<String> getBooks() {
 		return books;
 	}
 
-	public void setBooks(String[] books) {
+	public void setBooks(ArrayList<String> books) {
 		this.books = books;
 	}
 	
@@ -163,13 +170,14 @@ public class AddContactJSF implements Serializable{
 			p.setContact(c);
 			c.getPhoneNumbers().add(p);
 			
-			for (int i = 0; i < books.length; i++){
-				ContactGroup g = new ContactGroup(books[i]);
+			for (int i = 0; i < books.size(); i++){
+				ContactGroup g = new ContactGroup(books.get(i));
 				g.getContacts().add(c);
 				c.getBooks().add(g);
 			}
 			
 			if (newGroup != null && newGroup.length() >= 1){
+				books.add(newGroup);
 				ContactGroup g = new ContactGroup(newGroup);
 				g.getContacts().add(c);
 				c.getBooks().add(g);
@@ -204,13 +212,14 @@ public class AddContactJSF implements Serializable{
 			p.setContact(c);
 			c.getPhoneNumbers().add(p);
 			
-			for (int i = 0; i < books.length; i++){
-				ContactGroup g = new ContactGroup(books[i]);
+			for (int i = 0; i < books.size(); i++){
+				ContactGroup g = new ContactGroup(books.get(i));
 				g.getContacts().add(c);
 				c.getBooks().add(g);
 			}
 			
 			if (newGroup != null && newGroup.length() >= 1){
+				books.add(newGroup);
 				ContactGroup g = new ContactGroup(newGroup);
 				g.getContacts().add(c);
 				c.getBooks().add(g);

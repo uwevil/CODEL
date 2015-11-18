@@ -526,7 +526,7 @@ public class DAOContact extends HibernateDaoSupport{
 	
 	@SuppressWarnings("unchecked")
 	public List<Object> searchFirstName(String firstName){
-		String requestQuery = new String("from Contact where firstName = '" + firstName + "'");
+		String requestQuery = new String("from Contact where firstName = '" + firstName.toUpperCase() + "'");
 
 		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
 
@@ -540,7 +540,7 @@ public class DAOContact extends HibernateDaoSupport{
 	
 	@SuppressWarnings("unchecked")
 	public List<Object> searchLastName(String lastName){
-		String requestQuery = new String("from Contact where lastName = '" + lastName + "'");
+		String requestQuery = new String("from Contact where lastName = '" + lastName.toUpperCase() + "'");
 
 		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
 
@@ -553,7 +553,7 @@ public class DAOContact extends HibernateDaoSupport{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Object> searchSiret(String numSiret){
+	public List<Object> searchNumSiret(String numSiret){
 		long num;
 		
 		try{
@@ -578,7 +578,7 @@ public class DAOContact extends HibernateDaoSupport{
 	public List<Object> searchEmail(String email){
 		String requestQuery;
 		if (email.length() > 0){
-			requestQuery = new String("from Contact as c where c.email = '" + email + "'");
+			requestQuery = new String("from Contact as c where c.email = '" + email.toUpperCase() + "'");
 		}else{
 			requestQuery = new String("from Contact");
 		}
@@ -600,25 +600,25 @@ public class DAOContact extends HibernateDaoSupport{
 		int length = requestQuery.length();
 		
 		if (requestQuery.length() == length && address.getStreet().length() > 0){
-			requestQuery += "c.address.street = '" + address.street + "'";
+			requestQuery += "c.address.street = '" + address.street.toUpperCase() + "'";
 		}
 		
-		if (requestQuery.length() == length && address.getStreet().length() > 0){
-			requestQuery += "c.address.zip = '" + address.zip + "'";
-		}else{
-			requestQuery += " and c.address.zip = '" + address.zip + "'";
+		if (requestQuery.length() == length && address.getZip().length() > 0){
+			requestQuery += "c.address.zip = '" + address.zip.toUpperCase() + "'";
+		}else if (address.getStreet().length() > 0){
+			requestQuery += " and c.address.zip = '" + address.zip.toUpperCase() + "'";
 		}
 		
-		if (requestQuery.length() == length && address.getStreet().length() > 0){
-			requestQuery += "c.address.city = '" + address.city + "'";
-		}else{
-			requestQuery += " and c.address.city = '" + address.city + "'";
+		if (requestQuery.length() == length && address.getCity().length() > 0){
+			requestQuery += "c.address.city = '" + address.city.toUpperCase() + "'";
+		}else if (address.getCity().length() > 0){
+			requestQuery += " and c.address.city = '" + address.city.toUpperCase() + "'";
 		}
 		
-		if (requestQuery.length() == length && address.getStreet().length() > 0){
-			requestQuery += "c.address.country = '" + address.country + "'";
-		}else{
-			requestQuery += " and c.address.country = '" + address.country + "'" ;
+		if (requestQuery.length() == length && address.getCountry().length() > 0){
+			requestQuery += "c.address.country = '" + address.country.toUpperCase() + "'";
+		}else if (address.getCountry().length() > 0){
+			requestQuery += " and c.address.country = '" + address.country.toUpperCase() + "'" ;
 		}
 		
 		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
@@ -631,4 +631,29 @@ public class DAOContact extends HibernateDaoSupport{
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchGroups(List<String> groups){
+		String requestQuery = new String("from ContactGroup as g where ");
+
+		int length = requestQuery.length();
+
+		for (int i = 0; i < groups.size(); i++){
+			String s = groups.get(i);
+			
+			if (requestQuery.length() == length && s.length() > 0){
+				requestQuery += "g.groupName = '" + s + "'";
+			}else{
+				requestQuery += " or g.groupName = '" + s + "'";
+			}
+		}
+		
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
 }

@@ -176,7 +176,7 @@ public class SearchContactJSF implements Serializable {
 		if (!ControlAccessJSF.getOK())
 			return "loginJSF.jsf";
 		
-		result = new ArrayList<>();
+		result = new ArrayList<Object>();
 		
 		boolean ok = true;
 		
@@ -200,11 +200,15 @@ public class SearchContactJSF implements Serializable {
 		
 		ok = true;
 		
-		for (int i = 0; i < result.size(); i++){
-			Contact c = (Contact) result.get(i);
-			System.out.println(c.getFirstName() + " " + c.getLastName());
+		if (numSiret != null && numSiret.length() > 0){
+			result = service.searchNumSiret(numSiret);
 		}
-
+		
+		if ((result == null || result.isEmpty()) && !ok)
+			return "searchContactResultJSF";
+		
+		ok = true;
+		
 		if (ok)
 		{
 			List<Object> list = service.searchEmail(email);
@@ -215,7 +219,7 @@ public class SearchContactJSF implements Serializable {
 			if (list == null || list.isEmpty())
 				return "searchContactResultJSF";
 			
-			if (list_result.isEmpty()){
+			if (list_result == null || list_result.isEmpty()){
 				result = list;
 			}else{
 				ok = false;
@@ -284,11 +288,46 @@ public class SearchContactJSF implements Serializable {
 			}
 		}
 		
-		if ((result == null || result.isEmpty()) && !ok)
+		if ((result == null || result.isEmpty()) && ok)
 			return "searchContactResultJSF";
 		
 		ok = true;
 		
+		if (newGroups.size() > 0){
+			List<Object> list = service.searchGroups(newGroups);
+			
+			if (list != null && list.size() > 0){
+				List<Object> list_tmp = result;
+				
+				result = new ArrayList<Object>();
+
+				for (int i = 0; i < list_tmp.size(); i++){
+					Contact c = (Contact) list_tmp.get(i);
+					
+					for (int j = 0; j < list.size(); j++){
+						List<Contact> list_tmp2 = new ArrayList<Contact>(((ContactGroup) list.get(j)).getContacts());
+						int k = 0;
+						for (k = 0; k < list_tmp2.size(); k++){
+							if (list_tmp2.get(k).getFirstName().equalsIgnoreCase(c.getFirstName()) 
+									&& list_tmp2.get(k).getLastName().equalsIgnoreCase(c.getLastName())){
+								break;
+							}
+								
+						}
+						
+						if (k == list_tmp2.size()){
+							list_tmp.remove(i);
+							i--;
+							break;
+						}
+					}
+				}
+				
+				result = new ArrayList<Object>(list_tmp);				
+			}			
+		}
+		
+
 		for (int i = 0; i < result.size(); i++){
 			Contact c = (Contact) result.get(i);
 			System.out.println(c.getFirstName() + " " + c.getLastName());

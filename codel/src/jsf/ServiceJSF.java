@@ -114,6 +114,14 @@ public class ServiceJSF implements Serializable{
 		return daoContact.searchAddress(a);
 	}
 	
+	public List<Object> searchGroups(List<String> groups){
+		return daoContact.searchGroups(groups);
+	}
+	
+	public List<Object> searchNumSiret(String numSiret){
+		return daoContact.searchNumSiret(numSiret);
+	}
+	
 	public boolean isEntreprise(Object o){
 		if (o.getClass().getName().contains("Entreprise"))
 			return true;
