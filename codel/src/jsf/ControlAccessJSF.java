@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 
-public class ControlAccess implements Serializable{
+public class ControlAccessJSF implements Serializable{
 	
 	private String login;
 	private String password;

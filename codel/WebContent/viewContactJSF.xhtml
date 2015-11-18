@@ -16,7 +16,11 @@
 
 <h:form>
 	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
+		<h:commandButton value="SEARCH" action="searchContactJSF.jsf" />
+	
 	<h:commandButton value="ADD" action="addContactJSF.jsf" />
+		<h:commandButton value="REMOVE" action="removeContactJSF.jsf" />
+	
 	<h:commandButton value="Logout" action="#{control.logout()}" />
 </h:form>
 
@@ -77,7 +81,9 @@
     				value="#{g}"/>
    			</h:column>
     	</h:dataTable>
-    	
+    	<h:form>
+			<h:commandButton value="Delete" action="#{viewContact.delete(viewContact.getContact())}" />
+		</h:form>
     	
     </h:panelGrid>
 </h:form>

@@ -7,7 +7,7 @@
 
 <managed-bean>
 	<managed-bean-name>control</managed-bean-name>
-	<managed-bean-class>jsf.ControlAccess</managed-bean-class>
+	<managed-bean-class>jsf.ControlAccessJSF</managed-bean-class>
 	<managed-bean-scope>session</managed-bean-scope>
 	<managed-property>
         <property-name>login</property-name>
@@ -21,7 +21,7 @@
 
 <managed-bean>
 	<managed-bean-name>service</managed-bean-name>
-	<managed-bean-class>jsf.Service</managed-bean-class>
+	<managed-bean-class>jsf.ServiceJSF</managed-bean-class>
 	<managed-bean-scope>session</managed-bean-scope>
 	<managed-property>
             <property-name>daoContact</property-name>
@@ -50,16 +50,37 @@
 		<value>#{viewContact}</value>
 	</managed-property>
 </managed-bean>
-
+<managed-bean>
+	<managed-bean-name>removeContact</managed-bean-name>
+	<managed-bean-class>jsf.RemoveContactJSF</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+		<property-name>service</property-name>
+		<value>#{service}</value>
+	</managed-property>
+</managed-bean>
+<managed-bean>
+	<managed-bean-name>searchContact</managed-bean-name>
+	<managed-bean-class>jsf.SearchContactJSF</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+		<property-name>service</property-name>
+		<value>#{service}</value>
+	</managed-property>
+</managed-bean>
 
 <managed-bean>
 	<managed-bean-name>viewContact</managed-bean-name>
-	<managed-bean-class>jsf.ViewContact</managed-bean-class>
+	<managed-bean-class>jsf.ViewContactJSF</managed-bean-class>
 	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+		<property-name>service</property-name>
+		<value>#{service}</value>
+	</managed-property>
 	<managed-property>
             <property-name>contact</property-name>
             <value>#{contact}</value>
-        </managed-property>
+    </managed-property>
 </managed-bean>
 
 <application>

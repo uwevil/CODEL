@@ -30,7 +30,7 @@ public class AddContactJSF implements Serializable{
 	
 	private Object contact;
 	
-	private Service service;
+	private ServiceJSF service;
 	
 	private String[] books = {"Amis", "Famille", "Collegues"};
 	
@@ -143,6 +143,11 @@ public class AddContactJSF implements Serializable{
 	public String add(){
 		Address address = new Address(street.toUpperCase(), city.toUpperCase(), zip.toUpperCase(), country.toUpperCase());
 		
+		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
+		{
+			return null;
+		}
+		
 		if (this.numSiret == null || this.numSiret.length() < 1){
 			Contact c = new Contact(firstName.toUpperCase(), lastName.toUpperCase(), email.toUpperCase());
 			c.setAddress(address);
@@ -173,7 +178,13 @@ public class AddContactJSF implements Serializable{
 			this.contact = c;
 			return service.addContact(c);
 		}else{
-			long num = Long.parseLong(numSiret);
+			long num;
+			
+			try{
+				num = Long.parseLong(numSiret);
+			}catch(NumberFormatException e){
+				return null;
+			}
 			
 			Entreprise c = new Entreprise(num);
 			c.setFirstName(firstName.toUpperCase());
@@ -216,11 +227,11 @@ public class AddContactJSF implements Serializable{
 		return "addContactJSF";
 	}
 
-	public Service getService() {
+	public ServiceJSF getService() {
 		return service;
 	}
 
-	public void setService(Service service) {
+	public void setService(ServiceJSF service) {
 		this.service = service;
 	}
 

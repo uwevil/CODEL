@@ -40,7 +40,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
 	</bean>
 	
-	<bean id="service" class="jsf.Service">
+	<bean id="service" class="jsf.ServiceJSF">
 		<property name="daoContact" ref ="springDAOContactID">
 		</property>
 	</bean>

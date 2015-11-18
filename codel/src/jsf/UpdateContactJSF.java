@@ -10,19 +10,19 @@ import domain.PhoneNumber;
 
 @SuppressWarnings("serial")
 public class UpdateContactJSF implements Serializable {	
-	private Service service;
+	private ServiceJSF service;
 	
-	private ViewContact viewContact;
+	private ViewContactJSF viewContact;
 
 	private String[] newGroups;
 	
 	private String newGroup;
 		
-	public Service getService() {
+	public ServiceJSF getService() {
 		return service;
 	}
 
-	public void setService(Service service) {
+	public void setService(ServiceJSF service) {
 		this.service = service;
 	}
 	
@@ -36,6 +36,13 @@ public class UpdateContactJSF implements Serializable {
 				viewContact.getContact().getAddress().getCity().toUpperCase(), 
 				viewContact.getContact().getAddress().getZip().toUpperCase(), 
 				viewContact.getContact().getAddress().getCountry().toUpperCase());
+		
+		if (viewContact.getContact().getEmail().length() > 1 
+				&& !viewContact.getContact().getEmail()
+				.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
+		{
+			return null;
+		}
 		
 		c.setEmail(viewContact.getContact().getEmail().toUpperCase());
 		c.setAddress(address);
@@ -79,11 +86,11 @@ public class UpdateContactJSF implements Serializable {
 		this.newGroup = newGroup;
 	}
 
-	public ViewContact getViewContact() {
+	public ViewContactJSF getViewContact() {
 		return viewContact;
 	}
 
-	public void setViewContact(ViewContact viewContact) {
+	public void setViewContact(ViewContactJSF viewContact) {
 		this.viewContact = viewContact;
 	}
 

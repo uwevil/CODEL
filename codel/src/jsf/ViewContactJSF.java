@@ -10,9 +10,19 @@ import domain.ContactGroup;
 import domain.PhoneNumber;
 
 @SuppressWarnings("serial")
-public class ViewContact implements Serializable{
+public class ViewContactJSF implements Serializable{
+	private ServiceJSF service;
+	
 	private Contact contact;
 	
+	public ServiceJSF getService() {
+		return service;
+	}
+
+	public void setService(ServiceJSF service) {
+		this.service = service;
+	}
+
 	private String fax;
 	private String mobile;
 	private String home;
@@ -86,6 +96,10 @@ public class ViewContact implements Serializable{
 		}
 		
 		return "editContactJSF";
+	}
+	
+	public String delete(Contact c){
+		return service.deleteContact(c);
 	}
 
 	public Contact getContact() {

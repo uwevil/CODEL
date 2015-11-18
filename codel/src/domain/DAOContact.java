@@ -509,4 +509,126 @@ public class DAOContact extends HibernateDaoSupport{
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Object> getGroups(){
+		String requestQuery = new String("from ContactGroup"
+		);
+
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchFirstName(String firstName){
+		String requestQuery = new String("from Contact where firstName = '" + firstName + "'");
+
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchLastName(String lastName){
+		String requestQuery = new String("from Contact where lastName = '" + lastName + "'");
+
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchSiret(String numSiret){
+		long num;
+		
+		try{
+			num = Long.parseLong(numSiret);
+		}catch(NumberFormatException e){
+			return null;
+		}
+		
+		String requestQuery = new String("from Contact where numSiret = '" + num + "'");
+
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchEmail(String email){
+		String requestQuery;
+		if (email.length() > 0){
+			requestQuery = new String("from Contact as c where c.email = '" + email + "'");
+		}else{
+			requestQuery = new String("from Contact");
+		}
+
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Object> searchAddress(Address address){
+		String requestQuery = new String("from Contact as c where ");
+		
+		int length = requestQuery.length();
+		
+		if (requestQuery.length() == length && address.getStreet().length() > 0){
+			requestQuery += "c.address.street = '" + address.street + "'";
+		}
+		
+		if (requestQuery.length() == length && address.getStreet().length() > 0){
+			requestQuery += "c.address.zip = '" + address.zip + "'";
+		}else{
+			requestQuery += " and c.address.zip = '" + address.zip + "'";
+		}
+		
+		if (requestQuery.length() == length && address.getStreet().length() > 0){
+			requestQuery += "c.address.city = '" + address.city + "'";
+		}else{
+			requestQuery += " and c.address.city = '" + address.city + "'";
+		}
+		
+		if (requestQuery.length() == length && address.getStreet().length() > 0){
+			requestQuery += "c.address.country = '" + address.country + "'";
+		}else{
+			requestQuery += " and c.address.country = '" + address.country + "'" ;
+		}
+		
+		List<Object> list = (List<Object>) getHibernateTemplate().find(requestQuery);
+
+		if (list == null || list.size() < 1)
+		{
+			return null;
+		}
+
+		return list;
+	}
+	
 }
