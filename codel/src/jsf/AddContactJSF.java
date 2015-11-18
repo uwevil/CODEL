@@ -28,6 +28,8 @@ public class AddContactJSF implements Serializable{
 	private String city;
 	private String country;
 	
+	private Object contact;
+	
 	private Service service;
 	
 	private String[] books = {"Amis", "Famille", "Collegues"};
@@ -168,7 +170,8 @@ public class AddContactJSF implements Serializable{
 				c.getBooks().add(g);
 			}
 			
-			service.addContact(c);
+			this.contact = c;
+			return service.addContact(c);
 		}else{
 			long num = Long.parseLong(numSiret);
 			
@@ -202,10 +205,9 @@ public class AddContactJSF implements Serializable{
 				c.getBooks().add(g);
 			}
 			
-			service.addContact(c);
-		}
-		
-		return "addedContactJSF";
+			this.contact = c;
+			return service.addContact(c);
+		}		
 	}
 	
 	public String reset(){
@@ -220,5 +222,13 @@ public class AddContactJSF implements Serializable{
 
 	public void setService(Service service) {
 		this.service = service;
+	}
+
+	public Object getContact() {
+		return contact;
+	}
+
+	public void setContact(Object contact) {
+		this.contact = contact;
 	}
 }

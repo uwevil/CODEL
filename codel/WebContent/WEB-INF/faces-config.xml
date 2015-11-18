@@ -37,6 +37,20 @@
 		<value>#{service}</value>
 	</managed-property>
 </managed-bean>
+<managed-bean>
+	<managed-bean-name>updateContact</managed-bean-name>
+	<managed-bean-class>jsf.UpdateContactJSF</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+		<property-name>service</property-name>
+		<value>#{service}</value>
+	</managed-property>
+	<managed-property>
+		<property-name>viewContact</property-name>
+		<value>#{viewContact}</value>
+	</managed-property>
+</managed-bean>
+
 
 <managed-bean>
 	<managed-bean-name>viewContact</managed-bean-name>
@@ -64,6 +78,13 @@
 	<navigation-case>
 		<from-outcome>login.html</from-outcome>
 		<to-view-id>/index.jsp</to-view-id>
+	</navigation-case>
+</navigation-rule>
+<navigation-rule>
+	<from-view-id>/editContactJSF.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>accueilJSF.xhtml</from-outcome>
+		<to-view-id>/accueilJSF.xhtml</to-view-id>
 	</navigation-case>
 </navigation-rule>
 

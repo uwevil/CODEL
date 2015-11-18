@@ -74,7 +74,7 @@
     	<h:dataTable value="#{viewContact.groups}" var="g">
     		<h:column>
     		    <h:commandLink action="#{viewContact.edit(viewContact.getContact())}" 
-    				value="#{g.groupName}"/>
+    				value="#{g}"/>
    			</h:column>
     	</h:dataTable>
     	

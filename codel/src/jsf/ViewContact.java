@@ -12,11 +12,12 @@ import domain.PhoneNumber;
 @SuppressWarnings("serial")
 public class ViewContact implements Serializable{
 	private Contact contact;
+	
 	private String fax;
 	private String mobile;
 	private String home;
 	
-	private List<ContactGroup> groups;
+	private List<String> groups;
 	
 	public String getFax() {
 		return fax;
@@ -42,11 +43,11 @@ public class ViewContact implements Serializable{
 		this.home = home;
 	}
 
-	public List<ContactGroup> getGroups() {
+	public List<String> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(List<ContactGroup> groups) {
+	public void setGroups(List<String> groups) {
 		this.groups = groups;
 	}
 
@@ -64,12 +65,26 @@ public class ViewContact implements Serializable{
 			}
 		}
 		
-		groups = new ArrayList<ContactGroup>(c.getBooks());	
+		groups = new ArrayList<String>();
 		
+		for (Iterator<ContactGroup> iterator = c.getBooks().iterator(); iterator.hasNext();){
+			groups.add(iterator.next().getGroupName());
+		}
+				
 		return "viewContactJSF";
 	}
 	
 	public String edit(Contact c){
+		if (!groups.contains("Amis")){
+			groups.add("Amis");
+		}
+		if (!groups.contains("Famille")){
+			groups.add("Famille");
+		}
+		if (!groups.contains("Collegues")){
+			groups.add("Collegues");
+		}
+		
 		return "editContactJSF";
 	}
 

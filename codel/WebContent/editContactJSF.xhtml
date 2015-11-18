@@ -2,7 +2,8 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 <f:view locale="#{facesContext.externalContext.requestLocale}">
       
 <h:head>
@@ -66,17 +67,20 @@
     		value="#{viewContact.getContact().address.country}"/> 
     		
     	<h:outputText value="#{loginForm.group}" />
-    	<h:dataTable value="#{viewContact.groups}" var="g">
-    		<h:column>
-    		    <h:selectBooleanCheckbox value="true"/>
-   			</h:column>
-   			<h:column>
-    		    <h:outputText value="#{g.groupName}"/>
-   			</h:column>
-    	</h:dataTable>
+    	<h:panelGrid columns="1">
+			<h:selectManyCheckbox value="#{updateContact.newGroups}" layout="grid" columns="4">
+    			<f:selectItems var="g" 
+                   value="#{viewContact.groups}" 
+                   itemLabel="#{g}" 
+                   itemValue="#{g}"/>
+			</h:selectManyCheckbox>
+			
+    		<h:inputText value="#{updateContact.newGroup}"/>
+    	</h:panelGrid>
+    	
     </h:panelGrid>
    
-    <h:commandButton value="Done" action="#{service.welcome()}" />
+    <h:commandButton value="Done" action="#{updateContact.update(viewContact.getContact())}" />
     
 </h:form>
 </fieldset>

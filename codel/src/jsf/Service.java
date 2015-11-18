@@ -1,11 +1,13 @@
 package jsf;
 
+import java.io.Serializable;
 import java.util.List;
 
 import domain.Contact;
 import domain.DAOContact;
 
-public class Service {
+@SuppressWarnings("serial")
+public class Service implements Serializable{
 
 	DAOContact daoContact;
 	
@@ -29,8 +31,11 @@ public class Service {
 	public String addContact(Contact c){
 		if (!ControlAccess.getOK())
 			return "loginJSF.jsf";
-		daoContact.addContact(c);
-		return "accueilJSF";
+		if (daoContact.addContact(c)){
+			return "addedContactJSF";
+		}else{
+			return "accueilJSF";
+		}
 	}
 	
 	public String deleteContact(Contact c){
@@ -43,8 +48,11 @@ public class Service {
 	public String updateContact(Contact c){
 		if (!ControlAccess.getOK())
 			return "loginJSF.jsf";
-		System.out.println("update " + c.getId());
-		return "accueilJSF";
+		if (daoContact.updateContact(c, c.getId())){
+			return "accueilJSF";
+		}else{
+			return "errorVersion";
+		}
 	}
 	
 	public boolean isEntreprise(Object o){
