@@ -101,7 +101,7 @@ public class UpdateContact extends HttpServlet {
 						+ "<tr><th>Last name</th><th>" + "<input type=\"text\" name=\"lastName\" value=\""
 						+ e.getLastName() + "\" size=\"25\">" + "</th></tr>" 
 						+ "<tr><th>Numero SIRET</th><th>" + "<input type=\"text\" name=\"numSiret\" value=\""
-						+ e.getNumSiret() + "\" size=\"25\" readonly=\"true\">" + "</th></tr>");
+						+ e.getNumSiret() + "\" size=\"25\">" + "</th></tr>");
 				
 				Set<PhoneNumber> phoneNumbers = e.getPhoneNumbers();
 				

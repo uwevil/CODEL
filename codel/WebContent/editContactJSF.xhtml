@@ -56,7 +56,7 @@
     		rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
     	<h:inputText value="#{viewContact.getContact().numSiret}" 
     			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"
-    			converterMessage="#{loginForm.converterNumber}"
+    			converterMessage="#{loginForm.converterSiret}"
     			id="numSiret">
     		<f:converter converterId="numberConverter"></f:converter>	
     		</h:inputText> 

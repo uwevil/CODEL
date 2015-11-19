@@ -89,9 +89,9 @@ public class UpdateContactSuite extends HttpServlet {
 		String zip = request.getParameter("zip").toUpperCase();
 		String country = request.getParameter("country").toUpperCase();
 				
-		String mobileNumber = request.getParameter("mobileNumber").toUpperCase();
-		String homeNumber = request.getParameter("homeNumber").toUpperCase();
-		String faxNumber = request.getParameter("faxNumber").toUpperCase();
+		String mobileNumber = request.getParameter("mobileNumber");
+		String homeNumber = request.getParameter("homeNumber");
+		String faxNumber = request.getParameter("faxNumber");
 		
 		if (!mobileNumber.matches("^[0-9]*$"))
 			mobileNumber = new String("");
@@ -114,9 +114,14 @@ public class UpdateContactSuite extends HttpServlet {
 
 			Entreprise e = new Entreprise();
 			
+			if (!numSiret.matches("^[0-9]*$")){
+				e.setNumSiret(((Entreprise) contact).getNumSiret());
+			}else{
+				e.setNumSiret(Long.parseLong(numSiret));
+			}
+			
 			e.setVersion(((Entreprise) contact).getVersion());
 			
-			e.setNumSiret(Long.parseLong(numSiret));
 			e.setFirstName(firstName);
 			e.setLastName(lastName);
 			e.setEmail(email);
@@ -230,8 +235,13 @@ public class UpdateContactSuite extends HttpServlet {
 			
 			String numSiret = request.getParameter("numSiret");
 			
-			if (numSiret != null && numSiret.length() >= 1)
-				response.getWriter().append("<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>");
+			if (numSiret != null && numSiret.length() >= 1){
+				if (!numSiret.matches("^[0-9]*$")){
+					response.getWriter().append("<tr><th>Numero SIRET</th><th>" + ((Entreprise) contact).getNumSiret() + "</th></tr>");
+				}else{
+					response.getWriter().append("<tr><th>Numero SIRET</th><th>" + Long.parseLong(numSiret) + "</th></tr>");
+				}
+			}
 			
 			response.getWriter().append("<tr><th>Mobile number</th><th>" + mobileNumber + "</th>" 
 					+ "<tr><th>Home number</th><th>" + homeNumber + "</th>" 

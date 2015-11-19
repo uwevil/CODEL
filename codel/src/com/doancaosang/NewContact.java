@@ -88,17 +88,17 @@ public class NewContact extends HttpServlet {
 		String zip = request.getParameter("zip").toUpperCase();
 		String country = request.getParameter("country").toUpperCase();
 				
-		String mobileNumber = request.getParameter("mobileNumber").toUpperCase();
+		String mobileNumber = request.getParameter("mobileNumber");
 		
 		if (!mobileNumber.matches("^[0-9]*$"))
 			mobileNumber = new String("");
 		
-		String homeNumber = request.getParameter("homeNumber").toUpperCase();
+		String homeNumber = request.getParameter("homeNumber");
 		
 		if (!homeNumber.matches("^[0-9]*$"))
 			homeNumber = new String("");
 		
-		String faxNumber = request.getParameter("faxNumber").toUpperCase();
+		String faxNumber = request.getParameter("faxNumber");
 		
 		if (!faxNumber.matches("^[0-9]*$"))
 			faxNumber = new String("");
@@ -106,6 +106,10 @@ public class NewContact extends HttpServlet {
 		String[] checkboxes = request.getParameterValues("group");
 
 		String numSiret = request.getParameter("numSiret");
+		
+		if (!numSiret.matches("^[0-9]*$"))
+			numSiret = new String("");
+		
 		
 		Entreprise e = new Entreprise();
 		Contact c = new Contact();
