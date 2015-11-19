@@ -12,76 +12,95 @@
 <h:body>
 
 <div>
-<h1>Add Contact</h1>
+<h1><h:outputText value="#{loginForm.addContactTitle}"/></h1>
 </div>
 <div>
 <h:form>
-	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
-	<h:commandButton value="SEARCH" action="#{searchContact.init()}" />
-	
-	<h:commandButton value="ADD" action="addContactJSF.jsf" />
-		<h:commandButton value="REMOVE" action="removeContactJSF.jsf" />
-	
-	<h:commandButton value="Logout" action="#{control.logout()}" />
+	<h:commandButton value="#{loginForm.home}" action="accueilJSF.jsf" />
+	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
+	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <fieldset>
 <h:form>
-    <h:panelGrid columns="2">
+    <h:panelGrid columns="3">
         <h:outputText value="#{loginForm.firstName}" />
     	<h:inputText 
     		value="#{addContact.firstName}"  				
  			required="true" 
  			requiredMessage="#{loginForm.requiredFirstName}" 
  			id="firstName"/>
+ 	 	<h:message for="firstName" styleClass="error"/>
  	
 		<h:outputText value="#{loginForm.lastName}" />
     	<h:inputText value="#{addContact.lastName}"
     		required="true" 
   			requiredMessage="#{loginForm.requiredLastName}" 
   			id="lastName"/>
+  		<h:message for="lastName" styleClass="error"/>
   		
   		<h:outputText value="#{loginForm.numSiret}" />
     	<h:inputText 
     		value="#{addContact.numSiret}"
     		converterMessage="#{loginForm.converterSiret}"
     		id="numSiret"/> 
+    	<h:message for="numSiret" styleClass="error"/>
     		
     	<h:outputText value="#{loginForm.email}" />
     	<h:inputText 
-    		value="#{addContact.email}"/> 
+    		value="#{addContact.email}"
+    		validatorMessage="#{loginForm.validatorEmail}"
+    		id="email">
+    	<f:validator validatorId="emailValidator"></f:validator>	
+    	</h:inputText> 
+    	<h:message for="email" styleClass="error"/>
     
     	<h:outputText value="#{loginForm.mobile}" />
     	<h:inputText value="#{addContact.mobile}"
-    	converterMessage="#{loginForm.converterMobile}"
-    		id="mobile"/> 
-   
+    		converterMessage="#{loginForm.converterMobile}"
+    		id="mobile">
+    	<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText> 
+   		<h:message for="mobile" styleClass="error"/>
+   		
    		<h:outputText value="#{loginForm.home}" />
     	<h:inputText 
     		value="#{addContact.home}"
     		converterMessage="#{loginForm.converterHome}"
-    		id="home"/> 
-  
+    		id="home">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText> 
+  		<h:message for="home" styleClass="error"/>
+  		
    		<h:outputText value="#{loginForm.fax}" />
     	<h:inputText 
     		value="#{addContact.fax}"
     		converterMessage="#{loginForm.converterFax}"
-    		id="fax"/> 
- 
+    		id="fax">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText> 
+ 		<h:message for="fax" styleClass="error"/>
+ 		
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 
     		value="#{addContact.street}"/> 
-
+		<h:outputText value=""/>
+		
    		<h:outputText value="#{loginForm.zip}" />
     	<h:inputText 
     		value="#{addContact.zip}"/> 
+    	<h:outputText value=""/>
     	
     	<h:outputText value="#{loginForm.city}" />
     	<h:inputText 
     		value="#{addContact.city}"/> 
+       <h:outputText value=""/>
        
        	<h:outputText value="#{loginForm.country}" />
     	<h:inputText 
     		value="#{addContact.country}"/> 
+    	<h:outputText value=""/>
     		
     	<h:outputText value="#{loginForm.group}" />
     	<h:panelGrid columns="1">
@@ -92,11 +111,12 @@
 			</h:selectManyCheckbox>
 			<h:inputText value="#{addContact.newGroup}"/>
     	</h:panelGrid>
+    	<h:outputText value=""/>
     	
     </h:panelGrid>
    
     <h:commandButton value="#{loginForm.done}" action="#{addContact.add()}" />
-   	<h:commandButton value="Reset" action="#{addContact.reset()}" />
+   	<h:commandButton value="#{loginForm.reset}" action="#{addContact.reset()}" />
 </h:form>
 </fieldset>
 </div>

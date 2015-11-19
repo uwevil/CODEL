@@ -6,23 +6,21 @@
 <f:view locale="#{facesContext.externalContext.requestLocale}">
       
 <h:head>
-<title>Error version</title>
+<title>JSF</title>
 <h:outputStylesheet library="css" name="table-style.css"  />
 </h:head>
 <h:body>
 
 <div>
-<h1>Error Version</h1>
+<h1><h:outputText value="#{loginForm.errorVersionTitle}"/></h1>
 </div>
 <div>
 <h:form>
-	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
-	<h:commandButton value="SEARCH" action="#{searchContact.init()}" />
-	
-	<h:commandButton value="ADD" action="addContactJSF.jsf" />
-		<h:commandButton value="REMOVE" action="removeContactJSF.jsf" />
-	
-	<h:commandButton value="Logout" action="#{control.logout()}" />
+	<h:commandButton value="#{loginForm.home}" action="accueilJSF.jsf" />
+	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
+	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 
 </div>

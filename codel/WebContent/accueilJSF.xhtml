@@ -12,16 +12,15 @@
 <h:body>
 
 <div>
-<h1>Bonjour</h1>
+<h1><h:outputText value="#{loginForm.hello}"/></h1>
 </div>
 <div>
 <h:form>
-	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
-	<h:commandButton value="SEARCH" action="#{searchContact.init()}" />
-	
-	<h:commandButton value="ADD" action="addContactJSF.jsf" />
-		<h:commandButton value="REMOVE" action="removeContactJSF.jsf" />
-	<h:commandButton value="Logout" action="#{control.logout()}" />
+	<h:commandButton value="#{loginForm.home}" action="accueilJSF.jsf" />
+	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
+	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <h:form>
 <h:dataTable value="#{service.welcome()}" var="l"

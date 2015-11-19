@@ -6,23 +6,21 @@
 <f:view locale="#{facesContext.externalContext.requestLocale}">
       
 <h:head>
-<title>JSF ACCUEIL</title>
+<title>JSF</title>
 <h:outputStylesheet library="css" name="table-style.css"  />
 </h:head>
 <h:body>
 
 <div>
-<h1>Search Contact</h1>
+<h1><h:outputText value="#{loginForm.searchContactTitle}"/></h1>
 </div>
 <div>
 <h:form>
-	<h:commandButton value="Accueil" action="accueilJSF.jsf" />
-	<h:commandButton value="SEARCH" action="#{searchContact.init()}" />
-	
-	<h:commandButton value="ADD" action="searchContactJSF.jsf" />
-		<h:commandButton value="REMOVE" action="removeContactJSF.jsf" />
-	
-	<h:commandButton value="Logout" action="#{control.logout()}" />
+	<h:commandButton value="#{loginForm.home}" action="accueilJSF.jsf" />
+	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
+	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <fieldset>
 <h:form>	
@@ -42,15 +40,22 @@
     		value="#{searchContact.email}"/> 
     
     	<h:outputText value="#{loginForm.number} 1" />
-    	<h:inputText value="#{searchContact.mobile}"/> 
+    	<h:inputText 
+    		value="#{searchContact.mobile}">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText>
    
    		<h:outputText value="#{loginForm.number} 2" />
     	<h:inputText 
-    		value="#{searchContact.home}"/> 
+    		value="#{searchContact.home}">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText>
   
    		<h:outputText value="#{loginForm.number} 3" />
     	<h:inputText 
-    		value="#{searchContact.fax}"/> 
+    		value="#{searchContact.fax}">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText>
  
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 
@@ -79,7 +84,7 @@
     </h:panelGrid>
    
    <h:commandButton value="#{loginForm.done}" action="#{searchContact.search()}" />
-   	<h:commandButton value="Reset" action="#{searchContact.reset()}" />
+   	<h:commandButton value="#{loginForm.reset}" action="#{searchContact.reset()}" />
 </h:form>
 </fieldset>
 </div>

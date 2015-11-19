@@ -77,7 +77,7 @@ public class UpdateContactSuite extends HttpServlet {
 		
 		String email = request.getParameter("email").toUpperCase();
 				
-		if (email.length() > 1 && 
+		if (email.length() > 0 && 
 				!email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
 			response.sendRedirect("updateContact.jsp");

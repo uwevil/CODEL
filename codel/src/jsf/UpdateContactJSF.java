@@ -37,10 +37,9 @@ public class UpdateContactJSF implements Serializable {
 				viewContact.getContact().getAddress().getZip().toUpperCase(), 
 				viewContact.getContact().getAddress().getCountry().toUpperCase());
 		
-		if (viewContact.getContact().getEmail().length() > 1 
+		if (viewContact.getContact().getEmail().length() > 0 
 				&& !viewContact.getContact().getEmail()
-				.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
-		{
+				.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$")){
 			return null;
 		}
 		

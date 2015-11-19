@@ -16,19 +16,21 @@
 <fieldset>
 
 <h:form>
+    <h:panelGrid columns="3">
  	<h:outputFormat value="#{loginForm.login}"></h:outputFormat>
  	<h:inputText value="#{control.login}" 
  	required="true" 
  	requiredMessage="#{loginForm.requiredLogin}" 
  	id="login"/>
- 	<h:message for="login" styleClass="error"/><br/>
+ 	<h:message for="login" styleClass="error"/>
  	
   	<h:outputFormat value="#{loginForm.password}"></h:outputFormat>
   	<h:inputSecret value="#{control.password}" 
   	required="true" 
   	requiredMessage="#{loginForm.requiredPassword}" 
   	id="pass"/>
- 	<h:message for="pass" styleClass="error"/><br/>
+ 	<h:message for="pass" styleClass="error"/>
+ 	</h:panelGrid>
  	
   	<h:commandButton value="#{loginForm.submit}" action="#{control.checkAccess}"/> 
 </h:form>

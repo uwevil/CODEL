@@ -77,7 +77,7 @@ public class NewContact extends HttpServlet {
 		String email = request.getParameter("email");
 		email = email.toUpperCase(Locale.ROOT);
 
-		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
+		if (email.length() > 0 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
 		{
 			response.sendRedirect("addContact.jsp");
 			return;
