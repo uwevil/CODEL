@@ -89,8 +89,19 @@ public class NewContact extends HttpServlet {
 		String country = request.getParameter("country").toUpperCase();
 				
 		String mobileNumber = request.getParameter("mobileNumber").toUpperCase();
+		
+		if (!mobileNumber.matches("^[0-9]*$"))
+			mobileNumber = new String("");
+		
 		String homeNumber = request.getParameter("homeNumber").toUpperCase();
+		
+		if (!homeNumber.matches("^[0-9]*$"))
+			homeNumber = new String("");
+		
 		String faxNumber = request.getParameter("faxNumber").toUpperCase();
+		
+		if (!faxNumber.matches("^[0-9]*$"))
+			faxNumber = new String("");
 		
 		String[] checkboxes = request.getParameterValues("group");
 

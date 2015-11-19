@@ -93,6 +93,15 @@ public class UpdateContactSuite extends HttpServlet {
 		String homeNumber = request.getParameter("homeNumber").toUpperCase();
 		String faxNumber = request.getParameter("faxNumber").toUpperCase();
 		
+		if (!mobileNumber.matches("^[0-9]*$"))
+			mobileNumber = new String("");
+				
+		if (!homeNumber.matches("^[0-9]*$"))
+			homeNumber = new String("");
+				
+		if (!faxNumber.matches("^[0-9]*$"))
+			faxNumber = new String("");
+		
 		String[] checkboxes = request.getParameterValues("group");
 				
 		Object contact = session.getAttribute("contact");

@@ -20,58 +20,83 @@
 	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
 	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
 	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="AUTO" action="#{auto.add()}" />
+	
 	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <fieldset>
 <h:form>	
-    <h:panelGrid columns="2">
+    <h:panelGrid columns="3">
         <h:outputText value="#{loginForm.firstName}" />
     	<h:inputText value="#{searchContact.firstName}"/>
- 	
+    	<h:outputText value=""/>
+
 		<h:outputText value="#{loginForm.lastName}" />
     	<h:inputText value="#{searchContact.lastName}"/>
-  		
+    	<h:outputText value=""/>
+
   		<h:outputText value="#{loginForm.numSiret}" />
     	<h:inputText 
-    		value="#{searchContact.numSiret}"/> 
+    		value="#{searchContact.numSiret}"
+    		converterMessage="#{loginForm.converterSiret}"
+    		id="numSiret"/> 
+    	<h:message for="numSiret" styleClass="error"/>
     		
     	<h:outputText value="#{loginForm.email}" />
     	<h:inputText 
-    		value="#{searchContact.email}"/> 
+    		value="#{searchContact.email}"
+    		validatorMessage="#{loginForm.validatorEmail}"
+    		id="email">
+    	<f:validator validatorId="emailValidator"></f:validator>	
+    	</h:inputText> 
+    	<h:message for="email" styleClass="error"/> 
     
     	<h:outputText value="#{loginForm.number} 1" />
     	<h:inputText 
-    		value="#{searchContact.mobile}">
-    		<f:converter converterId="numberConverter"></f:converter>	
-    	</h:inputText>
+    		value="#{searchContact.mobile}"
+    		converterMessage="#{loginForm.converterMobile}"
+    		id="mobile">
+    	<f:converter converterId="numberConverter"></f:converter>	
+    	</h:inputText> 
+   		<h:message for="mobile" styleClass="error"/>
    
    		<h:outputText value="#{loginForm.number} 2" />
     	<h:inputText 
-    		value="#{searchContact.home}">
+    		value="#{searchContact.home}"
+    		converterMessage="#{loginForm.converterHome}"
+    		id="home">
     		<f:converter converterId="numberConverter"></f:converter>	
-    	</h:inputText>
+    	</h:inputText> 
+  		<h:message for="home" styleClass="error"/>
   
    		<h:outputText value="#{loginForm.number} 3" />
     	<h:inputText 
-    		value="#{searchContact.fax}">
+    		value="#{searchContact.fax}"
+    		converterMessage="#{loginForm.converterFax}"
+    		id="fax">
     		<f:converter converterId="numberConverter"></f:converter>	
-    	</h:inputText>
+    	</h:inputText> 
+ 		<h:message for="fax" styleClass="error"/>
  
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 
     		value="#{searchContact.street}"/> 
+    	<h:outputText value=""/>
 
    		<h:outputText value="#{loginForm.zip}" />
     	<h:inputText 
     		value="#{searchContact.zip}"/> 
+    	<h:outputText value=""/>
     	
     	<h:outputText value="#{loginForm.city}" />
     	<h:inputText 
     		value="#{searchContact.city}"/> 
+       	<h:outputText value=""/>
        
        	<h:outputText value="#{loginForm.country}" />
     	<h:inputText 
     		value="#{searchContact.country}"/> 
+      	<h:outputText value=""/>
     		
     	<h:outputText value="#{loginForm.group}" />
 		<h:selectManyCheckbox value="#{searchContact.newGroups}" layout="grid" columns="4">
@@ -80,6 +105,7 @@
                   itemLabel="#{g}" 
                   itemValue="#{g}"/>
 		</h:selectManyCheckbox>
+    	<h:outputText value=""/>
 			
     </h:panelGrid>
    

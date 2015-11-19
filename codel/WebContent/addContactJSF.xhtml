@@ -20,6 +20,8 @@
 	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
 	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
 	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="AUTO" action="#{auto.add()}" />
+	
 	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <fieldset>
@@ -64,7 +66,7 @@
     	</h:inputText> 
    		<h:message for="mobile" styleClass="error"/>
    		
-   		<h:outputText value="#{loginForm.home}" />
+   		<h:outputText value="#{loginForm.phone}" />
     	<h:inputText 
     		value="#{addContact.home}"
     		converterMessage="#{loginForm.converterHome}"

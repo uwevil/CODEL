@@ -11,7 +11,7 @@
 </h:head>
 <h:body>
 <div>
-<h1><h:outputText value="#{loginForm.viewContactTitle}"/><h:outputText value="#{viewContact.getContact().getId()}" /></h1>
+<h1><h:outputText value="#{loginForm.viewContactTitle}"/><h:outputText value=" #{viewContact.getContact().getId()}" /></h1>
 </div>
 
 <h:form>
@@ -19,6 +19,8 @@
 	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
 	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
 	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="AUTO" action="#{auto.add()}" />
+	
 	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 
@@ -48,7 +50,7 @@
     	<h:commandLink action="#{viewContact.edit(viewContact.getContact())}" 
     		value="#{viewContact.getMobile()}"/> 
    
-   		<h:outputText value="#{loginForm.home}" />
+   		<h:outputText value="#{loginForm.phone}" />
     	<h:commandLink action="#{viewContact.edit(viewContact.getContact())}" 
     		value="#{viewContact.getHome()}"/> 
   

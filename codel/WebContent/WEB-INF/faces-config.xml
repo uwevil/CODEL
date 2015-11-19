@@ -26,7 +26,16 @@
 	<managed-property>
             <property-name>daoContact</property-name>
             <value>#{daoContact}</value>
-        </managed-property>
+    </managed-property>
+</managed-bean>
+<managed-bean>
+	<managed-bean-name>auto</managed-bean-name>
+	<managed-bean-class>jsf.AutoAddJSF</managed-bean-class>
+	<managed-bean-scope>session</managed-bean-scope>
+	<managed-property>
+            <property-name>service</property-name>
+            <value>#{service}</value>
+    </managed-property>
 </managed-bean>
 <managed-bean>
 	<managed-bean-name>addContact</managed-bean-name>

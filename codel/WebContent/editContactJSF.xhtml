@@ -12,13 +12,15 @@
 </h:head>
 <h:body>
 <div>
-<h1><h:outputText value="#{loginForm.editContactTitle}"/><h:outputText value="#{viewContact.getContact().getId()}" /></h1>
+<h1><h:outputText value="#{loginForm.editContactTitle}"/><h:outputText value=" #{viewContact.getContact().getId()}" /></h1>
 </div>
 <h:form>
 	<h:commandButton value="#{loginForm.home}" action="accueilJSF.jsf" />
 	<h:commandButton value="#{loginForm.search}" action="#{searchContact.init()}" />
 	<h:commandButton value="#{loginForm.add}" action="addContactJSF.jsf" />
 	<h:commandButton value="#{loginForm.remove}" action="removeContactJSF.jsf" />
+	<h:commandButton value="AUTO" action="#{auto.add()}" />
+	
 	<h:commandButton value="#{loginForm.logout}" action="#{control.logout()}" />
 </h:form>
 <div>
@@ -38,7 +40,7 @@
     	<h:inputText value="#{viewContact.getContact().lastName}"
     		required="true" 
  			requiredMessage="#{loginForm.requiredLastName}" 
- 			id="LastName"/> 
+ 			id="lastName"/> 
     	<h:message for="lastName" styleClass="error"/>
     	
     	<h:outputText value="#{loginForm.email}" />
@@ -55,9 +57,11 @@
     	<h:inputText value="#{viewContact.getContact().numSiret}" 
     			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"
     			converterMessage="#{loginForm.converterNumber}"
-    			id="numSiret"/> 
-   	 	<h:message for="numSiret" styleClass="error" 
-   	 		rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
+    			id="numSiret">
+    		<f:converter converterId="numberConverter"></f:converter>	
+    		</h:inputText> 
+   	 		<h:message for="numSiret" styleClass="error" 
+   	 			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
     
     	<h:outputText value="#{loginForm.mobile}" />
     	<h:inputText value="#{viewContact.mobile}"
@@ -67,7 +71,7 @@
     	</h:inputText> 
    		<h:message for="mobile" styleClass="error"/>
    		
-   		<h:outputText value="#{loginForm.home}" />
+   		<h:outputText value="#{loginForm.phone}" />
     	<h:inputText 
     		value="#{viewContact.home}"
     		converterMessage="#{loginForm.converterHome}"
