@@ -27,12 +27,19 @@
 <fieldset>
 <h:form>
     <h:panelGrid columns="2">
+    
         <h:outputText value="#{loginForm.firstName}" />
-    	<h:outputText 
-    		value="#{viewContact.getContact().firstName}"/>    				
+    	<h:inputText 
+    		value="#{viewContact.getContact().firstName}"
+    		required="true" 
+ 			requiredMessage="#{loginForm.requiredFirstName}" 
+ 			id="firstName"/>    				
 		
 		<h:outputText value="#{loginForm.lastName}" />
-    	<h:outputText value="#{viewContact.getContact().lastName}"/> 
+    	<h:inputText value="#{viewContact.getContact().lastName}"
+    		required="true" 
+ 			requiredMessage="#{loginForm.requiredLastName}" 
+ 			id="LastName"/> 
     	
     	<h:outputText value="#{loginForm.email}" />
     	<h:inputText 
@@ -40,19 +47,27 @@
     
     	<h:outputText value="#{loginForm.numSiret}" 
     		rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
-    	<h:outputText value="#{viewContact.getContact().numSiret}" 
-    			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/> 
+    	<h:inputText value="#{viewContact.getContact().numSiret}" 
+    			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"
+    			converterMessage="#{loginForm.converterNumber}"
+    			id="numSiret"/> 
     
     	<h:outputText value="#{loginForm.mobile}" />
-    	<h:inputText value="#{viewContact.mobile}"/> 
+    	<h:inputText value="#{viewContact.mobile}"
+    	converterMessage="#{loginForm.converterMobile}"
+    		id="mobile"/> 
    
    		<h:outputText value="#{loginForm.home}" />
     	<h:inputText 
-    		value="#{viewContact.home}"/> 
+    		value="#{viewContact.home}"
+    	converterMessage="#{loginForm.converterHome}"
+    		id="home"/> 
   
    		<h:outputText value="#{loginForm.fax}" />
     	<h:inputText 
-    		value="#{viewContact.fax}"/> 
+    		value="#{viewContact.fax}"
+    	converterMessage="#{loginForm.converterFax}"
+    		id="fax"/> 
  
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 
@@ -73,10 +88,7 @@
     	<h:outputText value="#{loginForm.group}" />
     	<h:panelGrid columns="1">
 			<h:selectManyCheckbox value="#{updateContact.newGroups}" layout="grid" columns="4">
-    			<f:selectItems var="g" 
-                   value="#{viewContact.groups}" 
-                   itemLabel="#{g}" 
-                   itemValue="#{g}"/>
+    			<f:selectItems value="#{viewContact.groups}"  var="g" itemLabel="#{g}" itemValue="#{g}"/>
 			</h:selectManyCheckbox>
 			
     		<h:inputText value="#{updateContact.newGroup}"/>

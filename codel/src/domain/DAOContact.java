@@ -216,7 +216,6 @@ public class DAOContact extends HibernateDaoSupport{
 				
 			((Contact)c).getBooks().clear();
 
-			
 			getHibernateTemplate().delete(c);
 			getHibernateTemplate().delete(((Contact)c).getAddress());
 		}

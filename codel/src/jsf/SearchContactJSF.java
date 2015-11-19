@@ -182,7 +182,11 @@ public class SearchContactJSF implements Serializable {
 		boolean ok = true;
 		
 		if (firstName != null && lastName != null && firstName.length() > 0 && lastName.length() > 0){
-			result.add(service.searchContactName(firstName, lastName));
+			Object o = service.searchContactName(firstName, lastName);
+			
+			if (o != null)
+				result.add(o);
+						
 			ok = false;
 		}else{
 			if (firstName != null && firstName.length() >0){
@@ -225,13 +229,13 @@ public class SearchContactJSF implements Serializable {
 					list_result = list;
 					list = tmp;
 				}
-				
+								
 				for (int i = 0; i < list_result.size(); i++){
 					Contact c = (Contact) list_result.get(i);
 									
 					for (int j = 0; j < list.size(); j++){
 						Contact c_tmp = (Contact) list.get(j);
-						
+
 						if (c.getEmail().equalsIgnoreCase(c_tmp.getEmail()) 
 								&& (c.getFirstName().equalsIgnoreCase(c_tmp.getFirstName())
 								&& c.getLastName().equalsIgnoreCase(c_tmp.getLastName()))){
@@ -296,9 +300,6 @@ public class SearchContactJSF implements Serializable {
 								if (p.getPhoneKind().equalsIgnoreCase(p_tmp.getPhoneKind())
 										&& p.getPhoneNumber().equalsIgnoreCase(p_tmp.getPhoneNumber())){
 									
-									System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
-									System.out.println(p_tmp.getPhoneKind() + " : " + p_tmp.getPhoneNumber());
-
 									result.add(c);
 									list.remove(k);
 									k--;
@@ -395,16 +396,28 @@ public class SearchContactJSF implements Serializable {
 			}			
 		}
 		
-
+/*
 		for (int i = 0; i < result.size(); i++){
 			Contact c = (Contact) result.get(i);
 			System.out.println(c.getFirstName() + " " + c.getLastName());
 		}
+	*/
 		
+		if (result == null || result.isEmpty()){
+			result = new ArrayList<>();
+		}
 
-		return null;
+		return "searchContactResultJSF";
 	}
 	
+	public List<Object> getResult() {
+		return result;
+	}
+
+	public void setResult(List<Object> result) {
+		this.result = result;
+	}
+
 	public String reset(){
 		if (!ControlAccessJSF.getOK())
 			return "loginJSF.jsf";

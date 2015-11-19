@@ -3,8 +3,10 @@ package jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import domain.Address;
 import domain.Contact;
@@ -151,7 +153,7 @@ public class AddContactJSF implements Serializable{
 		Address address = new Address(street.toUpperCase(), city.toUpperCase(), zip.toUpperCase(), country.toUpperCase());
 		
 		if (email.length() > 1 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))
-		{
+		{			
 			return null;
 		}
 		

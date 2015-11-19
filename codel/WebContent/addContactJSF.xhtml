@@ -26,9 +26,6 @@
 </h:form>
 <fieldset>
 <h:form>
-	<h:message for="firstName" styleClass="error"/><br/>
-  	<h:message for="lastName" styleClass="error"/><br/>
-    	
     <h:panelGrid columns="2">
         <h:outputText value="#{loginForm.firstName}" />
     	<h:inputText 
@@ -45,22 +42,30 @@
   		
   		<h:outputText value="#{loginForm.numSiret}" />
     	<h:inputText 
-    		value="#{addContact.numSiret}"/> 
+    		value="#{addContact.numSiret}"
+    		converterMessage="#{loginForm.converterSiret}"
+    		id="numSiret"/> 
     		
     	<h:outputText value="#{loginForm.email}" />
     	<h:inputText 
     		value="#{addContact.email}"/> 
     
     	<h:outputText value="#{loginForm.mobile}" />
-    	<h:inputText value="#{addContact.mobile}"/> 
+    	<h:inputText value="#{addContact.mobile}"
+    	converterMessage="#{loginForm.converterMobile}"
+    		id="mobile"/> 
    
    		<h:outputText value="#{loginForm.home}" />
     	<h:inputText 
-    		value="#{addContact.home}"/> 
+    		value="#{addContact.home}"
+    		converterMessage="#{loginForm.converterHome}"
+    		id="home"/> 
   
    		<h:outputText value="#{loginForm.fax}" />
     	<h:inputText 
-    		value="#{addContact.fax}"/> 
+    		value="#{addContact.fax}"
+    		converterMessage="#{loginForm.converterFax}"
+    		id="fax"/> 
  
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 

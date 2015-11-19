@@ -107,6 +107,10 @@
 		<from-outcome>accueilJSF.xhtml</from-outcome>
 		<to-view-id>/accueilJSF.xhtml</to-view-id>
 	</navigation-case>
+	<navigation-case>
+		<from-outcome>login.html</from-outcome>
+		<to-view-id>/index.jsp</to-view-id>
+	</navigation-case>
 </navigation-rule>
 <navigation-rule>
 	<from-view-id>/searchContactResultJSF.xhtml</from-view-id>

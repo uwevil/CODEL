@@ -12,7 +12,7 @@
 <h:body>
 
 <div>
-<h1>Bonjour</h1>
+<h1>Result</h1>
 </div>
 <div>
 <h:form>
@@ -24,7 +24,7 @@
 	<h:commandButton value="Logout" action="#{control.logout()}" />
 </h:form>
 <h:form>
-<h:dataTable value="#{service.welcome()}" var="l"
+<h:dataTable value="#{searchContact.result}" var="l"
     		styleClass="order-table"
     			headerClass="order-table-header"
     			rowClasses="order-table-odd-row,order-table-even-row">
