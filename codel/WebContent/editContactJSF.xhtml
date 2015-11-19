@@ -43,15 +43,6 @@
  			id="lastName"/> 
     	<h:message for="lastName" styleClass="error"/>
     	
-    	<h:outputText value="#{loginForm.email}" />
-   		<h:inputText 
-    		value="#{viewContact.getContact().email}"
-    		validatorMessage="#{loginForm.validatorEmail}"
-    		id="email">
-    		<f:validator validatorId="emailValidator"></f:validator>	
-    	</h:inputText> 
-    	<h:message for="email" styleClass="error"/>
-    	
     	<h:outputText value="#{loginForm.numSiret}" 
     		rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
     	<h:inputText value="#{viewContact.getContact().numSiret}" 
@@ -63,6 +54,16 @@
    	 		<h:message for="numSiret" styleClass="error" 
    	 			rendered="#{service.isEntreprise(viewContact.getContact()) eq true}"/>
     
+    	<h:outputText value="#{loginForm.email}" />
+   		<h:inputText 
+    		value="#{viewContact.getContact().email}"
+    		validatorMessage="#{loginForm.validatorEmail}"
+    		id="email">
+    		<f:validator validatorId="emailValidator"></f:validator>	
+    	</h:inputText> 
+    	<h:message for="email" styleClass="error"/>
+    	
+    	
     	<h:outputText value="#{loginForm.mobile}" />
     	<h:inputText value="#{viewContact.mobile}"
     	converterMessage="#{loginForm.converterMobile}"

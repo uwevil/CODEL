@@ -651,7 +651,7 @@ public class DAOContact extends HibernateDaoSupport{
 
 		for (int i = 0; i < groups.size(); i++){
 			String s = groups.get(i);
-			
+
 			if (requestQuery.length() == length && s.length() > 0){
 				requestQuery += "g.groupName = '" + s + "'";
 			}else{
@@ -665,7 +665,7 @@ public class DAOContact extends HibernateDaoSupport{
 		{
 			return null;
 		}
-
+		
 		return list;
 	}
 }

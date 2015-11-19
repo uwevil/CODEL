@@ -206,11 +206,52 @@ public class SearchContactJSF implements Serializable {
 		ok = true;
 				
 		if (numSiret != null && numSiret.length() > 0){
-			result = service.searchNumSiret(numSiret);
+			ok = false;
+			
+			List<Object> list = service.searchNumSiret(numSiret);
+			List<Object> list_result = result;
+
+			result = new ArrayList<Object>();
+			
+			if (list == null || list.isEmpty())
+				return "searchContactResultJSF";
+			
+			if (list_result == null || list_result.isEmpty()){
+				result = list;
+			}else{
+				ok = false;
+
+				if (list.size() < list_result.size()){
+					List<Object> tmp = list_result;
+					list_result = list;
+					list = tmp;
+				}
+								
+				for (int i = 0; i < list_result.size(); i++){
+					Contact c = (Contact) list_result.get(i);
+									
+					for (int j = 0; j < list.size(); j++){
+						Contact c_tmp = (Contact) list.get(j);
+
+						if (c.getEmail().equalsIgnoreCase(c_tmp.getEmail()) 
+								&& (c.getFirstName().equalsIgnoreCase(c_tmp.getFirstName())
+								&& c.getLastName().equalsIgnoreCase(c_tmp.getLastName()))){
+							result.add(c_tmp);
+						}
+					}
+				}
+			}
 		}
+		
+		if ((result == null || result.isEmpty()) && !ok)
+			return "searchContactResultJSF";
+		
+		ok = true;
 		
 		if (ok)
 		{
+			ok = false;
+			
 			List<Object> list = service.searchEmail(email);
 			List<Object> list_result = result;
 			
@@ -245,10 +286,16 @@ public class SearchContactJSF implements Serializable {
 				}
 			}
 		}
+		
+		if ((result == null || result.isEmpty()) && !ok)
+			return "searchContactResultJSF";
+		
+		ok = true;
 				
 		if ((mobile != null && mobile.length() > 0) 
 				|| (home != null && home.length() > 0) 
 				|| (fax != null && fax.length() > 0)){
+			ok = false;
 			
 			List<Object> list = new ArrayList<>();
 			List<Object> list_result = result;
@@ -266,6 +313,18 @@ public class SearchContactJSF implements Serializable {
 				
 			if (list == null || list.isEmpty()){
 				return "searchContactResultJSF";
+			}
+			
+			for (int i = 0; i < list.size(); i++){
+				Contact c = ((PhoneNumber) list.get(i)).getContact();
+				for (int j = i + 1; j < list.size(); j++){
+					Contact c_tmp = ((PhoneNumber) list.get(j)).getContact();
+					if (c_tmp.getFirstName().equalsIgnoreCase(c.getFirstName()) 
+							&& c_tmp.getLastName().equalsIgnoreCase(c.getLastName())){
+						list.remove(j);
+						j--;
+					}
+				}
 			}
 			
 			if (list_result == null || list_result.isEmpty()){
@@ -306,57 +365,65 @@ public class SearchContactJSF implements Serializable {
 									break;
 								}
 							}
-						}
-							
+						}	
 					}
 				}
-			}	
-				
+			}		
 		}
+		
+		if ((result == null || result.isEmpty()) && !ok)
+			return "searchContactResultJSF";
+		
+		ok = true;
 
-		if (ok){			
-			if (!((street == null || street.length() < 1)
-					&&(zip == null || zip.length() < 1)
-					&&(city == null || city.length() < 1)
-					&&(country == null || country.length() < 1))){
-				ok = false;
+		if (!((street == null || street.length() < 1)
+				&&(zip == null || zip.length() < 1)
+				&&(city == null || city.length() < 1)
+				&&(country == null || country.length() < 1))){
+			ok = false;
 
-				List<Object> list = service.searchAddress(street, zip, city, country);
-				List<Object> list_result = result;
+			List<Object> list = service.searchAddress(street, zip, city, country);
+			List<Object> list_result = result;
+			
+			result = new ArrayList<Object>();
+			
+			if (list == null || list.isEmpty())
+				return "searchContactResultJSF";
+			
+			if (list_result == null || list_result.isEmpty()){
+				result = new ArrayList<>();
+				result.addAll(list);
+			}else{
+				if (list.size() < list_result.size()){
+					List<Object> tmp = list_result;
+					list_result = list;
+					list = tmp;
+				}
 				
-				result = new ArrayList<Object>();
-				
-				if (list == null || list.isEmpty())
-					return "searchContactResultJSF";
-				
-				if (list_result == null || list_result.isEmpty()){
-					result = new ArrayList<>();
-					result.addAll(list);
-				}else{
-					if (list.size() < list_result.size()){
-						List<Object> tmp = list_result;
-						list_result = list;
-						list = tmp;
-					}
-					
-					for (int i = 0; i < list_result.size(); i++){
-						Contact c = (Contact) list_result.get(i);
-										
-						for (int j = 0; j < list.size(); j++){
-							Contact c_tmp = (Contact) list.get(j);
-							
-							if (c.getEmail().equalsIgnoreCase(c_tmp.getEmail()) 
-									&& (c.getFirstName().equalsIgnoreCase(c_tmp.getFirstName())
-									&& c.getLastName().equalsIgnoreCase(c_tmp.getLastName()))){
-								result.add(c_tmp);
-							}
+				for (int i = 0; i < list_result.size(); i++){
+					Contact c = (Contact) list_result.get(i);
+									
+					for (int j = 0; j < list.size(); j++){
+						Contact c_tmp = (Contact) list.get(j);
+						
+						if (c.getEmail().equalsIgnoreCase(c_tmp.getEmail()) 
+								&& (c.getFirstName().equalsIgnoreCase(c_tmp.getFirstName())
+								&& c.getLastName().equalsIgnoreCase(c_tmp.getLastName()))){
+							result.add(c_tmp);
 						}
 					}
 				}
 			}
 		}
 		
+		if ((result == null || result.isEmpty()) && !ok)
+			return "searchContactResultJSF";
+		
+		ok = true;
+		
 		if (newGroups.size() > 0){
+			ok = false;
+			
 			List<Object> list = service.searchGroups(newGroups);
 			
 			if (list != null && list.size() > 0){
@@ -370,20 +437,21 @@ public class SearchContactJSF implements Serializable {
 					j = 1;
 				}
 				
+				int j_tmp = j;
+				
 				for (int i = 0; i < list_tmp.size(); i++){
 					Contact c = (Contact) list_tmp.get(i);
 					
-					for (; j < list.size(); j++){
+					for (j = j_tmp; j < list.size(); j++){
 						List<Contact> list_tmp2 = new ArrayList<Contact>(((ContactGroup) list.get(j)).getContacts());
 						int k = 0;
 						for (k = 0; k < list_tmp2.size(); k++){
 							if (list_tmp2.get(k).getFirstName().equalsIgnoreCase(c.getFirstName()) 
 									&& list_tmp2.get(k).getLastName().equalsIgnoreCase(c.getLastName())){
 								break;
-							}
-								
+							}	
 						}
-						
+
 						if (k == list_tmp2.size()){
 							list_tmp.remove(i);
 							i--;
@@ -393,15 +461,12 @@ public class SearchContactJSF implements Serializable {
 				}
 				
 				result = new ArrayList<Object>(list_tmp);				
+			}else{
+				if (result != null && !result.isEmpty()){
+					result = new ArrayList<Object>();
+				}
 			}			
 		}
-		
-/*
-		for (int i = 0; i < result.size(); i++){
-			Contact c = (Contact) result.get(i);
-			System.out.println(c.getFirstName() + " " + c.getLastName());
-		}
-	*/
 		
 		if (result == null || result.isEmpty()){
 			result = new ArrayList<>();

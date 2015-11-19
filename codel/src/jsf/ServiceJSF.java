@@ -86,7 +86,7 @@ public class ServiceJSF implements Serializable{
 		if (email == null || email.length() < 1)
 			return daoContact.searchEmail("");
 		
-		return daoContact.searchEmail(email);
+		return daoContact.searchEmail(email.toUpperCase());
 	}
 	
 	public List<Object> searchAddress(String street, String zip, String city, String country){

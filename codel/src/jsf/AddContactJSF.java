@@ -3,11 +3,6 @@ package jsf;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
 import domain.Address;
 import domain.Contact;
 import domain.ContactGroup;
@@ -15,8 +10,6 @@ import domain.Entreprise;
 import domain.PhoneNumber;
 
 @SuppressWarnings("serial")
-@ManagedBean(name="addContact")
-@SessionScoped
 
 public class AddContactJSF implements Serializable{
 	private String firstName;
@@ -232,12 +225,6 @@ public class AddContactJSF implements Serializable{
 		}		
 	}
 	
-	public String reset(){
-		this.firstName = "";
-		this.lastName = "";
-		return "addContactJSF";
-	}
-
 	public ServiceJSF getService() {
 		return service;
 	}
