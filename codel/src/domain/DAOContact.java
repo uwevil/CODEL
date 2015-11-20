@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +16,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.support.*;
 
-public class DAOContact extends HibernateDaoSupport{
+@SuppressWarnings("serial")
+public class DAOContact extends HibernateDaoSupport implements Serializable{
 		
 	public static HibernateTemplate hibernateTemplate;
 	
@@ -604,7 +606,7 @@ public class DAOContact extends HibernateDaoSupport{
 		
 		if (requestQuery.length() == length && address.getZip().length() > 0){
 			requestQuery += "c.address.zip = '" + address.zip.toUpperCase() + "'";
-		}else if (address.getStreet().length() > 0){
+		}else if (address.getZip().length() > 0){
 			requestQuery += " and c.address.zip = '" + address.zip.toUpperCase() + "'";
 		}
 		
@@ -626,7 +628,7 @@ public class DAOContact extends HibernateDaoSupport{
 		{
 			return null;
 		}
-
+		
 		return list;
 	}
 	
