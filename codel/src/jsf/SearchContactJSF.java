@@ -302,13 +302,22 @@ public class SearchContactJSF implements Serializable {
 			result = new ArrayList<Object>();
 
 			if (mobile != null && mobile.length() > 0){
-				list.addAll(service.searchNumber(mobile));
+				System.out.println(mobile);
+				List<Object> l = service.searchNumber(mobile);
+				if (l != null){
+					System.out.println("nulll");
+					list.addAll(l);
+				}
 			}
 			if (home != null && home.length() > 0){
-				list.addAll(service.searchNumber(home));
+				List<Object> l = service.searchNumber(home);
+				if (l != null)
+					list.addAll(l);
 			}
 			if (fax != null && fax.length() > 0){
-				list.addAll(service.searchNumber(fax));
+				List<Object> l = service.searchNumber(fax);
+				if (l != null)
+					list.addAll(l);
 			}
 				
 			if (list == null || list.isEmpty()){

@@ -52,31 +52,19 @@
     	<h:message for="email" styleClass="error"/> 
     
     	<h:outputText value="#{loginForm.number} 1" />
-    	<h:inputText 
-    		value="#{searchContact.mobile}"
-    		converterMessage="#{loginForm.converterMobile}"
-    		id="mobile">
-    	<f:converter converterId="numberConverter"></f:converter>	
+    	<h:inputText value="#{searchContact.mobile}">
     	</h:inputText> 
-   		<h:message for="mobile" styleClass="error"/>
+    	<h:outputText value=""/>
    
    		<h:outputText value="#{loginForm.number} 2" />
-    	<h:inputText 
-    		value="#{searchContact.home}"
-    		converterMessage="#{loginForm.converterHome}"
-    		id="home">
-    		<f:converter converterId="numberConverter"></f:converter>	
+    	<h:inputText value="#{searchContact.home}">
     	</h:inputText> 
-  		<h:message for="home" styleClass="error"/>
+    	<h:outputText value=""/>
   
    		<h:outputText value="#{loginForm.number} 3" />
-    	<h:inputText 
-    		value="#{searchContact.fax}"
-    		converterMessage="#{loginForm.converterFax}"
-    		id="fax">
-    		<f:converter converterId="numberConverter"></f:converter>	
+    	<h:inputText value="#{searchContact.fax}">
     	</h:inputText> 
- 		<h:message for="fax" styleClass="error"/>
+    	<h:outputText value=""/>
  
    		<h:outputText value="#{loginForm.street}" />
     	<h:inputText 

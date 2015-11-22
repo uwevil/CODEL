@@ -1,6 +1,16 @@
 package jsf;
 
 import java.io.Serializable;
+import java.util.Iterator;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.sun.faces.context.SessionMap;
 
 import domain.Address;
 import domain.Contact;
@@ -11,56 +21,21 @@ import domain.PhoneNumber;
 @SuppressWarnings("serial")
 public class AutoAddJSF implements Serializable{
 
-	private Contact c1;
-	private Contact c2;
-	private Entreprise e1;
-	
 	private ServiceJSF service;
-	
-	public Contact getC1() {
-		return c1;
-	}
-
-
-	public void setC1(Contact c1) {
-		this.c1 = c1;
-	}
-
-
-	public Contact getC2() {
-		return c2;
-	}
-
-
-	public void setC2(Contact c2) {
-		this.c2 = c2;
-	}
-
-
-	public Entreprise getE1() {
-		return e1;
-	}
-
-
-	public void setE1(Entreprise e1) {
-		this.e1 = e1;
-	}
-
 
 	public AutoAddJSF() {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public ServiceJSF getService() {
 		return service;
 	}
-
 
 	public void setService(ServiceJSF service) {
 		this.service = service;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String add(){
 		Contact c = new Contact("ICIER", "PAUL", "PAUL@POLICE.FR");
 		c.setAddress(new Address("JEAN JAURES", "LYON", "69000", "FRANCE"));
@@ -129,6 +104,63 @@ public class AutoAddJSF implements Serializable{
 		e.getBooks().add(g);
 		
 		service.addContact(e);
+		
+		ApplicationContext context = WebApplicationContextUtils
+				.getWebApplicationContext(
+						(ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext());
+		
+		for (int i = 0; i < 2; i++){
+			String name = "springContactID" + i;
+			c = (Contact) context.getBean(name);
+			Contact c_tmp = new Contact(c.getFirstName(), c.getLastName(), c.getEmail());
+					
+			for (Iterator<PhoneNumber> iterator = c.getPhoneNumbers().iterator(); iterator.hasNext();){
+				p = iterator.next();
+				PhoneNumber p_tmp = new PhoneNumber(p.getPhoneKind(), p.getPhoneNumber());
+				p_tmp.setContact(c_tmp);
+				c_tmp.getPhoneNumbers().add(p_tmp);
+				
+			}
+			
+			c_tmp.setAddress(new Address(c.getAddress().getStreet(), c.getAddress().getCity(), 
+					c.getAddress().getZip(), c.getAddress().getCountry()));
+			
+			for (Iterator<ContactGroup> iterator = c.getBooks().iterator(); iterator.hasNext();){
+				g = iterator.next();
+				ContactGroup g_tmp = new ContactGroup(g.getGroupName());
+				g_tmp.getContacts().add(c_tmp);
+				c_tmp.getBooks().add(g_tmp);
+			}
+			service.addContact(c_tmp);
+
+		}
+		
+		String name = "springEntrepriseID2";
+		c = (Entreprise) context.getBean(name);
+		
+		Entreprise c_tmp = new Entreprise(((Entreprise) c).getNumSiret());
+		c_tmp.setFirstName(c.getFirstName());
+		c_tmp.setLastName(c.getLastName());
+		c_tmp.setEmail(c.getEmail());
+
+		for (Iterator<PhoneNumber> iterator = c.getPhoneNumbers().iterator(); iterator.hasNext();){
+			p = iterator.next();
+			PhoneNumber p_tmp = new PhoneNumber(p.getPhoneKind(), p.getPhoneNumber());
+			p_tmp.setContact(c_tmp);
+			c_tmp.getPhoneNumbers().add(p_tmp);			
+		}
+		
+		c_tmp.setAddress(new Address(c.getAddress().getStreet(), c.getAddress().getCity(), 
+				c.getAddress().getZip(), c.getAddress().getCountry()));
+		
+		for (Iterator<ContactGroup> iterator = c.getBooks().iterator(); iterator.hasNext();){
+			g = iterator.next();
+			ContactGroup g_tmp = new ContactGroup(g.getGroupName());
+			g_tmp.getContacts().add(c_tmp);
+			c_tmp.getBooks().add(g_tmp);
+		}
+
+		service.addContact(c_tmp);
 		
 		return "accueilJSF";
 	}
