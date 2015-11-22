@@ -3,14 +3,11 @@ package jsf;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.sun.faces.context.SessionMap;
 
 import domain.Address;
 import domain.Contact;
@@ -35,8 +32,10 @@ public class AutoAddJSF implements Serializable{
 		this.service = service;
 	}
 
-	@SuppressWarnings("unchecked")
 	public String add(){
+		if (!ControlAccessJSF.getOK())
+			return null;
+		
 		Contact c = new Contact("ICIER", "PAUL", "PAUL@POLICE.FR");
 		c.setAddress(new Address("JEAN JAURES", "LYON", "69000", "FRANCE"));
 		

@@ -62,6 +62,9 @@ public class ViewContactJSF implements Serializable{
 	}
 
 	public String view(Contact c){
+		if (!ControlAccessJSF.getOK())
+			return null;
+		
 		this.setContact(c);
 		
 		for (Iterator<PhoneNumber> iterator = c.getPhoneNumbers().iterator(); iterator.hasNext();){
@@ -85,6 +88,9 @@ public class ViewContactJSF implements Serializable{
 	}
 	
 	public String edit(Contact c){
+		if (!ControlAccessJSF.getOK())
+			return null;
+		
 		if (!groups.contains("Amis")){
 			groups.add("Amis");
 		}
@@ -99,6 +105,9 @@ public class ViewContactJSF implements Serializable{
 	}
 	
 	public String delete(Contact c){
+		if (!ControlAccessJSF.getOK())
+			return null;
+		
 		return service.deleteContact(c);
 	}
 

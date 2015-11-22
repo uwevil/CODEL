@@ -143,6 +143,9 @@ public class AddContactJSF implements Serializable{
 	}
 	
 	public String add(){
+		if (!ControlAccessJSF.getOK())
+			return null;
+		
 		Address address = new Address(street.toUpperCase(), city.toUpperCase(), zip.toUpperCase(), country.toUpperCase());
 		
 		if (email.length() > 0 && !email.matches("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[_a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)+$"))

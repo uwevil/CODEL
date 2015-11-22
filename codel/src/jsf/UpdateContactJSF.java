@@ -31,6 +31,8 @@ public class UpdateContactJSF implements Serializable {
 	}
 
 	public String update(Contact c){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		
 		Address address = new Address(viewContact.getContact().getAddress().getStreet().toUpperCase(), 
 				viewContact.getContact().getAddress().getCity().toUpperCase(), 

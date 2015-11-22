@@ -40,10 +40,14 @@ public class RemoveContactJSF implements Serializable {
 	}
 	
 	public String remove(){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return service.deleteContact(new Contact(firstName, lastName, null));
 	}
 	
 	public String removeAll(){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return service.deleteContactAll();
 	}
 

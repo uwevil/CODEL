@@ -67,22 +67,32 @@ public class ServiceJSF implements Serializable{
 	}
 	
 	public List<Object> groups(){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.getGroups();
 	}
 	
 	public Object searchContactName(String firstName, String lastName){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchContact(new Contact(firstName, lastName, null));
 	}
 	
 	public List<Object> searchFirstName(String firstName){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchFirstName(firstName);
 	}
 	
 	public List<Object> searchLastName(String lastName){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchLastName(lastName);
 	}
 	
 	public List<Object> searchEmail(String email){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		if (email == null || email.length() < 1)
 			return daoContact.searchEmail("");
 		
@@ -90,6 +100,8 @@ public class ServiceJSF implements Serializable{
 	}
 	
 	public List<Object> searchAddress(String street, String zip, String city, String country){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		Address a = new Address();
 		if (street == null)
 			a.setStreet("");
@@ -115,14 +127,20 @@ public class ServiceJSF implements Serializable{
 	}
 	
 	public List<Object> searchGroups(List<String> groups){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchGroups(groups);
 	}
 	
 	public List<Object> searchNumSiret(String numSiret){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchNumSiret(numSiret);
 	}
 	
 	public List<Object> searchNumber(String number){
+		if (!ControlAccessJSF.getOK())
+			return null;
 		return daoContact.searchNumber(number);
 	}
 	

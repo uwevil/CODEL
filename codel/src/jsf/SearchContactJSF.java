@@ -302,10 +302,8 @@ public class SearchContactJSF implements Serializable {
 			result = new ArrayList<Object>();
 
 			if (mobile != null && mobile.length() > 0){
-				System.out.println(mobile);
 				List<Object> l = service.searchNumber(mobile);
 				if (l != null){
-					System.out.println("nulll");
 					list.addAll(l);
 				}
 			}
