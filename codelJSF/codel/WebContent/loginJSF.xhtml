@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<f:view locale="#{facesContext.externalContext.requestLocale}">
+      
+<h:head><title>JSF TEST</title>
+</h:head>
+<h:body>
+
+
+<div>
+<h1>LOGIN</h1>
+
+<fieldset>
+
+<h:form>
+    <h:panelGrid columns="3">
+ 	<h:outputFormat value="#{loginForm.login}"></h:outputFormat>
+ 	<h:inputText value="#{control.login}" 
+ 	required="true" 
+ 	requiredMessage="#{loginForm.requiredLogin}" 
+ 	id="login"/>
+ 	<h:message for="login" styleClass="error"/>
+ 	
+  	<h:outputFormat value="#{loginForm.password}"></h:outputFormat>
+  	<h:inputSecret value="#{control.password}" 
+  	required="true" 
+  	requiredMessage="#{loginForm.requiredPassword}" 
+  	id="pass"/>
+ 	<h:message for="pass" styleClass="error"/>
+ 	</h:panelGrid>
+ 	
+  	<h:commandButton value="#{loginForm.submit}" action="#{control.checkAccess}"/> 
+</h:form>
+</fieldset>
+
+</div>
+</h:body>
+
+</f:view>
+
+</html>
