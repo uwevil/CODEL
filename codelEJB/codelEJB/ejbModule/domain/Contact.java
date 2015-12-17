@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 
 @SuppressWarnings("serial")
 @Entity
+@Table(name="Contact")
 public class Contact implements Serializable
 {
 	protected String firstName;
@@ -18,13 +17,14 @@ public class Contact implements Serializable
 	protected String email;
 	protected long id;
 	
-//	protected Address address;
+	protected Address address;
 	
 //	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
 //	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 	
 	private long version;
 
+	@Column(name="VERSION")
 	public long getVersion() {
 		return version;
 	}
@@ -44,36 +44,20 @@ public class Contact implements Serializable
 		this.email = email;
 	}
 	
-/*	public Set<ContactGroup> getBooks()
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="CONTACTID")
+	public long getId()
 	{
-		return this.books;
-	}
-
-	public void setBooks(Set<ContactGroup> books)
-	{
-		this.books = books;
-	}
-
-	public Set<PhoneNumber> getPhoneNumbers()
-	{
-		return phoneNumbers;
-	}
-
-	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers)
-	{
-		this.phoneNumbers = phoneNumbers;
-	}
-
-	public Address getAddress()
-	{
-		return this.address;
+		return this.id;
 	}
 	
-	public void setAddress(Address address)
+	public void setId(long id)
 	{
-		this.address = address;
+		this.id = id;
 	}
-*/	
+	
+	@Column(name="EMAIL")
 	public String getEmail()
 	{
 		return this.email;
@@ -84,6 +68,7 @@ public class Contact implements Serializable
 		this.email = email;
 	}
 	
+	@Column(name="FIRSTNAME")
 	public String getFirstName()
 	{
 		return this.firstName;
@@ -94,6 +79,7 @@ public class Contact implements Serializable
 		this.firstName = firstName;
 	}
 	
+	@Column(name="LASTNAME")
 	public String getLastName()
 	{
 		return this.lastName;
@@ -103,17 +89,45 @@ public class Contact implements Serializable
 	{
 		this.lastName = lastName;
 	}
-	
-	@Id@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId()
+
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
+//	@JoinColumn(name="ADDRESSID", nullable=false)
+	public Address getAddress()
 	{
-		return this.id;
+		return this.address;
 	}
 	
-	public void setId(long id)
+	public void setAddress(Address address)
 	{
-		this.id = id;
+		this.address = address;
 	}
+	
+	/*
+	@OneToMany(mappedBy="contact")
+	public Set<PhoneNumber> getPhoneNumbers()
+	{
+		return phoneNumbers;
+	}
+
+	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers)
+	{
+		this.phoneNumbers = phoneNumbers;
+	}
+
+	
+/*	public Set<ContactGroup> getBooks()
+	{
+		return this.books;
+	}
+
+	public void setBooks(Set<ContactGroup> books)
+	{
+		this.books = books;
+	}
+
+	
+
+*/	
 }
 
 

@@ -4,7 +4,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import domain.Address;
 import domain.Contact;
+import domain.PhoneNumber;
 import service.ContactServiceRemote;
 
 public class Main {
@@ -23,10 +25,14 @@ public class Main {
 		    System.out.println(beanRemote.welcome());
 		    
 		    Contact c = new Contact("a", "b", "a@c.d");
-		    
+		    c.setAddress(new Address("street", "city", "zip", "country"));
+	//	    c.getPhoneNumbers().add(new PhoneNumber("mobile", "111"));
+	//	    c.getPhoneNumbers().add(new PhoneNumber("fax", "222"));
+
 		    beanRemote.addContact(c);
 		    c.setId(1);
 		    System.out.println(beanRemote.searchContact(c).getEmail());
+		    System.out.println(beanRemote.searchContact(c).getAddress().getStreet());
 		} catch (NamingException e) {
 	         e.printStackTrace();
 	    }

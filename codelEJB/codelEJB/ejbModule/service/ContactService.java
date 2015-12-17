@@ -16,6 +16,7 @@ public class ContactService implements ContactServiceRemote {
 	EntityManager entityManager;
 	
 	public boolean addContact(Contact contact) {
+	//	entityManager.persist(contact.getAddress());
 		entityManager.persist(contact);
 		
 		return true;

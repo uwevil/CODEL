@@ -2,7 +2,16 @@ package domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @SuppressWarnings("serial")
+@Entity
+@Table(name="Address")
 public class Address implements Serializable
 {
 
@@ -14,6 +23,7 @@ public class Address implements Serializable
 
 	private long version;
 
+	@Column(name="VERSION")
 	public long getVersion() {
 		return version;
 	}
@@ -38,6 +48,9 @@ public class Address implements Serializable
 		this.country = country;
 	}
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ADDRESSID")
 	public long getId()
 	{
 		return this.id;
@@ -48,6 +61,7 @@ public class Address implements Serializable
 		this.id = id;
 	}
 	
+	@Column(name="STREET")
 	public String getStreet()
 	{
 		return this.street;
@@ -58,6 +72,7 @@ public class Address implements Serializable
 		this.street = street;
 	}
 	
+	@Column(name="CITY")
 	public String getCity()
 	{
 		return this.city;
@@ -68,6 +83,7 @@ public class Address implements Serializable
 		this.city = city;
 	}
 	
+	@Column(name="ZIP")
 	public String getZip()
 	{
 		return this.zip;
@@ -78,6 +94,7 @@ public class Address implements Serializable
 		this.zip = zip;
 	}
 	
+	@Column(name="COUNTRY")
 	public String getCountry()
 	{
 		return this.country;
