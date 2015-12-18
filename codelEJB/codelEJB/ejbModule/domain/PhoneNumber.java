@@ -2,7 +2,17 @@ package domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 @SuppressWarnings("serial")
+@Entity
+@Table(name="PhoneNumber")
 public class PhoneNumber implements Serializable
 {
 	protected long id;
@@ -13,6 +23,20 @@ public class PhoneNumber implements Serializable
 	
 	private long version;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="PHONENUMBERID")
+	public long getId()
+	{
+		return id;
+	}
+
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+	
+	@Column(name="VERSION")
 	public long getVersion() {
 		return version;
 	}
@@ -31,16 +55,7 @@ public class PhoneNumber implements Serializable
 		this.phoneNumber = phoneNumber;
 	}
 
-	public long getId()
-	{
-		return id;
-	}
-
-	public void setId(long id)
-	{
-		this.id = id;
-	}
-
+	@Column(name="PHONEKIND")
 	public String getPhoneKind()
 	{
 		return phoneKind;
@@ -51,6 +66,7 @@ public class PhoneNumber implements Serializable
 		this.phoneKind = phoneKind;
 	}
 
+	@Column(name="PHONENUMBER")
 	public String getPhoneNumber() 
 	{
 		return phoneNumber;
@@ -61,6 +77,7 @@ public class PhoneNumber implements Serializable
 		this.phoneNumber = phoneNumber;
 	}
 
+	@ManyToOne
 	public Contact getContact()
 	{
 		return contact;

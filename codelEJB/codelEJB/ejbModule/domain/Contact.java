@@ -10,6 +10,7 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="Contact")
+@DiscriminatorValue("C")
 public class Contact implements Serializable
 {
 	protected String firstName;
@@ -19,8 +20,8 @@ public class Contact implements Serializable
 	
 	protected Address address;
 	
-//	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
-//	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
+	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
+	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 	
 	private long version;
 
@@ -91,7 +92,6 @@ public class Contact implements Serializable
 	}
 
 	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
-//	@JoinColumn(name="ADDRESSID", nullable=false)
 	public Address getAddress()
 	{
 		return this.address;
@@ -102,8 +102,7 @@ public class Contact implements Serializable
 		this.address = address;
 	}
 	
-	/*
-	@OneToMany(mappedBy="contact")
+	@OneToMany(mappedBy="contact",cascade={CascadeType.PERSIST}, fetch=FetchType.EAGER)
 	public Set<PhoneNumber> getPhoneNumbers()
 	{
 		return phoneNumbers;
@@ -114,8 +113,8 @@ public class Contact implements Serializable
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	
-/*	public Set<ContactGroup> getBooks()
+	@ManyToMany(mappedBy="contacts", cascade={CascadeType.PERSIST}, fetch=FetchType.EAGER)
+	public Set<ContactGroup> getBooks()
 	{
 		return this.books;
 	}
@@ -124,10 +123,7 @@ public class Contact implements Serializable
 	{
 		this.books = books;
 	}
-
 	
-
-*/	
 }
 
 
