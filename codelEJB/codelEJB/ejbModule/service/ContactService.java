@@ -2,7 +2,9 @@ package service;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import domain.Contact;
 
@@ -15,19 +17,42 @@ public class ContactService implements ContactServiceRemote {
 	@PersistenceContext(unitName="manager")
 	EntityManager entityManager;
 	
-	public boolean addContact(Contact contact) {
-		entityManager.persist(contact);
+	private Object findObject(String firstName, String lastName){
+		String squery = "SELECT c FROM Contact c WHERE c.firstName = :fn and c.lastName = :ln";
+		Query q = entityManager.createQuery(squery);
 		
-		return true;
+		q.setParameter("fn", firstName);
+		q.setParameter("ln", lastName);
+
+		try{
+			Contact ctmp = (Contact) q.getSingleResult();
+			return ctmp;
+		}catch (NoResultException e){
+			return null;
+		}
+	}
+	
+	public boolean addContact(Contact contact) {
+		Object o = findObject(contact.getFirstName(), contact.getLastName());
+		
+		if (o == null){
+			entityManager.persist(contact);
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 
 	public boolean deleteContact(Contact contact) {
-		// TODO Auto-generated method stub
-		return false;
+		Object o = findObject(contact.getFirstName(), contact.getLastName());
+		if (o != null){
+			entityManager.remove(o);
+		}
+		return true;
 	}
 
 	public boolean updateContact(Contact contact, long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -91,7 +91,8 @@ public class Contact implements Serializable
 		this.lastName = lastName;
 	}
 
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+			fetch=FetchType.EAGER)
 	public Address getAddress()
 	{
 		return this.address;
@@ -102,7 +103,9 @@ public class Contact implements Serializable
 		this.address = address;
 	}
 	
-	@OneToMany(mappedBy="contact",cascade={CascadeType.PERSIST}, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="contact",
+			cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+			fetch=FetchType.EAGER)
 	public Set<PhoneNumber> getPhoneNumbers()
 	{
 		return phoneNumbers;
@@ -113,7 +116,9 @@ public class Contact implements Serializable
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	@ManyToMany(mappedBy="contacts", cascade={CascadeType.PERSIST}, fetch=FetchType.EAGER)
+	@ManyToMany(mappedBy="contacts", 
+			cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+			fetch=FetchType.EAGER)
 	public Set<ContactGroup> getBooks()
 	{
 		return this.books;
