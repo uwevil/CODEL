@@ -10,6 +10,7 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="Contact")
+@DiscriminatorColumn(name="Type", discriminatorType=DiscriminatorType.CHAR)
 @DiscriminatorValue("C")
 public class Contact implements Serializable
 {
@@ -18,14 +19,14 @@ public class Contact implements Serializable
 	protected String email;
 	protected long id;
 	
-	protected Address address;
+	protected Address address = new Address();
 	
 	protected Set<ContactGroup> books = new HashSet<ContactGroup>();
 	protected Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 	
 	private long version;
 
-	@Column(name="VERSION")
+	@Version
 	public long getVersion() {
 		return version;
 	}
@@ -34,8 +35,7 @@ public class Contact implements Serializable
 		this.version = version;
 	}
 	
-	public Contact()
-	{	
+	public Contact(){	
 	}
 	
 	public Contact(String firstName, String lastName, String email)
@@ -91,7 +91,7 @@ public class Contact implements Serializable
 		this.lastName = lastName;
 	}
 
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH},
 			fetch=FetchType.EAGER)
 	public Address getAddress()
 	{
@@ -116,9 +116,11 @@ public class Contact implements Serializable
 		this.phoneNumbers = phoneNumbers;
 	}
 
-	@ManyToMany(mappedBy="contacts", 
-			cascade={CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE}, 
 			fetch=FetchType.EAGER)
+	@JoinTable(name = "BOOKS",	
+		joinColumns = {@JoinColumn(name = "CONTACTID")},
+		inverseJoinColumns = {@JoinColumn(name = "GROUPID")})
 	public Set<ContactGroup> getBooks()
 	{
 		return this.books;

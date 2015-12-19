@@ -66,10 +66,45 @@ public class Main {
 		    	System.out.println(c.getFirstName() + " " + c.getLastName() + " existed");
 		    }
 		    
+		    c = new Contact("aaaa", "bbbbb", "a@c.d");
+		  
+		    g = new ContactGroup("Famille");
+		    g.getContacts().add(c);
+		    c.getBooks().add(g);
+		    
+		    beanRemote.addContact(c);
+		    
+		    System.out.println("aaddd contact 2 OK");
+		    
+		    c = new Contact("ddddd", "eeeee", "a@c.d");
+			  
+		    g = new ContactGroup("Amis");
+		    g.getContacts().add(c);
+		    c.getBooks().add(g);
+		    g = new ContactGroup("Famille");
+		    g.getContacts().add(c);
+		    c.getBooks().add(g);
+		    
+		    beanRemote.addContact(c);
+		    
+		    System.out.println("aaddd contact 3 OK");
+		    
+		    
 		    Entreprise e = new Entreprise(1234567);
 		    e.setFirstName("e");
 		    e.setLastName("eee");
 		    e.setEmail("e@e.c");
+		    
+		    e.setAddress(new Address());
+		    
+		    mobile = new PhoneNumber("mobile", "");
+		    fax = new PhoneNumber("fax", "");
+
+		    mobile.setContact(e);
+		    fax.setContact(e);
+
+		    e.getPhoneNumbers().add(mobile);
+		    e.getPhoneNumbers().add(fax);
 		    
 		    g = new ContactGroup("Amis");
 		    g.getContacts().add(e);
@@ -83,7 +118,7 @@ public class Main {
 		    	System.out.println(e.getFirstName() + " " + e.getLastName() + " existed");
 		    }
 
-		    beanRemote.deleteContact(e);
+	//	    beanRemote.deleteContact(c);
 		    System.out.println("OKK");
 		    beanRemote.deleteContact(new Contact("1", "z", ""));
 		    System.out.println("OKKK2");

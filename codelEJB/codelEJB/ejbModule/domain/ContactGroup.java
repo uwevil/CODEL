@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
@@ -38,7 +32,7 @@ public class ContactGroup implements Serializable
 		this.groupId = groupId;
 	}
 
-	@Column(name="VERSION")
+	@Version
 	public long getVersion() {
 		return version;
 	}
@@ -67,7 +61,7 @@ public class ContactGroup implements Serializable
 		this.groupName = groupName;
 	}
 
-	@ManyToMany
+	@ManyToMany(mappedBy="books", fetch=FetchType.EAGER)
 	public Set<Contact> getContacts()
 	{
 		return contacts;
