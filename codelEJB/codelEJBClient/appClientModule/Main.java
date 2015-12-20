@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -47,17 +48,17 @@ public class Main {
 		    c.getBooks().add(g);
 		    
 		    if (beanRemote.addContact(c)){
-		    	c.setId(1);
-			    System.out.println(beanRemote.searchContact(c).getEmail());
-			    System.out.println(beanRemote.searchContact(c).getAddress().getStreet());
+			    System.out.println(beanRemote.searchContactById(c, 1).getEmail());
+			    System.out.println(beanRemote.searchContactById(c, 1).getAddress().getStreet());
 			    
-			    Set<PhoneNumber> phoneNumbers = (Set<PhoneNumber>) beanRemote.searchContact(c).getPhoneNumbers();
+			    Set<PhoneNumber> phoneNumbers = 
+			    		(Set<PhoneNumber>) beanRemote.searchContactById(c, 1).getPhoneNumbers();
 			    for (Iterator<PhoneNumber> iterator = phoneNumbers.iterator(); iterator.hasNext();){
 			    	PhoneNumber p = iterator.next();
 			    	System.out.println(p.getPhoneKind() + " : " + p.getPhoneNumber());
 			    }
 			    
-			    Set<ContactGroup> books = beanRemote.searchContact(c).getBooks();
+			    Set<ContactGroup> books = beanRemote.searchContactById(c, 1).getBooks();
 			    for (Iterator<ContactGroup> iterator = books.iterator(); iterator.hasNext();){
 			    	ContactGroup tmp = iterator.next();
 			    	System.out.println(tmp.getGroupName());
@@ -126,8 +127,77 @@ public class Main {
 		    System.out.println("OKK");
 		    beanRemote.deleteContact(new Contact("1", "z", ""));
 		    System.out.println("OKKK2");
+		    
+		    
+		    //************************update contact****************************
+		    
+		    c = beanRemote.searchContactByName("a", "b");
+		    
+		    if (c == null)
+		    	return;
+		    
+		    c.setAddress(new Address("street222", "city22", "zip222", "country222"));
+		    
+		    c.setPhoneNumbers(new HashSet<PhoneNumber>());
+		    c.setBooks(new HashSet<ContactGroup>());
+		    
+		    mobile = new PhoneNumber("mobile", "1112222");
+		    fax = new PhoneNumber("fax", "2222222222");
+
+		    mobile.setContact(c);
+		    fax.setContact(c);
+
+		    c.getPhoneNumbers().add(mobile);
+		    c.getPhoneNumbers().add(fax);
+
+		    g = new ContactGroup("Amis2");
+		    g.getContacts().add(c);
+		    c.getBooks().add(g);
+		    
+		    g = new ContactGroup("Famille2");
+		    g.getContacts().add(c);
+		    c.getBooks().add(g);
+		    
+		    beanRemote.updateContact(c, c.getId());
+		    
+		    
+		    e = (Entreprise) beanRemote.searchContactByName("e", "eee");
+
+		    if (e == null){
+		    	return;
+		    }
+		    e.setAddress(new Address("street222", "city22", "zip222", "country222"));
+		    
+		    e.setPhoneNumbers(new HashSet<PhoneNumber>());
+		    e.setBooks(new HashSet<ContactGroup>());
+		    
+		    mobile = new PhoneNumber("mobile", "1112222");
+		    fax = new PhoneNumber("fax", "2222222222");
+
+		    mobile.setContact(e);
+		    fax.setContact(e);
+
+		    e.getPhoneNumbers().add(mobile);
+		    e.getPhoneNumbers().add(fax);
+
+		    g = new ContactGroup("Amis2");
+		    g.getContacts().add(e);
+		    e.getBooks().add(g);
+		    
+		    g = new ContactGroup("Famille2");
+		    g.getContacts().add(e);
+		    e.getBooks().add(g);
+		    
+		    beanRemote.updateContact(e, e.getId());
 		} catch (NamingException e) {
 	         e.printStackTrace();
 	    }
 	}
 }
+
+
+
+
+
+
+
