@@ -11,6 +11,7 @@ import javax.persistence.*;
 import domain.Contact;
 import domain.ContactGroup;
 import domain.Entreprise;
+import domain.PhoneNumber;
 
 /**
  * Session Bean implementation class ContactService
@@ -105,9 +106,33 @@ public class ContactService implements ContactServiceRemote {
 
 	public boolean deleteContact(Contact contact) {
 		Object o = findContact(contact.getFirstName(), contact.getLastName());
-		if (o != null){
-			entityManager.remove(o);
+		if (o == null){
+			return false;
 		}
+		
+		Contact c = (Contact) o;
+		Set<PhoneNumber> numbers = c.getPhoneNumbers();
+		
+		for (Iterator<PhoneNumber> iterator = numbers.iterator(); iterator.hasNext();)
+			entityManager.remove(iterator.next());		
+		
+		c.setPhoneNumbers(null);
+		
+		Set<ContactGroup> groups = c.getBooks();
+				
+		for (Iterator<ContactGroup> iterator = groups.iterator(); iterator.hasNext();)
+		{
+			ContactGroup g = iterator.next();
+			g.getContacts().remove(c);
+			
+			if (g.getContacts().size() < 1)
+				entityManager.remove(g);
+		}
+			
+		c.getBooks().clear();
+
+		entityManager.remove(c);				
+		entityManager.remove(c.getAddress());
 		return true;
 	}
 

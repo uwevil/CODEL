@@ -114,11 +114,15 @@ public class Main {
 		    g.getContacts().add(e);
 		    e.getBooks().add(g);
 		    
+		    g = new ContactGroup("Entreprise");
+		    g.getContacts().add(e);
+		    e.getBooks().add(g);
+		    
 		    if (!beanRemote.addContact(e)){
 		    	System.out.println(e.getFirstName() + " " + e.getLastName() + " existed");
 		    }
 
-	//	    beanRemote.deleteContact(c);
+		    beanRemote.deleteContact(c);
 		    System.out.println("OKK");
 		    beanRemote.deleteContact(new Contact("1", "z", ""));
 		    System.out.println("OKKK2");
