@@ -188,7 +188,8 @@ public class Main {
 		    g.getContacts().add(e);
 		    e.getBooks().add(g);
 		    
-		    beanRemote.updateContact(e, e.getId());
+		    beanRemote.updateContact(e, e.getId());	
+		 //   beanRemote.deleteContactAll();
 		} catch (NamingException e) {
 	         e.printStackTrace();
 	    }
